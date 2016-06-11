@@ -33,6 +33,12 @@
     <ClCompile Include="Views\PageBootstrap.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
+    <ClCompile Include="Data\FileListReaderDir.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\FileListReaderTest.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile">
@@ -43,17 +49,26 @@
     <ClInclude Include="Data\Data.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Views\View.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Views\Page.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Data\FileListReaderDir.h">
+      <Filter>Source Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\FileListReader.h">
+      <Filter>Source Files\Data</Filter>
+    </ClInclude>
     <ClInclude Include="Views\PageBootstrap.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\View.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Views\Page.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\FileListReaderTest.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Data\Data.cpp" />
+    <ClCompile Include="Data\FileListReaderDir.cpp" />
+    <ClCompile Include="Data\FileListReaderTest.cpp" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Views\Page.cpp" />
     <ClCompile Include="Views\PageBootstrap.cpp" />
@@ -149,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data\Data.h" />
+    <ClInclude Include="Data\FileListReader.h" />
+    <ClInclude Include="Data\FileListReaderDir.h" />
+    <ClInclude Include="Data\FileListReaderTest.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Views\Page.h" />
     <ClInclude Include="Views\PageBootstrap.h" />
