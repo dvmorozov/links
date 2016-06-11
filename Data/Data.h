@@ -23,7 +23,13 @@ namespace Bookmarks
     class Data
     {
     private:
-        class FileList
+        class FileListReader
+        {
+        public:
+            virtual std::vector<std::string> GetFileList() = 0;
+        };
+
+        class FileListReaderDir : public FileListReader
         {
         private:
             //-------------------------------------------------------------------------------------------------
@@ -47,10 +53,18 @@ namespace Bookmarks
                                                                                 //  чем использовать отдельную директорию
             std::string tmpdir = _T("/tmp/links/");
 #endif
+            virtual std::vector<std::string> GetFileList();
+        };
+
+        class FileList
+        {
+        private:
+            FileListReader *Reader;
 
         public:
-            FileList(void);
-            ~FileList(void);
+            FileList() { Reader = new FileListReaderDir(); };
+            FileList(FileListReader *reader) : Reader(reader) {};
+            ~FileList() { if (Reader) delete Reader;  };
 
             std::vector<Bookmarks::File> ReadFileList();
         };

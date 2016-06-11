@@ -10,14 +10,8 @@ namespace Bookmarks
         Data D;
 
     public:
-
-        View()
-        {
-        }
-
-        ~View()
-        {
-        }
+        View() {}
+        ~View() {}
 
         //  Рендерит данные в стандартный поток вывода.
         virtual void Render() = 0;

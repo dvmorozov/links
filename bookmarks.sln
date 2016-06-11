@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bookmarks", "bookmarks.vcxproj", "{2BA97EAB-AAD1-4805-A760-B124C78B9238}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bookmarks_test", "..\tests\bookmarks_test.vcxproj", "{10F83340-80E2-4DF7-980C-C57E8D4D732C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2BA97EAB-AAD1-4805-A760-B124C78B9238}.Debug|Win32.Build.0 = Debug|Win32
 		{2BA97EAB-AAD1-4805-A760-B124C78B9238}.Release|Win32.ActiveCfg = Release|Win32
 		{2BA97EAB-AAD1-4805-A760-B124C78B9238}.Release|Win32.Build.0 = Release|Win32
+		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Debug|Win32.Build.0 = Debug|Win32
+		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Release|Win32.ActiveCfg = Release|Win32
+		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
