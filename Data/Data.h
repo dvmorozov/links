@@ -25,6 +25,9 @@ namespace Bookmarks
     private:
         class FileListReader
         {
+        protected:
+            std::vector<std::string> ReadFile(std::string fileName);
+
         public:
             virtual std::vector<std::string> GetFileList() = 0;
         };
@@ -53,7 +56,19 @@ namespace Bookmarks
                                                                                 //  чем использовать отдельную директорию
             std::string tmpdir = _T("/tmp/links/");
 #endif
+        public:
             virtual std::vector<std::string> GetFileList();
+        };
+
+        class FileListReaderTest : public FileListReader
+        {
+        private:
+            std::string Data;
+
+        public:
+            virtual std::vector<std::string> GetFileList();
+
+            FileListReaderTest(std::string data) : Data(data) {}
         };
 
         class FileList

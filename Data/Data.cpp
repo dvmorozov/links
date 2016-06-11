@@ -48,7 +48,7 @@ namespace Bookmarks
             bool isFolder = col2 == _T ("<DIR>");
 
             size_t size = col2 != _T("<DIR>") ? std::stoi(col2) : 0;
-                        
+
             std::string name = columns[3];
 
             result.push_back(File(name, isFolder, dateTime, size));
@@ -74,6 +74,23 @@ namespace Bookmarks
     std::vector<Bookmarks::File> Data::ReadFileList()
     {
         return Files.ReadFileList();
+    }
+
+    std::vector<std::string> Data::FileListReader::ReadFile(std::string fileName)
+    {
+        FILE *f = _tfopen(fileName.c_str(), _T("r"));
+        std::vector<std::string> lines;
+
+        if (f)
+        {
+            TCHAR lineptr[MAX_LINE_LENGTH];
+            while (_fgetts(lineptr, MAX_LINE_LENGTH, f))
+                if (_tcslen(lineptr))
+                    lines.push_back(std::string(lineptr));
+
+            fclose(f);
+        }
+        return lines;
     }
 
     std::vector<std::string> Data::FileListReaderDir::GetFileList()
@@ -102,19 +119,7 @@ namespace Bookmarks
             //  ошибка не фатальна - ничего не выводится
         }
         else
-        {   //  чтение и разбор полученного списка файлов
-            FILE *f = _tfopen(temp.c_str(), _T("r"));
-
-            if (f)
-            {
-                TCHAR lineptr[MAX_LINE_LENGTH];
-                while (_fgetts(lineptr, MAX_LINE_LENGTH, f))
-                    if (_tcslen(lineptr))
-                        lines.push_back(std::string(lineptr));
-
-                fclose(f);
-            }
-        }
+            lines = ReadFile(temp);
 
         /*  этот метод не позволяет получить никакой
         полезной информации, кроме имени файла (невозможно
@@ -136,5 +141,15 @@ namespace Bookmarks
         puts(_T("Couldn't open the directory."));
         */
         return lines;
+    }
+
+    std::vector<std::string> Data::FileListReaderTest::GetFileList()
+    {
+        std::vector<std::string> columns;
+        std::istringstream ss(Data);
+        std::string column;
+        while (ss >> column)
+            columns.push_back(column);
+        return columns;
     }
 }
