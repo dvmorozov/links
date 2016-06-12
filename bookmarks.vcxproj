@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Data\FileListReaderDir.cpp" />
-    <ClCompile Include="Data\FileListReaderTest.cpp" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Views\Page.cpp" />
     <ClCompile Include="Views\PageBootstrap.cpp" />

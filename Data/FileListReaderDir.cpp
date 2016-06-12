@@ -55,4 +55,9 @@ namespace Bookmarks
         */
         return lines;
     }
+
+    FileListReader *GetFileReader()
+    {
+        return new FileListReaderDir();
+    }
 }

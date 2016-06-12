@@ -10,4 +10,9 @@ namespace Bookmarks
     {
         return ReadFile(FileName);
     }
+
+    FileListReader *GetFileReader()
+    {
+        return new FileListReaderTest("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\test.txt");
+    }
 }

@@ -13,4 +13,6 @@ namespace Bookmarks
     public:
         virtual std::vector<std::string> GetFileList() = 0;
     };
+
+    FileListReader *GetFileReader();
 }

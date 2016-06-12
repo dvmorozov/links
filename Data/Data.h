@@ -31,16 +31,29 @@ namespace Bookmarks
             FileListReader *Reader;
 
         public:
-            FileList() { Reader = new FileListReaderDir(); };
             FileList(FileListReader *reader) : Reader(reader) {};
-            ~FileList() { if (Reader) delete Reader;  };
+            ~FileList() 
+            { 
+                if (Reader) delete Reader;  
+            };
 
             std::vector<Bookmarks::File> ReadFileList();
         };
 
-        FileList Files;
+        FileList *Files;
 
     public:
         std::vector<Bookmarks::File> ReadFileList();
+
+        Data()
+        {
+            Files = new FileList(GetFileReader());
+        }
+
+        ~Data()
+        {
+            if (Files) 
+                delete Files;
+        }
     };
 }

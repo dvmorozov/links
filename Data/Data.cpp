@@ -18,6 +18,8 @@ namespace Bookmarks
         std::vector<std::string> lines = Reader->GetFileList();
 
 #ifndef LINUX
+        //  5 первых строк нужно пропустить
+        lines.erase(lines.begin(), lines.begin() + 5);
         //  дл€ Windows 2 последние строки содержат доп. инф., поэтому удал€ютс€
         lines.pop_back();
         lines.pop_back();
@@ -75,7 +77,7 @@ namespace Bookmarks
 
     std::vector<Bookmarks::File> Data::ReadFileList()
     {
-        return Files.ReadFileList();
+        return Files->ReadFileList();
     }
 
     std::vector<std::string> FileListReader::ReadFile(std::string fileName)
