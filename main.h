@@ -19,28 +19,29 @@
 #include <Windows.h>
 #endif
 
-#define TCHAR       char
-#define _T(string)  string
+#define TCHAR       wchar_t
+#define _T(string)  L##string
 
-#define _tfopen     fopen
-#define _tmkdir     _mkdir
-#define _tgetenv    getenv
+#define _tfopen     _wfopen
+#define _tmkdir     _wmkdir
+#define _tgetenv    _wgetenv
 #define _tgetcwd    _getcwd
-#define _tsystem    system
-#define _tchdir     _chdir
-#define _tcslen     strlen
-#define _tcschr     strchr
-#define _tcscat     strcat
-#define _tcscpy     strcpy
-#define _ftprintf   fprintf
-#define _tprintf    printf
-#define _tcsrchr    strrchr
-#define _tcscmp     strcmp
-#define _trename    rename
-#define _tcsncmp    strncmp
-#define _tremove    remove
-#define _fgetts     fgets
-#define _tmktemp    _mktemp
+#define _tsystem    _wsystem
+#define _tchdir     _wchdir
+#define _tcslen     wcslen
+#define _tcschr     wcschr
+#define _tcscat     wcscat
+#define _tcscpy     wcscpy
+#define _ftprintf   fwprintf
+#define _tprintf    wprintf
+#define _tsprintf   swprintf
+#define _tcsrchr    wcschr
+#define _tcscmp     wcscmp
+#define _trename    _wrename
+#define _tcsncmp    wcsncmp
+#define _tremove    _wremove
+#define _fgetts     fgetws
+#define _tmktemp    _wmktemp
 
 #if defined _WINDOWS
 
@@ -63,8 +64,8 @@
 
 #define MAX_LINE_LENGTH     1000                        //  максимально допустимая длина строки файла, содержащего имена файлов и папок
 
-extern std::string ext;                             //  расширение файлов ссылок
-extern std::string document_root;
+extern std::wstring ext;                             //  расширение файлов ссылок
+extern std::wstring document_root;
 
 extern int error;
 extern int fatal_error;                             //  priznak vyvoda soobscheniya ob oschibke

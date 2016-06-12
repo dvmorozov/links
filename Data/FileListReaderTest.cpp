@@ -3,16 +3,17 @@
 #include <vector>
 
 #include "FileListReaderTest.h"
+#include "..\main.h"
 
 namespace Bookmarks
 {
-    std::vector<std::string> FileListReaderTest::GetFileList()
+    std::vector<std::wstring> FileListReaderTest::GetFileList()
     {
         return ReadFile(FileName);
     }
 
     FileListReader *GetFileReader()
     {
-        return new FileListReaderTest("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\test.txt");
+        return new FileListReaderTest(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\test.txt"));
     }
 }

@@ -19,20 +19,20 @@ namespace Bookmarks
 #if !defined LINUX
 #ifndef USE_CYGWIN
         //  https://action.mindjet.com/task/14665015
-        std::string cmd_dir = _T("dir /OG >>");                             //  вызов для Windows
+        std::wstring cmd_dir = _T("dir /OG >>");                             //  вызов для Windows
 #else
-        std::string cmd_dir = _T("cygdir.exe -a -1 -X -F -N >>");           //  вызов для Cygwin
+        std::wstring cmd_dir = _T("cygdir.exe -a -1 -X -F -N >>");           //  вызов для Cygwin
 #endif  //  USE_CYGWIN
 
-        std::string tmpdir = _T("/tmp/links/");
+        std::wstring tmpdir = _T("/tmp/links/");
 #else
-        std::string cmd_dir = _T("dir -a -1 -X -F -N >>");                  //  вызов для Linux
+        std::wstring cmd_dir = _T("dir -a -1 -X -F -N >>");                  //  вызов для Linux
 
-                                                                            //std::string tmpdir = _T("/var/tmp/");                             //  лучше правильно настроить доступ к папке с файлами,
+                                                                            //std::wstring tmpdir = _T("/var/tmp/");                             //  лучше правильно настроить доступ к папке с файлами,
                                                                             //  чем использовать отдельную директорию
-        std::string tmpdir = _T("/tmp/links/");
+        std::wstring tmpdir = _T("/tmp/links/");
 #endif
     public:
-        virtual std::vector<std::string> GetFileList();
+        virtual std::vector<std::wstring> GetFileList();
     };
 }

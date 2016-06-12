@@ -6,10 +6,10 @@
 
 namespace Bookmarks
 {
-    std::vector<std::string> FileListReaderDir::GetFileList()
+    std::vector<std::wstring> FileListReaderDir::GetFileList()
     {
         //  собирается вектор строк файла-списка
-        std::vector<std::string> lines;
+        std::vector<std::wstring> lines;
 
         //  получение имени временного файла
         //  !!! имена временных файлов д.б. уникальными на тот случай, когда
@@ -19,11 +19,11 @@ namespace Bookmarks
         _tcscpy(temp_fn, _T("tempXXXXXX"));
         _tmktemp(temp_fn);
 
-        std::string temp = document_root.substr(0, document_root.rfind('/')) + tmpdir + temp_fn;
+        std::wstring temp = document_root.substr(0, document_root.rfind('/')) + tmpdir + temp_fn;
 #ifndef LINUX
         std::replace(temp.begin(), temp.end(), '/', '\\');
 #endif
-        std::string utility_name = cmd_dir;
+        std::wstring utility_name = cmd_dir;
         utility_name += _T(" \"") + temp + _T("\"");
 
         if (-1 == _tsystem(utility_name.c_str()))

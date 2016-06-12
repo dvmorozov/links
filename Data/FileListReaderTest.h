@@ -10,11 +10,11 @@ namespace Bookmarks
     class FileListReaderTest : public FileListReader
     {
     private:
-        std::string FileName;
+        std::wstring FileName;
 
     public:
-        virtual std::vector<std::string> GetFileList();
+        virtual std::vector<std::wstring> GetFileList();
 
-        FileListReaderTest(std::string fileName) : FileName(fileName) {}
+        FileListReaderTest(std::wstring fileName) : FileName(fileName) {}
     };
 }

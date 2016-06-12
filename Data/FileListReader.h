@@ -8,10 +8,10 @@ namespace Bookmarks
     class FileListReader
     {
     protected:
-        std::vector<std::string> ReadFile(std::string fileName);
+        std::vector<std::wstring> ReadFile(std::wstring fileName);
 
     public:
-        virtual std::vector<std::string> GetFileList() = 0;
+        virtual std::vector<std::wstring> GetFileList() = 0;
     };
 
     FileListReader *GetFileReader();

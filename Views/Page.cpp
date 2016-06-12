@@ -13,16 +13,16 @@ namespace Bookmarks
     {
     }
 
-    std::string Page::GetImagePath(std::string image_file)
+    std::wstring Page::GetImagePath(std::wstring image_file)
     {
         if (!img_path)
             return _T("");
-        return std::string(img_path) + image_file;
+        return std::wstring(img_path) + image_file;
     }
 
-    void Page::InsertButton(std::string image_file, const std::string script_name, const std::string url, int size, const std::string alt)
+    void Page::InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt)
     {
-        std::string image_path = GetImagePath(image_file);
+        std::wstring image_path = GetImagePath(image_file);
         if (!image_path.empty())
         {
             if (!script_name.empty())
@@ -47,7 +47,7 @@ namespace Bookmarks
         }
     }
 
-    void Page::PrintHead(std::string title)
+    void Page::PrintHead(std::wstring title)
     {
         _tprintf(_T("%s"), _T("<html>"));
         _tprintf(_T("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"><meta http-equiv=\"Content-Language\" content=\"ru\">\n"));
@@ -68,7 +68,7 @@ namespace Bookmarks
         _tprintf(_T("</td>"));
     }
 
-    void Page::InsertLinkButton(std::string image_file, const std::string script_name, const std::string url, int size, const std::string alt)
+    void Page::InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt)
     {
         _tprintf(_T("<td>"));
         InsertButton(image_file, script_name, url, 16, alt);
@@ -77,7 +77,7 @@ namespace Bookmarks
 
     void Page::InsertCommandButton(TCHAR *cmd, TCHAR* dir, TCHAR* file, TCHAR *image_file, const TCHAR* hint)
     {
-        std::string command;
+        std::wstring command;
         if (dir) command += dir;
         if (cmd_key) command += cmd_key;
         if (key) command += key;
@@ -88,11 +88,11 @@ namespace Bookmarks
     }
 
     //  вызывает внешнюю утилиту и читает список файлов
-    std::vector<std::string> Page::read_folders()
+    std::vector<std::wstring> Page::read_folders()
     {
         Bookmarks::Data fl;
         std::vector<Bookmarks::File> files = fl.ReadFileList();
-        std::vector<std::string> result;
+        std::vector<std::wstring> result;
         for (auto f = files.begin(); f != files.end(); ++f)
             result.push_back(f->Name);
         return result;
@@ -155,7 +155,7 @@ namespace Bookmarks
     void Page::OpenOuterTable()
     {
         //  создаетс€ внешн€€ таблица, в кот. помещаютс€ таблицы-колонки
-        printf(_T("\n\
+        _tprintf(_T("\n\
 <table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n\
 <tr>\n\
 <th>%s\n\
@@ -171,10 +171,10 @@ namespace Bookmarks
     {
         OpenOuterTable();
 
-        std::vector<std::string> dirs = read_folders();
-        for (std::vector<std::string>::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
+        std::vector<std::wstring> dirs = read_folders();
+        for (std::vector<std::wstring>::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
         {
-            std::string s = *dir;
+            std::wstring s = *dir;
             s.resize(MAX_LINE_LENGTH - 1);
             //  сохранение совместимости со старым способом работы
             TCHAR lineinp[MAX_LINE_LENGTH];
@@ -186,11 +186,7 @@ namespace Bookmarks
                 TCHAR lineptr[MAX_LINE_LENGTH];
                 //  вывод€тс€ только имена url-файлов или имена папок
                 unsigned char folder = 0;
-#ifdef LINUX
                 _tcscpy(lineptr, lineinp);
-#else
-                OemToChar(lineinp, lineptr);
-#endif
 
                 while ((lineptr[n - 1] == '\x0a') || (lineptr[n - 1] == '\x0d')
 #ifdef LINUX
@@ -247,7 +243,7 @@ namespace Bookmarks
                     if (_tcslen(query))
                     {
                         PrintRowTag();
-                        InsertRowCommandButton(cmd_ch_folder, ""/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), hint_folder.c_str());
+                        InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), hint_folder.c_str());
                         _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), home.c_str()/*название*/);
                         CloseInnerTableRow();
                     }
@@ -269,7 +265,7 @@ namespace Bookmarks
                                 {
                                     *up_dir = 0;
                                     //  переход к самому верхнему уровню каталога
-                                    InsertRowCommandButton(cmd_ch_folder, ""/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), hint_folder.c_str());
+                                    InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), hint_folder.c_str());
                                     _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("¬¬≈–’"));
                                     CloseInnerTableRow();
                                 }
@@ -381,11 +377,11 @@ namespace Bookmarks
 
         if (!first_folder || !first_link)
             //  закрываетс€ вложенна€ таблица и €чейка внешней таблицы
-            printf(_T("%s"), _T("\
+            _tprintf(_T("%s"), _T("\
     </table>\n\
 </td>\n"));
         //  закрываетс€ строка внешней таблицы и внешн€€ таблица
-        printf(_T("%s"), _T("\
+        _tprintf(_T("%s"), _T("\
 </tr>\n\
 </table>\n"));
     }
@@ -402,7 +398,7 @@ namespace Bookmarks
     void Page::print_info()
     {
 #if _DEBUG
-        std::vector<std::string> params = {
+        std::vector<std::wstring> params = {
             _T("SERVER_SOFTWARE"), _T("SERVER_NAME"), _T("SCRIPT_NAME"),
             _T("REQUEST_METHOD"), _T("QUERY_STRING"), _T("DOCUMENT_ROOT")
         };
@@ -412,7 +408,7 @@ namespace Bookmarks
             _tprintf(_T("%s = %s<br>\n"), par->c_str(), _tgetenv(par->c_str()));
 
         _tprintf(_T("HOME = %s<br>\n"), cwd);
-        _tprintf((document_root.substr(0, document_root.rfind('/')) + "\n").c_str());
+        _tprintf((document_root.substr(0, document_root.rfind('/')) + _T("\n")).c_str());
         _tprintf(_T("Error = %i<br>\n"), error);
 #endif
     }

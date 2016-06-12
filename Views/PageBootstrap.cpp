@@ -14,9 +14,9 @@ namespace Bookmarks
     {
     }
 
-    void PageBootstrap::InsertButton(std::string image_file, const std::string script_name, const std::string url, int size, const std::string alt)
+    void PageBootstrap::InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt)
     {
-        std::map<std::string, std::string> styles = { 
+        std::map<std::wstring, std::wstring> styles = { 
             { _T("link.bmp"), _T("glyphicon glyphicon-link") },
             { _T("error.bmp"), _T("glyphicon glyphicon-ban-circle") },
             { _T("folder.bmp"), _T("glyphicon glyphicon-folder-open") },
@@ -34,10 +34,10 @@ namespace Bookmarks
                 "<button type=\"button\" class=\"btn btn-default\" style=\"min-height: 34px; min-width: 40px;\" aria-label=\"%s\" onclick=\"window.location.href='%s';\">\
                     <span class=\"%s\" aria-hidden=\"true\"></span>\
                 </button>"
-        ), (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + "?" + url : script_name) : "#").c_str(), (styles.count(image_file) ? styles[image_file] : std::string()).c_str());
+        ), (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + _T("?") + url : script_name) : _T("#")).c_str(), (styles.count(image_file) ? styles[image_file] : std::wstring()).c_str());
     }
 
-    void PageBootstrap::PrintHead(std::string title)
+    void PageBootstrap::PrintHead(std::wstring title)
     {
         _tprintf(_T("%s"), _T("<html>"));
         _tprintf(_T("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"><meta http-equiv=\"Content-Language\" content=\"ru\">\n"));
@@ -56,7 +56,7 @@ namespace Bookmarks
     void PageBootstrap::OpenOuterTable()
     {
         //  создается внешняя таблица, в кот. помещаются таблицы-колонки (во внеш. т. 2 колонки)
-        printf(_T("\n\
+        _tprintf(_T("\n\
 <table class=\"table\">\n\
 <tr>\n\
 <th>%s\n\

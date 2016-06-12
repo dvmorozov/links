@@ -9,7 +9,7 @@
 #include "Data\Data.h"
 #include "Views\PageBootstrap.h"
 
-std::string ext = _T(".url");                   //  д. вкл. точку
+std::wstring ext = _T(".url");                   //  д. вкл. точку
 TCHAR str_url[] = _T("URL=");
 
 #ifdef EXTENDED_URL_FILE
@@ -27,7 +27,7 @@ URL=%s\n\
 ");
 #endif
 
-std::string document_root;
+std::wstring document_root;
 
 int error = 0;
 int fatal_error = 0;                                                //  priznak vyvoda soobscheniya ob oschibke
@@ -354,9 +354,9 @@ void create_url_file(
     //  tmktemp оказалось, что эти названия часто повторялись
     TCHAR t[9];
     //srand((unsigned)time(NULL));
-    sprintf(t, "%08x", /*(int)rand()*/(int)time(0));
+    _tsprintf(t, _T("%08x"), /*(int)rand()*/(int)time(0));
 
-    std::string temp = t + ext;
+    std::wstring temp = t + ext;
 
     FILE *f = _tfopen(temp.c_str(), _T("w"));
     if(f)
@@ -580,31 +580,31 @@ void do_log_in()
                                 FILE *f;
 
                                 time(&t);
-                                sprintf(k, "%i", (int)t);
+                                _tsprintf(k, _T("%i"), (int)t);
 
                                 key = k;
                                 //  sozdanie fayla klucha
                                 _tcscpy(file_name, tmp);
                                 _tcscat(file_name, k);
                                 //  proverka suschestvovaniya fayla
-                                f = fopen(file_name, "r");
+                                f = _tfopen(file_name, _T("r"));
                                 if(f != NULL) do_log_in_conf(); //  trebuetsya povtornyi vvod -
                                                                 //  drugaya kopiya skripta uzhe
                                                                 //  soldala fayl
                                 else
                                 {
-                                    f = fopen(file_name, "w");
+                                    f = _tfopen(file_name, _T("w"));
                                     if(f != NULL)
                                     {
                                         if(_tcslen(username) > MAX_USER_NAME - 1)
                                         {
                                             fclose(f);
-                                            remove(file_name);
+                                            _tremove(file_name);
                                             out_of_memory();
                                         }
                                         else
                                         {
-                                            fprintf(f, "%s\r\n", username);
+                                            _ftprintf(f, _T("%s\r\n"), username);
                                             fclose(f);
                                             do_change_folder();
                                         }
@@ -1049,7 +1049,7 @@ void no_environment(TCHAR *env_str)
 {
     Bookmarks::Page::print_html_head(head_error);
     begin_error_box();
-    printf("%s%s<BR>\n", err_no_environment, env_str);
+    _tprintf(_T("%s%s<BR>\n"), err_no_environment, env_str);
     end_error_box();
     error = E_NO_ENVIRONMENT;
     fatal_error = 1;
@@ -1061,7 +1061,7 @@ void invalid_query()
 {
     Bookmarks::Page::print_html_head(head_error);
     begin_error_box();
-    printf("%s%s<BR>\n", err_invalid_query, query);
+    _tprintf(_T("%s%s<BR>\n"), err_invalid_query, query);
     end_error_box();
     error = E_INVALID_QUERY;
     fatal_error = 1;
@@ -1073,7 +1073,7 @@ void out_of_memory()
 {
     Bookmarks::Page::print_html_head(head_error);
     begin_error_box();
-    printf("%s<BR>\n", err_out_of_memory);
+    _tprintf(_T("%s<BR>\n"), err_out_of_memory);
     end_error_box();
     error = E_OUTOFMEMORY;
     fatal_error = 1;
@@ -1098,7 +1098,7 @@ void change_folder()
         {
             Bookmarks::Page::print_html_head(head_error);
             begin_error_box();
-            printf("%s%s<BR>\n", err_change_folder, temp);
+            _tprintf(_T("%s%s<BR>\n"), err_change_folder, temp);
             fatal_error = 1;
             end_error_box();
             error = E_CHANGE_FOLDER;
@@ -1238,7 +1238,7 @@ void get_key()
         _tcscpy(file_name, tmp);
         _tcscat(file_name, key);
         //  proverka suschestvovaniya fayla
-        f = fopen(file_name, "r");
+        f = _tfopen(file_name, _T("r"));
         if(f != NULL)
         {
             username = (TCHAR *)malloc(MAX_USER_NAME);
@@ -1268,7 +1268,7 @@ void get_key()
 #define MAX_DOMAIN 100
 
 #ifdef UNICODE
-wmain( int argc, wchar_t *argv[ ], wchar_t *envp[ ] )
+int wmain( int argc, wchar_t *argv[ ], wchar_t *envp[ ] )
 #else
 int main(int argc, TCHAR *argv[])
 #endif  //  UNICODE
