@@ -7,7 +7,9 @@
 
 #include "main.h"
 #include "Models\Data.h"
+#include "Models\FileReader.h"
 #include "Views\PageBootstrap.h"
+#include "Controllers\Commands.h"
 
 std::wstring ext = _T(".url");                   //  д. вкл. точку
 TCHAR str_url[] = _T("URL=");
@@ -203,50 +205,6 @@ TCHAR err_invalid_query[]       = _T("Недопустимый запрос: ");
 TCHAR err_no_environment[]      = _T("Отсутствует требуемое окружение: ");
 TCHAR err_sys_utility[]         = _T("Вызов утилиты %s завершился с ошибкой");
 
-//  команды для исполнения программой (вставляются в url)
-//  !!! нужны наборы одинаковых команд для папок и файлов, поскольку расширение
-//  не передается через url, а внутри папки может находиться папка и файл с 
-//  одинаковым именем !!!
-//  komandy dolzhny nachinat'sya s ; - sm. realizatsiyu insert_command_image
-TCHAR cmd_edit[]                = _T(";edit=");
-TCHAR cmd_edit_conf[]           = _T(";edit_conf=");
-TCHAR cmd_add[]                 = _T(";add=");
-TCHAR cmd_log_in[]              = _T(";log_in=");
-TCHAR cmd_add_conf[]            = _T(";add_conf=");
-TCHAR cmd_del[]                 = _T(";del=");
-TCHAR cmd_del_conf[]            = _T(";del_conf=");
-TCHAR cmd_ch_folder[]           = _T(";ch_folder=");
-TCHAR cmd_edit_folder[]         = _T(";edit_folder=");
-TCHAR cmd_edit_folder_conf[]    = _T(";edit_folder_conf=");
-TCHAR cmd_add_folder[]          = _T(";add_folder=");
-TCHAR cmd_add_folder_conf[]     = _T(";add_folder_conf=");
-TCHAR cmd_del_folder[]          = _T(";del_folder=");
-TCHAR cmd_del_folder_conf[]     = _T(";del_folder_conf=");
-TCHAR cmd_key[]                 = _T(";key=");
-
-TCHAR ok[]                      = _T("Ok");
-TCHAR cancel[]                  = _T("Cancel");
-TCHAR pict_error[]              = _T("error.bmp");
-
-//  коды команд
-#define CMD_CHANGE_FOLDER       0
-#define CMD_EDIT                1
-#define CMD_ADD                 2
-#define CMD_DEL                 3                       //  удаление ссылки
-#define CMD_EDIT_FOLDER         4
-#define CMD_ADD_FOLDER          5
-#define CMD_DEL_FOLDER          6                       //  удаление папки
-#define CMD_DEL_CONF            7                       //  запрос на удаление ссылки
-#define CMD_DEL_FOLDER_CONF     8                       //  запрос на удаление папки
-#define CMD_EDIT_FOLDER_CONF    9                       //  запрос на изменение имени папки
-#define CMD_EDIT_CONF           10                      //  запрос на изменение ссылки
-#define CMD_ADD_CONF            11                      //  запрос на создание ссылки (выводит форму ввода ссылки)
-#define CMD_ADD_FOLDER_CONF     12                      //  запрос на создание папки (выводит форму ввода имени папки)
-#define CMD_LOG_IN_CONF         13                      //  вывод формы ввода имени пользователя и пароля
-#define CMD_LOG_IN              14                      //  обработка формы ввода имени пользователя и пароля
-#define CMD_KEY                 15                      //  klyuch zaprosa
-#define CMD_UNKNOWN             0xff
-
 //  !!! проверять нужно все возможные типы запроса - запрос м.б. введен вручную !!!
 TCHAR *query = 0;                                       //  не допускается равенство 0
 TCHAR *full_script_name = 0;                            //  не допускается равенство 0
@@ -263,8 +221,6 @@ TCHAR *username = 0;
 void change_folder();
 void do_change_folder();
 void remove_folder(TCHAR *folder);
-
-TCHAR *read_str_cwd(TCHAR *url_file_name/*путь к файлу отн. cwd*/, TCHAR *str_name);
 
 void invalid_query();
 void out_of_memory();
@@ -345,8 +301,8 @@ void process_query(unsigned char delete_spaces)
 //-------------------------------------------------------------------------------------------------
 //  здесь ошибки не фатальны
 void create_url_file(
-    TCHAR *name,        //  имя файла без пути
-    TCHAR *url)
+    const TCHAR *name,                      //  имя файла без пути
+    const TCHAR *url)
 {
 #ifdef EXTENDED_URL_FILE
     //  в качестве имени файла исп. случайное числовое значение
@@ -403,15 +359,16 @@ void do_edit_conf()
         change_folder();
         if(!fatal_error)
         {
-            TCHAR *url = read_str_cwd(link, str_url);
+            Bookmarks::FileReader fr(cwd);
+            std::wstring url = fr.GetParamCurDir(link, str_url);
             //  name содержит название без расширения
-            TCHAR *name;
+            std::wstring name;
 #ifdef EXTENDED_URL_FILE
-            name = read_str_cwd(link, str_name);
-            if(!name)
+            name = fr.GetParamCurDir(link, str_name);
+            if(name.empty())
 #endif
-            {// название в файле не задано или не поддерживается -
-             // сделаем название из имени файла без расширения
+            {   // название в файле не задано или не поддерживается -
+                // сделаем название из имени файла без расширения
                 TCHAR *dot;
                 
                 name = link;
@@ -419,18 +376,14 @@ void do_edit_conf()
                 if(dot)
                 {
                     *dot = 0;
-                    name = (TCHAR *)malloc((_tcslen(name) + 1) * sizeof(TCHAR));
-                    if(name)_tcscpy(name, link);
+                    name = link;
                     *dot = '.';
                 }
             }
-            if(name)
+            else
             {
                 _tprintf(htm_edit, full_script_name, name, query, url, key, link, key);
-                if(name != link)free(name);
             }
-            else out_of_memory();
-            if(url)free(url);
         }
     }
 }
@@ -486,15 +439,11 @@ void do_edit()
                                 if(!fatal_error)
                                 {
 #ifdef EXTENDED_URL_FILE
-                                    TCHAR *url = read_str_cwd(old_name, str_url);
+                                    Bookmarks::FileReader fr(cwd);
+                                    std::wstring url = fr.GetParamCurDir(old_name, str_url);
                                     //  замена файла (!!! остальная информация из файла теряется !!!)
-                                    if(url)
-                                    {
-                                        create_url_file(new_name, url);
-                                        free(url);
-                                        _tremove(old_name);
-                                    }
-                                    else error = E_OUTOFMEMORY;
+                                    create_url_file(new_name, url.c_str());
+                                    _tremove(old_name);
 #else
                                     //  переименование
                                     _trename(old_name, new_name_ext);
@@ -736,17 +685,16 @@ void do_del_conf()
         change_folder();
         if(!fatal_error)
         {
-            TCHAR *url = read_str_cwd(link, str_url);
-            TCHAR *name;
+            Bookmarks::FileReader fr(cwd);
+            std::wstring url = fr.GetParamCurDir(link, str_url);
+            std::wstring name;
 #ifdef EXTENDED_URL_FILE
-            name = read_str_cwd(link, str_name);
-            if(!name)name = link;
+            name = fr.GetParamCurDir(link, str_name);
+            if(name.empty())name = link;
 #else
             name = link;
 #endif
             _tprintf(htm_del_conf, full_script_name, name, url, query, link, key, query, link, key);
-            if(url)free(url);
-            if(name && (name != link))free(name);
         }
     }
     else invalid_query();
@@ -1114,73 +1062,6 @@ void change_folder()
     }
     else 
         out_of_memory();
-}
-//-------------------------------------------------------------------------------------------------
-
-TCHAR *read_str(TCHAR *url_file_name/*полный путь к файлу*/, TCHAR *str_name)
-{
-#ifndef _WINDOWS
-    {
-    unsigned int i;
-    for(i = 0; i < _tcslen(url_file_name); i++)
-    {
-        if(url_file_name[i] == '\\')url_file_name[i] = '/';
-    }
-    }
-#endif
-
-    {
-    FILE *url_file = _tfopen(url_file_name, _T("r"));
-    
-    if(url_file)
-    {
-        TCHAR *url = 0;
-        TCHAR lineptr[MAX_LINE_LENGTH];
-        //  _fgetts дополняет строку 0-м
-        while(_fgetts (lineptr, MAX_LINE_LENGTH, url_file))
-        {
-            //  очистка прочитанной строки от завершающих символов новой строки
-            int str_name_len = _tcslen(str_name);
-            int i;
-            for(i = _tcslen(lineptr) - 1; i >= 0; i--)
-                if((lineptr[i] == '\x0a') || (lineptr[i] == '\x0d'))lineptr[i] = 0;
-
-            if(!_tcsncmp(lineptr, str_name, str_name_len))
-            {
-                url = (TCHAR *)malloc((_tcslen(lineptr + str_name_len) + 1) * sizeof(TCHAR));
-                if(url)
-                {
-                    _tcscpy(url, lineptr + str_name_len);
-                }
-                break;
-            }
-        }
-        fclose(url_file);
-        return url;
-    }
-    }
-    return 0;
-}
-//-------------------------------------------------------------------------------------------------
-
-TCHAR *read_str_cwd(TCHAR *url_file_name/*путь к файлу отн. cwd*/, TCHAR *str_name)
-{
-    TCHAR *path = (TCHAR *)malloc((_tcslen(cwd)      //  путь к тек. каталогу без заверш. разделителя
-        + _tcslen(url_file_name)            //  имя файла с расширением
-        + 2                                 //  разделитель и 0
-        ) * sizeof(TCHAR));
-    if(path)
-    {
-        TCHAR *url;
-        _tcscpy(path, cwd);
-        _tcscat(path, _T("\\"));
-        _tcscat(path, url_file_name);
-
-        url = read_str(path, str_name);
-        free(path);
-        return url;
-    }
-    else return 0;
 }
 //-------------------------------------------------------------------------------------------------
 

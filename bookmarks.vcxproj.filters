@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Models">
       <UniqueIdentifier>{7663be95-fa84-4bce-bd15-3748a0dcbf83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{2a827692-5b3f-4272-8c68-2c339904795d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -34,6 +37,12 @@
       <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="Models\FileListReaderDir.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\Commands.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\FileReader.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,6 +75,12 @@
     </ClInclude>
     <ClInclude Include="Models\FileListReaderDir.h">
       <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\FileReader.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\Commands.h">
+      <Filter>Source Files\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

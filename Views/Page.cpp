@@ -1,4 +1,6 @@
+
 #include "Page.h"
+#include "../Models/FileReader.h"
 #include "../main.h"
 
 namespace Bookmarks
@@ -322,9 +324,10 @@ namespace Bookmarks
                                 //  !!! нужно скопировать расширение непосредственно
                                 //  из lineptr, чтобы сохранились исходные символы !!!
                                 //  воостанавливается
-                                TCHAR *url = read_str_cwd(lineptr, str_url);
+                                Bookmarks::FileReader fr(cwd);
+                                std::wstring url = fr.GetParamCurDir(lineptr, str_url);
 #ifdef EXTENDED_URL_FILE
-                                TCHAR *name = read_str_cwd(lineptr, str_name);
+                                std::wstring name = fr.GetParamCurDir(lineptr, str_name);
 #endif
 
                                 if (first_link)
@@ -343,20 +346,16 @@ namespace Bookmarks
                                 else
                                     OpenInnerTableRow();
 
-                                if (url)
+                                if (!url.empty())
                                 {   //  vstavlyaetsya vneschnyaya ssylka
                                     InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("Ссылка"));
-                                    free(url);
                                 }
                                 else
                                     //  ??? здесь нужна простая иконка
                                     InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("Ошибка: "));
 #ifdef EXTENDED_URL_FILE
-                                if (name)
-                                {
+                                if (!name.empty())
                                     _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name);
-                                    free(name);
-                                }
                                 else
 #endif
                                 {// делаем название из имени файла без расширения

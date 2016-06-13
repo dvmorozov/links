@@ -139,9 +139,11 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Controllers\Commands.cpp" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Models\Data.cpp" />
     <ClCompile Include="Models\FileListReaderDir.cpp" />
+    <ClCompile Include="Models\FileReader.cpp" />
     <ClCompile Include="Views\Page.cpp" />
     <ClCompile Include="Views\PageBootstrap.cpp" />
   </ItemGroup>
@@ -149,11 +151,13 @@
     <None Include="makefile" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controllers\Commands.h" />
     <ClInclude Include="Data\FileListReaderTest.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Models\Data.h" />
     <ClInclude Include="Models\FileListReader.h" />
     <ClInclude Include="Models\FileListReaderDir.h" />
+    <ClInclude Include="Models\FileReader.h" />
     <ClInclude Include="Views\Page.h" />
     <ClInclude Include="Views\PageBootstrap.h" />
     <ClInclude Include="Views\View.h" />
