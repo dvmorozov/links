@@ -13,19 +13,16 @@
       <UniqueIdentifier>{11720f66-3db7-48af-8960-93f661f9531b}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="Source Files\Data">
-      <UniqueIdentifier>{7663be95-fa84-4bce-bd15-3748a0dcbf83}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Views">
       <UniqueIdentifier>{eee46b74-4389-43f8-afbc-cdee7cbfae7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{7663be95-fa84-4bce-bd15-3748a0dcbf83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\Data.cpp">
-      <Filter>Source Files\Data</Filter>
     </ClCompile>
     <ClCompile Include="Views\Page.cpp">
       <Filter>Source Files\Views</Filter>
@@ -33,8 +30,11 @@
     <ClCompile Include="Views\PageBootstrap.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
-    <ClCompile Include="Data\FileListReaderDir.cpp">
-      <Filter>Source Files\Data</Filter>
+    <ClCompile Include="Models\Data.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\FileListReaderDir.cpp">
+      <Filter>Source Files\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,17 +43,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Data\Data.h">
-      <Filter>Source Files\Data</Filter>
-    </ClInclude>
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\FileListReaderDir.h">
-      <Filter>Source Files\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\FileListReader.h">
-      <Filter>Source Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="Views\PageBootstrap.h">
       <Filter>Source Files\Views</Filter>
@@ -66,6 +57,15 @@
     </ClInclude>
     <ClInclude Include="Data\FileListReaderTest.h">
       <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Data.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\FileListReader.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\FileListReaderDir.h">
+      <Filter>Source Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

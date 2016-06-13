@@ -25,7 +25,7 @@
 #define _tfopen     _wfopen
 #define _tmkdir     _wmkdir
 #define _tgetenv    _wgetenv
-#define _tgetcwd    _getcwd
+#define _tgetcwd    _wgetcwd
 #define _tsystem    _wsystem
 #define _tchdir     _wchdir
 #define _tcslen     wcslen
