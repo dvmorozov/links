@@ -18,6 +18,9 @@ namespace Bookmarks
 
         void PrintRowTag();     //  Реализует машину состояний для вывода внутр. таблиц.
 
+        bool FirstFolder = true;
+        bool FirstLink = true;
+
     protected:
         static void Page::print_info();
 

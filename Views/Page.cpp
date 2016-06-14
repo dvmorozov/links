@@ -111,17 +111,17 @@ namespace Bookmarks
     //  выводит разделитель
     void Page::PrintRowTag()
     {
-        if (first_folder)
+        if (FirstFolder)
         {
-            if (!first_link)
+            if (!FirstLink)
                 //  закрываем вложенную таблицу и €чейку внешней таблицы
                 CloseInnerTable();
 
             //  открываем €чейку внешней таблицы, создаем вложенную таблицу,
             //  открываем строку и €чейку вложенной таблицы
             OpenInnerTable();
-            first_folder = 0;
-            first_link = 1;
+            FirstFolder = false;
+            FirstLink = true;
         }
         else
             OpenInnerTableRow();
@@ -330,9 +330,9 @@ namespace Bookmarks
                                 std::wstring name = fr.GetParamCurDir(lineptr, str_name);
 #endif
 
-                                if (first_link)
+                                if (FirstLink)
                                 {
-                                    if (!first_folder)
+                                    if (!FirstFolder)
                                         //  закрываем вложенную таблицу и €чейку внешней таблицы
                                         _tprintf(_T("%s"), _T("\
     </table>\n\
@@ -340,8 +340,8 @@ namespace Bookmarks
                                     //  открываем €чейку внешней таблицы, создаем вложенную таблицу,
                                     //  открываем строку и €чейку вложенной таблицы
                                     OpenInnerTable();
-                                    first_link = 0;
-                                    first_folder = 1;
+                                    FirstLink = false;
+                                    FirstFolder = true;
                                 }
                                 else
                                     OpenInnerTableRow();
@@ -355,7 +355,7 @@ namespace Bookmarks
                                     InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("ќшибка: "));
 #ifdef EXTENDED_URL_FILE
                                 if (!name.empty())
-                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name);
+                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
                                 else
 #endif
                                 {// делаем название из имени файла без расширени€
@@ -374,7 +374,7 @@ namespace Bookmarks
             }
         }
 
-        if (!first_folder || !first_link)
+        if (!FirstFolder || !FirstLink)
             //  закрываетс€ вложенна€ таблица и €чейка внешней таблицы
             _tprintf(_T("%s"), _T("\
     </table>\n\

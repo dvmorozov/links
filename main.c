@@ -33,8 +33,6 @@ std::wstring document_root;
 
 int error = 0;
 int fatal_error = 0;                                                //  priznak vyvoda soobscheniya ob oschibke
-int first_folder = 1;
-int first_link = 1;
 
 //  шаблоны страниц
 //  слова Cancel и Ок д.б. такими же, как в строках cancel и ok

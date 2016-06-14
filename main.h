@@ -69,8 +69,6 @@ extern std::wstring document_root;
 
 extern int error;
 extern int fatal_error;                             //  priznak vyvoda soobscheniya ob oschibke
-extern int first_folder;
-extern int first_link;
 
 extern TCHAR str_url[];
 extern TCHAR str_name[];
