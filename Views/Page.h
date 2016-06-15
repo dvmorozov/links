@@ -7,14 +7,14 @@ namespace Bookmarks
     class Page : public View
     {
     private: 
-        const std::wstring hint_folder = _T("Папка");
-        const std::wstring home = _T("В НАЧАЛО");
-        const std::wstring hint_delete = _T("Удаление");
-        const std::wstring hint_edit = _T("Редактирование");
+        const std::wstring _hintFolder = _T("Папка");
+        const std::wstring _home = _T("В НАЧАЛО");
+        const std::wstring _hintDelete = _T("Удаление");
+        const std::wstring _hintEdit = _T("Редактирование");
 
-        void print_folders();
-        std::vector<std::wstring> read_folders();
-        void insert_add_buttons();
+        void PrintFolders();
+        std::vector<std::wstring> ReadFolders();
+        void InsertAddButtons();
 
         void PrintRowTag();     //  Реализует машину состояний для вывода внутр. таблиц.
 
@@ -22,7 +22,7 @@ namespace Bookmarks
         bool FirstLink = true;
 
     protected:
-        static void Page::print_info();
+        static void Page::PrintInfo();
 
         virtual std::wstring GetImagePath(std::wstring image_file);
         virtual void InsertRowCommandButton(TCHAR *cmd, TCHAR* dir, TCHAR* file, TCHAR *image_file, const TCHAR* hint);
@@ -43,7 +43,7 @@ namespace Bookmarks
         ~Page();
 
         virtual void Render();
-        static void print_html_head(TCHAR *title);
-        static void print_html_tail();
+        static void PrintHtmlHead(TCHAR *title);
+        static void PrintHtmlTail();
     };
 }

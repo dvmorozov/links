@@ -47,7 +47,7 @@ namespace Bookmarks
 
     std::wstring FileReader::GetParamCurDir(std::wstring fileName/*путь к файлу отн. cwd*/, std::wstring paramName)
     {
-        std::wstring path = CurDir + _T("\\") + fileName;
+        std::wstring path = _curDir + _T("\\") + fileName;
         return GetParam(path, paramName);
     }
 }

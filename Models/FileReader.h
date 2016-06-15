@@ -9,10 +9,10 @@ namespace Bookmarks
     class FileReader
     {
     private:
-        std::wstring CurDir;
+        std::wstring _curDir;
 
     public:
-        FileReader(std::wstring curDir) : CurDir(curDir) {};
+        FileReader(std::wstring curDir) : _curDir(curDir) {};
         ~FileReader() {};
 
         //  читает строку параметра из файла

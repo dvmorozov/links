@@ -59,7 +59,7 @@ namespace Bookmarks
 
     void Page::PrintTail()
     {
-        print_info();
+        PrintInfo();
         _tprintf(_T("%s"), _T("</body></html>\n"));
     }
 
@@ -90,7 +90,7 @@ namespace Bookmarks
     }
 
     //  вызывает внешнюю утилиту и читает список файлов
-    std::vector<std::wstring> Page::read_folders()
+    std::vector<std::wstring> Page::ReadFolders()
     {
         Bookmarks::Data fl;
         std::vector<Bookmarks::File> files = fl.ReadFileList();
@@ -100,7 +100,7 @@ namespace Bookmarks
         return result;
     }
 
-    void Page::insert_add_buttons()
+    void Page::InsertAddButtons()
     {
         _tprintf(_T("\n<p>\n"));
         InsertCommandButton(cmd_add_conf, query, _T(""), _T("add_link.bmp"), _T("Создать ссылку"));
@@ -169,11 +169,11 @@ namespace Bookmarks
 
     //  при вызове заголовок страницы уже выведен, поэтому
     //  нужно сделать работу настолько, насколько это возможно
-    void Page::print_folders()
+    void Page::PrintFolders()
     {
         OpenOuterTable();
 
-        std::vector<std::wstring> dirs = read_folders();
+        std::vector<std::wstring> dirs = ReadFolders();
         for (std::vector<std::wstring>::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
         {
             std::wstring s = *dir;
@@ -245,8 +245,8 @@ namespace Bookmarks
                     if (_tcslen(query))
                     {
                         PrintRowTag();
-                        InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), hint_folder.c_str());
-                        _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), home.c_str()/*название*/);
+                        InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), _hintFolder.c_str());
+                        _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _home.c_str()/*название*/);
                         CloseInnerTableRow();
                     }
                 }
@@ -267,7 +267,7 @@ namespace Bookmarks
                                 {
                                     *up_dir = 0;
                                     //  переход к самому верхнему уровню каталога
-                                    InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), hint_folder.c_str());
+                                    InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
                                     _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
                                     CloseInnerTableRow();
                                 }
@@ -311,11 +311,11 @@ namespace Bookmarks
                                 PrintRowTag();
                                 if (full_dir)
                                     //  переход по каталогу на один уровень вверх
-                                    InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), hint_folder.c_str());
+                                    InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
 
                                 _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
-                                InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), hint_delete.c_str());
-                                InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), hint_edit.c_str());
+                                InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), _hintDelete.c_str());
+                                InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), _hintEdit.c_str());
                                 CloseInnerTableRow();
                                 if (full_dir != lineptr)free(full_dir);
                             }
@@ -365,8 +365,8 @@ namespace Bookmarks
                                     if (dot)*dot = '.';  //  восстановление имени файла
                                 }
                                 //  вставка иконок
-                                InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), hint_delete.c_str());
-                                InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), hint_edit.c_str());
+                                InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), _hintDelete.c_str());
+                                InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), _hintEdit.c_str());
                                 CloseInnerTableRow();
                             }
                         }
@@ -389,12 +389,12 @@ namespace Bookmarks
     void Page::Render()
     {
         PrintHead(_T("Избранные Ссылки"));
-        print_folders();
-        insert_add_buttons();
+        PrintFolders();
+        InsertAddButtons();
         PrintTail();
     }
 
-    void Page::print_info()
+    void Page::PrintInfo()
     {
 #if _DEBUG
         std::vector<std::wstring> params = {
@@ -412,13 +412,13 @@ namespace Bookmarks
 #endif
     }
 
-    void Page::print_html_head(TCHAR *title)
+    void Page::PrintHtmlHead(TCHAR *title)
     {
         Page p;
         p.PrintHead(title);
     }
 
-    void Page::print_html_tail()
+    void Page::PrintHtmlTail()
     {
         Page p;
         p.PrintTail();

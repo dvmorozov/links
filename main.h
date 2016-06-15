@@ -62,9 +62,9 @@
 #define E_NO_ENVIRONMENT    4
 #define E_SYS_UTILITY       5
 
-#define MAX_LINE_LENGTH     1000                        //  максимально допустимая длина строки файла, содержащего имена файлов и папок
+#define MAX_LINE_LENGTH     1000                    //  максимально допустимая длина строки файла, содержащего имена файлов и папок
 
-extern std::wstring ext;                             //  расширение файлов ссылок
+extern std::wstring ext;                            //  расширение файлов ссылок
 extern std::wstring document_root;
 
 extern int error;

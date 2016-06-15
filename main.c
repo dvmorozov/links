@@ -228,8 +228,8 @@ int get_query_command(unsigned char does_not_processes /* priznak togo, chto zap
                                                        zapret udaleniya komandy iz stroki */);
 int hex_char_to_int(TCHAR c);
 
-void print_html_head(TCHAR *title);
-void print_html_tail();
+void PrintHtmlHead(TCHAR *title);
+void PrintHtmlTail();
 //-------------------------------------------------------------------------------------------------
 //  поиск % и вставка соответ. символов
 //  '+' замен€ютс€ на пробелы
@@ -993,37 +993,37 @@ int hex_char_to_int(TCHAR c)
 
 void no_environment(TCHAR *env_str)
 {
-    Bookmarks::Page::print_html_head(head_error);
+    Bookmarks::Page::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s%s<BR>\n"), err_no_environment, env_str);
     end_error_box();
     error = E_NO_ENVIRONMENT;
     fatal_error = 1;
-    Bookmarks::Page::print_html_tail();
+    Bookmarks::Page::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 
 void invalid_query()
 {
-    Bookmarks::Page::print_html_head(head_error);
+    Bookmarks::Page::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s%s<BR>\n"), err_invalid_query, query);
     end_error_box();
     error = E_INVALID_QUERY;
     fatal_error = 1;
-    Bookmarks::Page::print_html_tail();
+    Bookmarks::Page::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 
 void out_of_memory()
 {
-    Bookmarks::Page::print_html_head(head_error);
+    Bookmarks::Page::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s<BR>\n"), err_out_of_memory);
     end_error_box();
     error = E_OUTOFMEMORY;
     fatal_error = 1;
-    Bookmarks::Page::print_html_tail();
+    Bookmarks::Page::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 //  переход в требуемую папку (по отношению к заданной корневой папке)
@@ -1042,13 +1042,13 @@ void change_folder()
         //  переход в запрошенную папку
         if(-1 == _tchdir(temp))
         {
-            Bookmarks::Page::print_html_head(head_error);
+            Bookmarks::Page::PrintHtmlHead(head_error);
             begin_error_box();
             _tprintf(_T("%s%s<BR>\n"), err_change_folder, temp);
             fatal_error = 1;
             end_error_box();
             error = E_CHANGE_FOLDER;
-            Bookmarks::Page::print_html_tail();
+            Bookmarks::Page::PrintHtmlTail();
         }
 
         free(temp);

@@ -7,7 +7,7 @@ namespace Bookmarks
     class View
     {
     private:
-        Data D;
+        Data _d;
 
     public:
         View() {}
