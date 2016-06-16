@@ -25,26 +25,27 @@ namespace Bookmarks
     void Page::InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt)
     {
         std::wstring image_path = GetImagePath(image_file);
+
         if (!image_path.empty())
         {
             if (!script_name.empty())
             {
                 if (!url.empty())
                     _tprintf(_T("\
-                            <a href=\"%s?%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), url.c_str(), image_path.c_str(), alt.c_str(), size, size);
+                            <a href=\"%s?%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), url.c_str(), image_path.c_str(), alt.c_str(), size, size)
                 else
                     //  передаетс€ ссылка на внешний ресурс; script_name содержит ссылку к ресурсу
                     _tprintf(_T("\
-                            <a href=\"%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), image_path.c_str(), alt.c_str(), size, size);
+                            <a href=\"%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), image_path.c_str(), alt.c_str(), size, size)
             }
             else
             {// вставл€етс€ иконка без ссылки
                 if (!url.empty()) //  в url передаетс€ дополнение к тексту, переданному через alt
                     _tprintf(_T("\
-                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), url.c_str(), size, size);
+                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), url.c_str(), size, size)
                 else
                     _tprintf(_T("\
-                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), size, size);
+                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), size, size)
             }
         }
     }
@@ -355,7 +356,7 @@ namespace Bookmarks
                                     InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("ќшибка: "));
 #ifdef EXTENDED_URL_FILE
                                 if (!name.empty())
-                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
+                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str())
                                 else
 #endif
                                 {// делаем название из имени файла без расширени€

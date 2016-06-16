@@ -33,7 +33,12 @@
 #define _tcscat     wcscat
 #define _tcscpy     wcscpy
 #define _ftprintf   fwprintf
-#define _tprintf    wprintf
+#ifndef _TEST
+#define _tprintf(...) wprintf(##__VA_ARGS__);
+#else
+extern TCHAR *test_str;
+#define _tprintf(...) {swprintf(test_str, ##__VA_ARGS__); test_str += wcslen(test_str);}
+#endif
 #define _tsprintf   swprintf
 #define _tcsrchr    wcschr
 #define _tcscmp     wcscmp

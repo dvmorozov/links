@@ -82,5 +82,8 @@
     <ClInclude Include="Controllers\Commands.h">
       <Filter>Source Files\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="Views\ContentPrinter.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
