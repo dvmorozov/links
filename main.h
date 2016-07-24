@@ -1,9 +1,6 @@
 
 #pragma once
 
-#ifndef MAIN_H
-#define MAIN_H
-
 //#define LINUX     //  native
 #define EXTENDED_URL_FILE
 
@@ -40,7 +37,7 @@ extern TCHAR *test_str;
 #define _tprintf(...) {swprintf(test_str, ##__VA_ARGS__); test_str += wcslen(test_str);}
 #endif
 #define _tsprintf   swprintf
-#define _tcsrchr    wcschr
+#define _tcsrchr    wcsrchr
 #define _tcscmp     wcscmp
 #define _trename    _wrename
 #define _tcsncmp    wcsncmp
@@ -74,32 +71,3 @@ extern std::wstring document_root;
 
 extern int error;
 extern int fatal_error;                             //  priznak vyvoda soobscheniya ob oschibke
-
-extern TCHAR str_url[];
-extern TCHAR str_name[];
-extern TCHAR url_file_template[];
-extern TCHAR *query;
-extern TCHAR *img_path;
-extern TCHAR cmd_key[];
-extern TCHAR *key;
-extern TCHAR *full_script_name;
-extern TCHAR cmd_add_conf[];
-extern TCHAR cmd_add_folder_conf[];
-extern TCHAR cmd_ch_folder[];
-extern TCHAR ok[];
-extern TCHAR cancel[];
-extern TCHAR cmd_edit[];
-extern TCHAR cmd_add[];
-extern TCHAR cmd_log_in[];
-extern TCHAR cmd_del[];
-extern TCHAR cmd_edit_folder[];
-extern TCHAR cmd_add_folder[];
-extern TCHAR cmd_del_folder[];
-extern TCHAR cmd_del_folder_conf[];
-extern TCHAR cmd_edit_folder_conf[];
-extern TCHAR cmd_del_conf[];
-extern TCHAR cmd_edit_conf[];
-extern TCHAR *cwd;
-extern TCHAR *read_str_cwd(TCHAR *url_file_name/*путь к файлу отн. cwd*/, TCHAR *str_name);
-
-#endif  //  MAIN_H

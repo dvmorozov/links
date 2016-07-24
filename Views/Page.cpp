@@ -1,6 +1,7 @@
 
 #include "Page.h"
 #include "../Models/FileReader.h"
+#include "../Controllers/Commands.h"
 #include "../main.h"
 
 namespace Bookmarks
@@ -54,7 +55,7 @@ namespace Bookmarks
     {
         _tprintf(_T("%s"), _T("<html>"));
         _tprintf(_T("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"><meta http-equiv=\"Content-Language\" content=\"ru\">\n"));
-        _tprintf(_T("<title> %s </title></head>\n"), title.c_str());
+        _tprintf(_T("<title>%s</title></head>\n"), title.c_str());
         _tprintf(_T("<body><br>\n"));
     }
 

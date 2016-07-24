@@ -2,6 +2,7 @@
 #include <map>
 
 #include "../main.h"
+#include "../Controllers/Commands.h"
 
 namespace Bookmarks
 {
