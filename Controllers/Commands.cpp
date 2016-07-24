@@ -234,8 +234,10 @@ TCHAR *cwd = 0;                                         //  путь к текущему ката
                                                         //  завершающий символ / не включается
                                                         //  не допускается равенство 0
 TCHAR *command = 0;                                     //  ук-ль на переданную в запросе команду (освобождается вместе с освобождением запроса)
-TCHAR *key = 0;                                         //  klyuch, peredannyi v zaprose
+TCHAR *key = 0;                                         //  ключ сессии, полученный из запроса
+//  Ук-ли на параметры в строке query.
 TCHAR *username = 0;
+TCHAR *password = 0;
 #define MAX_USER_NAME       100
 //-------------------------------------------------------------------------------------------------
 
@@ -499,7 +501,6 @@ void do_log_in_conf()
     _tprintf(htm_log_in_conf, full_script_name);
 }
 //-------------------------------------------------------------------------------------------------
-typedef void(*check_log_in_result)();
 
 check_log_in_result check_log_in_params()
 {
@@ -513,28 +514,31 @@ check_log_in_result check_log_in_params()
         {   //  izvlekaetsya sleduyuschaya chast' stroki - parol'
             if (get_query_command(0) == CMD_LOG_IN)
             {// teper' posle = parol'
-                TCHAR *password = (TCHAR*)_tcsrchr(query, '=');
-                if (password)
+                if (password = (TCHAR*)_tcsrchr(query, '='))
                 {
                     TCHAR *and;
                     password++;
                     //  iz password nuzhno udalit' simvol &
                     if (and = (TCHAR*)_tcschr(password, '&'))*and = 0;
-                    //  izvlekaetsya sleduyuschaya chast' stroki - imya pol'zovatelya
+                    //  Удаляет остаток параметра-пароля.
                     if (get_query_command(0) == CMD_LOG_IN)
                     {// teper' posle = imya pol'zovatelya
-                        username = (TCHAR*)_tcsrchr(query, '=');
-                        if (username)
+                        if (username = (TCHAR*)_tcsrchr(query, '='))
                         {
                             username++;
                             // из имени нужно удалить символ &
                             if (and = (TCHAR*)_tcsrchr(username, '&'))*and = 0;
-                            // proverka imeni pol'zovatelya i parolya
-                            if (!_tcscmp(username, _T("lvbnhbq vjhjpjd")) && !_tcscmp(password, _T("dct pfrkflrb")))
+                            //  Удаляет остаток параметра-имени.
+                            if (get_query_command(0) == CMD_LOG_IN)
                             {
-                                return nullptr;
+                                // proverka imeni pol'zovatelya i parolya
+                                if (!_tcscmp(username, _T("lvbnhbq vjhjpjd")) && !_tcscmp(password, _T("dct pfrkflrb")))
+                                {
+                                    return nullptr;
+                                }
+                                else return do_log_in_conf;
                             }
-                            else return do_log_in_conf;
+                            else return invalid_query;
                         }
                         else return invalid_query;
                     }
@@ -550,39 +554,43 @@ check_log_in_result check_log_in_params()
 }
 
 //-------------------------------------------------------------------------------------------------
+//  Возвращает имя файла ключа сессии.
+std::wstring get_key_file_name()
+{
+    //  Создание ключа.
+    time_t t;
+    time(&t);
+    //  Д. б. статическим.
+    static TCHAR k[11];
+    _tsprintf(k, _T("%i"), (int)t);
+    key = k;
+
+    return std::wstring(tmp) + k;
+}
+
+//-------------------------------------------------------------------------------------------------
 //  проверка имени пользователя и пароля и вход
 void do_log_in()
 {
     check_log_in_result f = check_log_in_params();
     if (!f)
     {
-        //  sozdanie klyucha
-        time_t t;
-        TCHAR k[11];
-        TCHAR file_name[_MAX_PATH];
+        std::wstring file_name = get_key_file_name();
         FILE *f;
-
-        time(&t);
-        _tsprintf(k, _T("%i"), (int)t);
-
-        key = k;
-        //  sozdanie fayla klucha
-        _tcscpy(file_name, tmp);
-        _tcscat(file_name, k);
         //  proverka suschestvovaniya fayla
-        f = _tfopen(file_name, _T("r"));
+        f = _tfopen(file_name.c_str(), _T("r"));
         if (f != NULL) do_log_in_conf(); //  trebuetsya povtornyi vvod -
                                          //  drugaya kopiya skripta uzhe
                                          //  sozdala fayl
         else
         {
-            f = _tfopen(file_name, _T("w"));
+            f = _tfopen(file_name.c_str(), _T("w"));
             if (f != NULL)
             {
                 if (_tcslen(username) > MAX_USER_NAME - 1)
                 {
                     fclose(f);
-                    _tremove(file_name);
+                    _tremove(file_name.c_str());
                     out_of_memory();
                 }
                 else

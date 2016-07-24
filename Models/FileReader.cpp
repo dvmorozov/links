@@ -13,7 +13,6 @@ namespace Bookmarks
             }
         }
 #endif
-
         FILE *f = _tfopen(fileName.c_str(), _T("r"));
         std::wstring result;
 

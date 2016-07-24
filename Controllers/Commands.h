@@ -21,7 +21,7 @@
 
 typedef void(*check_log_in_result)();
 extern check_log_in_result check_log_in_params();
-
+extern std::wstring get_key_file_name();
 
 extern void change_folder();
 extern void do_change_folder();
@@ -78,5 +78,7 @@ extern TCHAR cmd_edit_conf[];
 extern TCHAR *cwd;
 extern TCHAR *command;  //  ук-ль на переданную в запросе команду
                         //  (освобождается вместе с освобождением запроса)
+extern TCHAR *username;
+extern TCHAR *password;
 extern TCHAR http[];
 extern TCHAR www_sub[];

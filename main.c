@@ -114,7 +114,6 @@ int main(int argc, TCHAR *argv[])
 
                 case(CMD_LOG_IN): process_query(1); 
                     if(!fatal_error) {
-                        get_query_command(0);   //  udalenie komandy iz zaprosa
                         do_log_in(); 
                     }
                     break;
