@@ -66,8 +66,5 @@ extern TCHAR *test_str;
 
 #define MAX_LINE_LENGTH     1000                    //  максимально допустимая длина строки файла, содержащего имена файлов и папок
 
-extern std::wstring ext;                            //  расширение файлов ссылок
-extern std::wstring document_root;
-
 extern int error;
 extern int fatal_error;                             //  priznak vyvoda soobscheniya ob oschibke

@@ -51,8 +51,13 @@ extern void do_add_folder_conf();
 extern void do_del_folder();
 extern void do_del_folder_conf();
 
-extern TCHAR str_url[];
-extern TCHAR str_name[];
+extern std::wstring DocumentRoot; 
+
+//  Работа с URL-файлами.
+extern const std::wstring Ext;
+extern const std::wstring ParamURL;
+extern const std::wstring ParamName;
+
 extern TCHAR url_file_template[];
 extern TCHAR *query;
 extern TCHAR *img_path;

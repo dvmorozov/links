@@ -315,6 +315,7 @@ namespace Bookmarks
                                     //  переход по каталогу на один уровень вверх
                                     InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
 
+                                //  вывод названия папки
                                 _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
                                 InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), _hintDelete.c_str());
                                 InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), _hintEdit.c_str());
@@ -327,9 +328,9 @@ namespace Bookmarks
                                 //  из lineptr, чтобы сохранились исходные символы !!!
                                 //  воостанавливается
                                 Bookmarks::FileReader fr(cwd);
-                                std::wstring url = fr.GetParamCurDir(lineptr, str_url);
+                                std::wstring url = fr.GetParamCurDir(lineptr, ParamURL);
 #ifdef EXTENDED_URL_FILE
-                                std::wstring name = fr.GetParamCurDir(lineptr, str_name);
+                                std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
 #endif
 
                                 if (FirstLink)
@@ -356,6 +357,7 @@ namespace Bookmarks
                                     //  ??? здесь нужна простая иконка
                                     InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("Ошибка: "));
 #ifdef EXTENDED_URL_FILE
+                                //  вывод имени ссылки
                                 if (!name.empty())
                                     _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str())
                                 else
@@ -409,7 +411,7 @@ namespace Bookmarks
             _tprintf(_T("%s = %s<br>\n"), par->c_str(), _tgetenv(par->c_str()));
 
         _tprintf(_T("HOME = %s<br>\n"), cwd);
-        _tprintf((document_root.substr(0, document_root.rfind('/')) + _T("\n")).c_str());
+        _tprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("\n")).c_str());
         _tprintf(_T("Error = %i<br>\n"), error);
 #endif
     }

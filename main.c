@@ -20,8 +20,8 @@ int main(int argc, TCHAR *argv[])
     _tprintf(_T("%s"), _T("Content-type: text/html\n\n")); //  тип контента должен передаваться до вывода страницы
     _tprintf(_T("%s"), _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n\n"));
     //  обработка запроса
-    document_root = _tgetenv(_T("DOCUMENT_ROOT"));
-    if (!document_root.size()) {
+    DocumentRoot = _tgetenv(_T("DOCUMENT_ROOT"));
+    if (!DocumentRoot.size()) {
         no_environment(_T("DOCUMENT_ROOT"));
         return 0;
     }

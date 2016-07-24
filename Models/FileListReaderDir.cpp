@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "FileListReaderDir.h"
+#include "..\Controllers\Commands.h"
 
 namespace Bookmarks
 {
@@ -19,7 +20,7 @@ namespace Bookmarks
         _tcscpy(temp_fn, _T("tempXXXXXX"));
         _tmktemp(temp_fn);
 
-        std::wstring temp = document_root.substr(0, document_root.rfind('/')) + _tmpDir + temp_fn;
+        std::wstring temp = DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _tmpDir + temp_fn;
 #ifndef LINUX
         std::replace(temp.begin(), temp.end(), '/', '\\');
 #endif

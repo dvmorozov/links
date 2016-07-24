@@ -30,11 +30,14 @@ TCHAR ok[] = _T("Ok");
 TCHAR cancel[] = _T("Cancel");
 TCHAR pict_error[] = _T("error.bmp");
 
-std::wstring ext = _T(".url");                   //  д. вкл. точку
-TCHAR str_url[] = _T("URL=");
+std::wstring DocumentRoot;
+
+//  Работа с URL-файлами.
+const std::wstring Ext = _T(".url");            //  д. вкл. точку
+const std::wstring ParamURL = _T("URL");
 
 #ifdef EXTENDED_URL_FILE
-TCHAR str_name[] = _T("Name=");
+const std::wstring ParamName = _T("Name");
 
 TCHAR url_file_template[] = _T("\n\
 [InternetShortcut]\n\
@@ -47,8 +50,6 @@ TCHAR url_file_template[] = _T("\n\
 URL=%s\n\
 ");
 #endif
-
-std::wstring document_root;
 
 int error = 0;
 int fatal_error = 0;                                                //  priznak vyvoda soobscheniya ob oschibke
@@ -323,7 +324,7 @@ void create_url_file(
     //srand((unsigned)time(NULL));
     _tsprintf(t, _T("%08x"), /*(int)rand()*/(int)time(0));
 
-    std::wstring temp = t + ext;
+    std::wstring temp = t + Ext;
 
     FILE *f = _tfopen(temp.c_str(), _T("w"));
     if (f)
@@ -371,11 +372,11 @@ void do_edit_conf()
         if (!fatal_error)
         {
             Bookmarks::FileReader fr(cwd);
-            std::wstring url = fr.GetParamCurDir(link, str_url);
+            std::wstring url = fr.GetParamCurDir(link, ParamURL);
             //  name содержит название без расширения
             std::wstring name;
 #ifdef EXTENDED_URL_FILE
-            name = fr.GetParamCurDir(link, str_name);
+            name = fr.GetParamCurDir(link, ParamName);
             if (name.empty())
 #endif
             {   // название в файле не задано или не поддерживается -
@@ -451,7 +452,7 @@ void do_edit()
                                 {
 #ifdef EXTENDED_URL_FILE
                                     Bookmarks::FileReader fr(cwd);
-                                    std::wstring url = fr.GetParamCurDir(old_name, str_url);
+                                    std::wstring url = fr.GetParamCurDir(old_name, ParamURL);
                                     //  замена файла (!!! остальная информация из файла теряется !!!)
                                     create_url_file(new_name, url.c_str());
                                     _tremove(old_name);
@@ -716,10 +717,10 @@ void do_del_conf()
         if (!fatal_error)
         {
             Bookmarks::FileReader fr(cwd);
-            std::wstring url = fr.GetParamCurDir(link, str_url);
+            std::wstring url = fr.GetParamCurDir(link, ParamURL);
             std::wstring name;
 #ifdef EXTENDED_URL_FILE
-            name = fr.GetParamCurDir(link, str_name);
+            name = fr.GetParamCurDir(link, ParamName);
             if (name.empty())name = link;
 #else
             name = link;
