@@ -90,3 +90,4 @@ extern TCHAR www_sub[];
 
 void MakeFolder(std::wstring name);
 std::wstring GetCurrentDirName();
+int HandleQuery(TCHAR* query_string, TCHAR* script_name);
