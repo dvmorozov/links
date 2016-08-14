@@ -20,7 +20,6 @@
 #define _T(string)  L##string
 
 #define _tfopen     _wfopen
-#define _tmkdir     _wmkdir
 #define _tgetenv    _wgetenv
 #define _tgetcwd    _wgetcwd
 #define _tsystem    _wsystem

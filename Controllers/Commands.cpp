@@ -830,9 +830,10 @@ void do_add_folder()
                     change_folder();
                     if (!fatal_error)
                     {
-                        _tmkdir(name);
+                        MakeFolder(name);
                         print_folder_content();
                     }
+                    else invalid_query();
                 }
                 else invalid_query();
             }
@@ -1059,6 +1060,17 @@ void out_of_memory()
     Bookmarks::Page::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
+
+std::wstring GetCurrentDirName()
+{
+    std::wstring result = www;
+    result += username;
+    result += L"/";
+    result += query;
+    return result;
+}
+
+//-------------------------------------------------------------------------------------------------
 //  переход в требуемую папку (по отношению к заданной корневой папке)
 void change_folder()
 {
@@ -1173,5 +1185,16 @@ void get_key()
     }
     else invalid_query();
     command = saved_command;
+}
+//-------------------------------------------------------------------------------------------------
+
+void MakeFolder(std::wstring name)
+{
+    //  Нужна кодировка в 1251 (CP_ACP соответ. ей, кодировку можно ук. прямо числовым значением).
+    char dirName[MAX_LINE_LENGTH];
+    WideCharToMultiByte(CP_ACP, 0, name.c_str(), -1, dirName, sizeof(dirName), NULL, NULL);
+    //  Функция работает с "узкими" символами.
+    _mkdir(dirName);
+    //_wmkdir(name.c_str());
 }
 //-------------------------------------------------------------------------------------------------

@@ -87,3 +87,6 @@ extern TCHAR *username;
 extern TCHAR *password;
 extern TCHAR http[];
 extern TCHAR www_sub[];
+
+void MakeFolder(std::wstring name);
+std::wstring GetCurrentDirName();
