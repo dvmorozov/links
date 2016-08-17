@@ -93,7 +93,7 @@ namespace Bookmarks
                 if (strlen(lineptr))
                 {
                     wchar_t wline[MAX_LINE_LENGTH];
-                    MultiByteToWideChar(CP_OEMCP, 0, lineptr, sizeof(lineptr), wline, MAX_LINE_LENGTH);
+                    MultiByteToWideChar(CP_OEMCP, 0, lineptr, -1, wline, MAX_LINE_LENGTH);
                     lines.push_back(std::wstring(wline));
                 }
 

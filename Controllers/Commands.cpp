@@ -397,7 +397,7 @@ void do_edit_conf()
             }
             else
             {
-                _tprintf(htm_edit, full_script_name, name, query, url, key, link, key);
+                _tprintf(htm_edit, full_script_name, name.c_str(), query, url.c_str(), key, link, key);
             }
         }
     }
@@ -728,7 +728,7 @@ void do_del_conf()
 #else
             name = link;
 #endif
-            _tprintf(htm_del_conf, full_script_name, name, url, query, link, key, query, link, key);
+            _tprintf(htm_del_conf, full_script_name, name.c_str(), url.c_str(), query, link, key, query, link, key);
         }
     }
     else invalid_query();

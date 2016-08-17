@@ -32,21 +32,29 @@ namespace Bookmarks
             if (!script_name.empty())
             {
                 if (!url.empty())
+                {
                     _tprintf(_T("\
-                            <a href=\"%s?%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), url.c_str(), image_path.c_str(), alt.c_str(), size, size)
+                            <a href=\"%s?%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), url.c_str(), image_path.c_str(), alt.c_str(), size, size);
+                }
                 else
+                {
                     //  передается ссылка на внешний ресурс; script_name содержит ссылку к ресурсу
                     _tprintf(_T("\
-                            <a href=\"%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), image_path.c_str(), alt.c_str(), size, size)
+                            <a href=\"%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), image_path.c_str(), alt.c_str(), size, size);
+                }
             }
             else
             {// вставляется иконка без ссылки
                 if (!url.empty()) //  в url передается дополнение к тексту, переданному через alt
+                {
                     _tprintf(_T("\
-                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), url.c_str(), size, size)
+                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), url.c_str(), size, size);
+                }
                 else
+                {
                     _tprintf(_T("\
-                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), size, size)
+                            <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), size, size);
+                }
             }
         }
     }
@@ -359,7 +367,9 @@ namespace Bookmarks
 #ifdef EXTENDED_URL_FILE
                                 //  вывод имени ссылки
                                 if (!name.empty())
-                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str())
+                                {
+                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
+                                }
                                 else
 #endif
                                 {// делаем название из имени файла без расширения

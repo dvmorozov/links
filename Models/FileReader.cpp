@@ -23,7 +23,7 @@ namespace Bookmarks
             while (fgets(lineptr, MAX_LINE_LENGTH, f))
             {
                 wchar_t wlineptr[MAX_LINE_LENGTH];
-                MultiByteToWideChar(CP_ACP, 0, lineptr, sizeof(lineptr), wlineptr, MAX_LINE_LENGTH);
+                MultiByteToWideChar(CP_ACP, 0, lineptr, -1, wlineptr, MAX_LINE_LENGTH);
                 std::wstring wline = wlineptr;
 
                 //  очистка прочитанной строки от завершающих символов новой строки
