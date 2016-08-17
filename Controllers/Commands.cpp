@@ -213,7 +213,6 @@ TCHAR rm[] = _T("rm -r -f -d ");                        //  вызов для Linux
                                                         //TCHAR rmdir[] = _T("rmdir ");
 #endif
 
-TCHAR http[] = _T("http://");
 TCHAR www[] = _T("../users/links/");                    //  путь для перехода в папку с контентом;
                                                         //  должен содержать разделитель / на конце
 TCHAR tmp[] = _T("../tmp/links/");                      //  put' dlya perehode v papku vremennyh dannyh
@@ -1213,7 +1212,9 @@ int HandleQuery(TCHAR* query_string, TCHAR* script_name)
     }
 
     query = query_string;
-
+    //  https://action.mindjet.com/task/14702859
+    //  Работаем только по HTTPS.
+    TCHAR http[] = _T("https://");
     int script_name_len = _tcslen(http);        //  полная длина пути к скрипту
                                                 //  Вместо переменной окружения использует имя домена из конфиг. файла для того, 
                                                 //  чтобы правильно уст. ссылки, когда сервер работает через SSH.

@@ -85,7 +85,6 @@ extern TCHAR *command;  //  ук-ль на переданную в запросе команду
                         //  (освобождается вместе с освобождением запроса)
 extern TCHAR *username;
 extern TCHAR *password;
-extern TCHAR http[];
 extern TCHAR www_sub[];
 
 void MakeFolder(std::wstring name);
