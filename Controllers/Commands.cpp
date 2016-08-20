@@ -729,6 +729,7 @@ void do_del_conf()
 #endif
             _tprintf(htm_del_conf, full_script_name, name.c_str(), url.c_str(), query, link, key, query, link, key);
         }
+        else invalid_query();
     }
     else invalid_query();
 }
@@ -776,6 +777,7 @@ void do_edit_folder()
                                 _trename(old_name, new_name);
                                 print_folder_content();
                             }
+                            else invalid_query();
                         }
                         else invalid_query();
                     }
@@ -1070,42 +1072,36 @@ std::wstring GetCurrentDirName()
     result += query;
     return result;
 }
-
 //-------------------------------------------------------------------------------------------------
 //  переход в требуемую папку (по отношению к заданной корневой папке)
 void change_folder()
 {
-    //  создается строка для размещения имени папки
-    int query_len = _tcslen(query);
-    TCHAR *temp = (TCHAR *)malloc((query_len + _tcslen(www) + _tcslen(username) + 2) * sizeof(TCHAR));
-
-    if (temp)
+    if (!username)
+        invalid_query();
+    else
     {
-        _tcscpy(temp, www);                 //  imya papki dannyh
-        _tcscat(temp, username);            //  imya pol'zovatelya
-        _tcscat(temp, _T("/"));
-        _tcscat(temp, query);               //  imya podpapki
+        //  создается строка имени папки
+        std::wstring temp = www;            //  imya papki dannyh
+        temp += username;                   //  imya pol'zovatelya
+        temp += _T("/");
+        temp += query;                      //  imya podpapki
                                             //  переход в запрошенную папку
-        if (-1 == _tchdir(temp))
+        if (-1 == _tchdir(temp.c_str()))
         {
             Bookmarks::Page::PrintHtmlHead(head_error);
             begin_error_box();
-            _tprintf(_T("%s%s<BR>\n"), err_change_folder, temp);
+            _tprintf(_T("%s%s<BR>\n"), err_change_folder, temp.c_str());
             fatal_error = 1;
             end_error_box();
             error = E_CHANGE_FOLDER;
             Bookmarks::Page::PrintHtmlTail();
         }
 
-        free(temp);
-
         if (cwd)free(cwd);
         cwd = (TCHAR*)_tgetcwd(0, 0);
         if (!cwd)
             out_of_memory();
     }
-    else
-        out_of_memory();
 }
 //-------------------------------------------------------------------------------------------------
 
