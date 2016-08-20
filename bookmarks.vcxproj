@@ -127,7 +127,7 @@
       <OutputFile>.\Debug/links.cgi</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\Debug/bookmarks.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>.\Debug/links.pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>

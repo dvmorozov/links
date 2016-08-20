@@ -99,6 +99,9 @@ namespace Bookmarks
 
             fclose(f);
         }
+        //  https://action.mindjet.com/task/14719680
+        //  Временный файл удаляется.
+        _tremove(fileName.c_str());
         return lines;
     }
 }

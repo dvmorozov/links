@@ -483,7 +483,7 @@ void do_edit()
                 if (get_query_command(0) == CMD_EDIT)
                 {// теперь после = новое имя ссылки
                     change_folder();
-                    if (!fatal_error)print_folder_content();
+                    print_folder_content();
                 }
                 else invalid_query();
             }
@@ -642,7 +642,7 @@ void do_add()
                             if (!fatal_error)
                             {
                                 create_url_file(name, url);
-                                if (!fatal_error)print_folder_content();
+                                print_folder_content();
                             }
                         }
                         else invalid_query();
@@ -661,7 +661,7 @@ void do_add()
                     if (get_query_command(0) == CMD_ADD)
                     {// теперь после = имя новой ссылки
                         change_folder();
-                        if (!fatal_error)print_folder_content();
+                        print_folder_content();
                     }
                     else invalid_query();
                 }
@@ -791,7 +791,7 @@ void do_edit_folder()
                 if (get_query_command(0) == CMD_EDIT_FOLDER)
                 {// теперь после = новое имя ссылки
                     change_folder();
-                    if (!fatal_error)print_folder_content();
+                    print_folder_content();
                 }
                 else invalid_query();
             }
@@ -847,7 +847,7 @@ void do_add_folder()
                 if (get_query_command(0) == CMD_ADD_FOLDER)
                 {// теперь после = имя новой ссылки
                     change_folder();
-                    if (!fatal_error)print_folder_content();
+                    print_folder_content();
                 }
                 else invalid_query();
             }
@@ -909,8 +909,7 @@ void do_del_folder_conf()
 void do_change_folder()
 {
     change_folder();
-    if (!fatal_error)
-        print_folder_content();
+    print_folder_content();
 }
 //-------------------------------------------------------------------------------------------------
 
