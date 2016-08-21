@@ -3,6 +3,7 @@
 
 #include "../main.h"
 #include "../Controllers/Commands.h"
+#include "../Models/FileReader.h"
 
 namespace Bookmarks
 {
@@ -42,12 +43,21 @@ namespace Bookmarks
     {
         _tprintf(_T("%s"), _T("<html>"));
         _tprintf(_T("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\"><meta http-equiv=\"Content-Language\" content=\"ru\">\n"));
-        _tprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\" rel=\"stylesheet\"/>\n"));
-        _tprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css\" rel=\"stylesheet\"/>\n"));
-        _tprintf(_T("<link href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css\" rel = \"stylesheet\"/>\n"));
-        _tprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\"></script>\n"));
-        _tprintf(_T("<script src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js\"></script>\n"));
-        _tprintf(_T("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\"></script>\n"));
+        _tprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\" rel=\"stylesheet\">\n"));
+        _tprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css\" rel=\"stylesheet\">\n"));
+        _tprintf(_T("<link href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css\" rel=\"stylesheet\">\n"));
+        _tprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\" type=\"text/javascript\"></script>\n"));
+        _tprintf(_T("<script src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js\" type=\"text/javascript\"></script>\n"));
+        _tprintf(_T("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\" type=\"text/javascript\"></script>\n"));
+        _tprintf(_T("<style type=\"text/css\">\
+            .trlist {\
+                border-radius: 4px;\
+                color: #2A6496;\
+            }\n\
+            .trlist:hover{\
+                background-color: #eeeeee;\
+                cursor: pointer;\
+            }</style>\n"));
         _tprintf(_T("<title> %s </title></head>\n"), title.c_str());
         _tprintf(_T("<body><br>\n"));
     }
@@ -62,25 +72,65 @@ namespace Bookmarks
         //  создается внешняя таблица, в кот. помещаются таблицы-колонки (во внеш. т. 2 колонки)
         _tprintf(_T("\n\
 <table class=\"table\">\n\
-<tr>\n\
-<th>%s\n\
-</th>\n\
-<th>%s [%s]\n\
-</th>\n\
-</tr>\n"), _T("Папки"), _T("Ссылки"), query);
-    }
-
-    void PageBootstrap::CloseInnerTable()
-    {
-        _tprintf(_T("\n\
-            </table>\n\
-        </td>"));
+    <tbody>\n\
+        <tr>\n\
+            <th>%s\n\
+            </th>\n\
+            <th>%s [%s]\n\
+            </th>\n\
+        </tr>\n"), _T("Папки"), _T("Ссылки"), query);
     }
 
     void PageBootstrap::OpenInnerTable()
     {
-        _tprintf(_T("\n\
-        <td valign=\"top\">\n\
-            <table class=\"table table-striped\">"));
+        _tprintf(_T("<tr>\n\
+            <td valign=\"top\">\n\
+                <table class=\"table table-striped\">\n\
+                    <tbody>"));
+    }
+
+    void PageBootstrap::OpenInnerTableRow()
+    {
+        _tprintf(_T("<tr class=\"trlist\">"));
+    }
+
+    //  Выводит строку со ссылкой.
+    void PageBootstrap::PrintLinkRow(TCHAR *lineptr)
+    {
+        //  !!! нужно скопировать расширение непосредственно
+        //  из lineptr, чтобы сохранились исходные символы !!!
+        //  воостанавливается
+        Bookmarks::FileReader fr(cwd);
+        std::wstring url = fr.GetParamCurDir(lineptr, ParamURL);
+#ifdef EXTENDED_URL_FILE
+        std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
+#endif
+        OpenInnerTableRow();
+
+        if (!url.empty())
+        {   //  vstavlyaetsya vneschnyaya ssylka
+            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("Ссылка"));
+        }
+        else
+            //  ??? здесь нужна простая иконка
+            InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("Ошибка: "));
+#ifdef EXTENDED_URL_FILE
+        //  вывод имени ссылки
+        if (!name.empty())
+        {
+            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
+        }
+        else
+#endif
+        {// делаем название из имени файла без расширения
+            TCHAR *dot = (TCHAR*)_tcsrchr(lineptr, '.');
+            if (dot)*dot = 0;
+            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), lineptr);
+            if (dot)*dot = '.';  //  восстановление имени файла
+        }
+        //  вставка иконок
+        InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), HintDelete.c_str());
+        InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), HintEdit.c_str());
+        CloseInnerTableRow();
     }
 }

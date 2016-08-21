@@ -133,24 +133,24 @@ namespace Bookmarks
             FirstFolder = false;
             FirstLink = true;
         }
-        else
-            OpenInnerTableRow();
+        OpenInnerTableRow();
+    }
+
+    //  ќткрывает строку внешней т. и создает €чейку дл€ вложенной таблицы.
+    void Page::OpenInnerTable()
+    {
+        _tprintf(_T("<tr>\n\
+        <td valign=\"top\">\n\
+            <table border=\"0\" cellspacing=\"0\" cellpadding=\"1\">\n\
+                <tbody>"));
     }
 
     void Page::CloseInnerTable()
     {
-        _tprintf(_T("%s"), _T("\n\
-            </table>\n\
-        </td>"));
-    }
-
-    void Page::OpenInnerTable()
-    {
-        _tprintf(_T("%s"), _T("\n\
-        <td valign=\"top\">\n\
-            <table border=\"0\" cellspacing=\"0\" cellpadding=\"1\">\n\
-                <tr>\n\
-                    <td>\n"));
+        _tprintf(_T("</tbody>\n\
+                </table>\n\
+            </td>\n\
+        </tr>"));
     }
 
     void Page::OpenInnerTableRow()
@@ -169,12 +169,20 @@ namespace Bookmarks
         //  создаетс€ внешн€€ таблица, в кот. помещаютс€ таблицы-колонки
         _tprintf(_T("\n\
 <table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n\
-<tr>\n\
-<th>%s\n\
-</th>\n\
-<th>%s [%s]\n\
-</th>\n\
-</tr>\n"), _T("ѕапки"), _T("—сылки"), query);
+    <tbody>\n\
+        <tr>\n\
+            <th>%s\n\
+            </th>\n\
+            <th>%s [%s]\n\
+            </th>\n\
+        </tr>\n"), _T("ѕапки"), _T("—сылки"), query);
+    }
+
+    void Page::CloseOuterTable()
+    {
+        _tprintf(_T("\
+    </tbody>\n\
+</table>\n"));
     }
 
     //  при вызове заголовок страницы уже выведен, поэтому
@@ -270,20 +278,20 @@ namespace Bookmarks
 
                             if (temp)
                             {
+                                //  ѕолучаем им€ верхней папки.
                                 TCHAR *up_dir;
                                 _tcscpy(temp, query);
                                 up_dir = (TCHAR*)_tcsrchr(temp, '/');
+                                //  ќбрезаетт по первому слэшу справа.
                                 if (up_dir)
-                                {
                                     *up_dir = 0;
-                                    //  переход к самому верхнему уровню каталога
-                                    InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
-                                    _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("¬¬≈–’"));
-                                    CloseInnerTableRow();
-                                }
-                                // верхн€€ папка €вл€етс€ корневой - ссылка не вставл€етс€
+
+                                //  ѕереход к самому верхнему уровню каталога (даже если верх. папка €вл. корневой).
+                                InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
+                                _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("¬¬≈–’"));
                                 free(temp);
                             }
+                            CloseInnerTableRow();
                             /*  переход к корневой папке уже вставл€етс€ выше */
                         }
                     }
@@ -325,63 +333,26 @@ namespace Bookmarks
 
                                 //  вывод названи€ папки
                                 _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
-                                InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), _hintDelete.c_str());
-                                InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), _hintEdit.c_str());
+                                InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), HintDelete.c_str());
+                                InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), HintEdit.c_str());
                                 CloseInnerTableRow();
                                 if (full_dir != lineptr)free(full_dir);
                             }
                             else
                             {
-                                //  !!! нужно скопировать расширение непосредственно
-                                //  из lineptr, чтобы сохранились исходные символы !!!
-                                //  воостанавливаетс€
-                                Bookmarks::FileReader fr(cwd);
-                                std::wstring url = fr.GetParamCurDir(lineptr, ParamURL);
-#ifdef EXTENDED_URL_FILE
-                                std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
-#endif
-
                                 if (FirstLink)
                                 {
                                     if (!FirstFolder)
                                         //  закрываем вложенную таблицу и €чейку внешней таблицы
-                                        _tprintf(_T("%s"), _T("\
-    </table>\n\
-</td>\n"));
+                                        CloseInnerTable();
                                     //  открываем €чейку внешней таблицы, создаем вложенную таблицу,
                                     //  открываем строку и €чейку вложенной таблицы
                                     OpenInnerTable();
                                     FirstLink = false;
                                     FirstFolder = true;
                                 }
-                                else
-                                    OpenInnerTableRow();
-
-                                if (!url.empty())
-                                {   //  vstavlyaetsya vneschnyaya ssylka
-                                    InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("—сылка"));
-                                }
-                                else
-                                    //  ??? здесь нужна проста€ иконка
-                                    InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("ќшибка: "));
-#ifdef EXTENDED_URL_FILE
-                                //  вывод имени ссылки
-                                if (!name.empty())
-                                {
-                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
-                                }
-                                else
-#endif
-                                {// делаем название из имени файла без расширени€
-                                    TCHAR *dot = (TCHAR*)_tcsrchr(lineptr, '.');
-                                    if (dot)*dot = 0;
-                                    _tprintf(_T("<td width=\"100%%\">%s</td>\n"), lineptr);
-                                    if (dot)*dot = '.';  //  восстановление имени файла
-                                }
-                                //  вставка иконок
-                                InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), _hintDelete.c_str());
-                                InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), _hintEdit.c_str());
-                                CloseInnerTableRow();
+                                //  ¬ыводит строку со ссылкой.
+                                PrintLinkRow(lineptr);
                             }
                         }
                     }
@@ -390,15 +361,50 @@ namespace Bookmarks
 
         if (!FirstFolder || !FirstLink)
             //  закрываетс€ вложенна€ таблица и €чейка внешней таблицы
-            _tprintf(_T("%s"), _T("\
-    </table>\n\
-</td>\n"));
+            CloseInnerTable();
         //  закрываетс€ строка внешней таблицы и внешн€€ таблица
-        _tprintf(_T("%s"), _T("\
-</tr>\n\
-</table>\n"));
+        CloseOuterTable();
     }
 
+    //  ¬ыводит строку со ссылкой.
+    void Page::PrintLinkRow(TCHAR *lineptr)
+    {
+        //  !!! нужно скопировать расширение непосредственно
+        //  из lineptr, чтобы сохранились исходные символы !!!
+        //  воостанавливаетс€
+        Bookmarks::FileReader fr(cwd);
+        std::wstring url = fr.GetParamCurDir(lineptr, ParamURL);
+#ifdef EXTENDED_URL_FILE
+        std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
+#endif
+        OpenInnerTableRow();
+
+        if (!url.empty())
+        {   //  vstavlyaetsya vneschnyaya ssylka
+            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("—сылка"));
+        }
+        else
+            //  ??? здесь нужна проста€ иконка
+            InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("ќшибка: "));
+#ifdef EXTENDED_URL_FILE
+        //  вывод имени ссылки
+        if (!name.empty())
+        {
+            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
+        }
+        else
+#endif
+        {// делаем название из имени файла без расширени€
+            TCHAR *dot = (TCHAR*)_tcsrchr(lineptr, '.');
+            if (dot)*dot = 0;
+            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), lineptr);
+            if (dot)*dot = '.';  //  восстановление имени файла
+        }
+        //  вставка иконок
+        InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), HintDelete.c_str());
+        InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), HintEdit.c_str());
+        CloseInnerTableRow();
+    }
 
     void Page::Render()
     {

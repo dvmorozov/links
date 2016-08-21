@@ -12,7 +12,10 @@ namespace Bookmarks
 
         virtual void OpenOuterTable();
         virtual void OpenInnerTable();
-        virtual void CloseInnerTable();
+        virtual void OpenInnerTableRow();
+
+        //  Выводит строку со ссылкой.
+        virtual void PrintLinkRow(TCHAR *lineptr);
 
     public:
         PageBootstrap();

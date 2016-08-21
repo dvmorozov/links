@@ -9,8 +9,6 @@ namespace Bookmarks
     private: 
         const std::wstring _hintFolder = _T("Папка");
         const std::wstring _home = _T("В НАЧАЛО");
-        const std::wstring _hintDelete = _T("Удаление");
-        const std::wstring _hintEdit = _T("Редактирование");
 
         void PrintFolders();
         std::vector<std::wstring> ReadFolders();
@@ -22,6 +20,9 @@ namespace Bookmarks
         bool FirstLink = true;
 
     protected:
+        const std::wstring HintDelete = _T("Удаление");
+        const std::wstring HintEdit = _T("Редактирование");
+
         static void Page::PrintInfo();
 
         virtual std::wstring GetImagePath(std::wstring image_file);
@@ -33,10 +34,16 @@ namespace Bookmarks
         virtual void PrintTail();
 
         virtual void OpenOuterTable();
+        virtual void CloseOuterTable();
+
         virtual void OpenInnerTable();
         virtual void CloseInnerTable();
+
         virtual void OpenInnerTableRow();
         virtual void CloseInnerTableRow();
+
+        //  Выводит строку со ссылкой.
+        virtual void PrintLinkRow(TCHAR *lineptr);
 
     public:
         Page();
