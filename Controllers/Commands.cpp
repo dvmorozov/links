@@ -357,7 +357,12 @@ void create_url_file(
 //  выводит содержимое текущей папки
 void print_folder_content()
 {
+    //  https://action.mindjet.com/task/14703903
+#ifdef LINKS_LEGACY
+    Bookmarks::Page p;
+#else
     Bookmarks::PageBootstrap p;
+#endif
     p.Render();
 }
 //-------------------------------------------------------------------------------------------------

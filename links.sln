@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bookmarks", "bookmarks.vcxproj", "{2BA97EAB-AAD1-4805-A760-B124C78B9238}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "links-legacy", "bookmarks.vcxproj", "{2BA97EAB-AAD1-4805-A760-B124C78B9238}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bookmarks_test", "..\tests\bookmarks_test.vcxproj", "{10F83340-80E2-4DF7-980C-C57E8D4D732C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "..\tests\bookmarks_test.vcxproj", "{10F83340-80E2-4DF7-980C-C57E8D4D732C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3} = {E5EDA367-145D-4C89-BA6D-E61A024D54F3}
+		{2BA97EAB-AAD1-4805-A760-B124C78B9238} = {2BA97EAB-AAD1-4805-A760-B124C78B9238}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "links", "links.vcxproj", "{E5EDA367-145D-4C89-BA6D-E61A024D54F3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2BA97EAB-AAD1-4805-A760-B124C78B9238} = {2BA97EAB-AAD1-4805-A760-B124C78B9238}
 	EndProjectSection
@@ -30,6 +36,12 @@ Global
 		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Release|Win32.ActiveCfg = Release|Win32
 		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Release|Win32.Build.0 = Release|Win32
 		{10F83340-80E2-4DF7-980C-C57E8D4D732C}.Release|x64.ActiveCfg = Release|Win32
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3}.Debug|Win32.Build.0 = Debug|Win32
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3}.Debug|x64.ActiveCfg = Debug|Win32
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3}.Release|Win32.ActiveCfg = Release|Win32
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3}.Release|Win32.Build.0 = Release|Win32
+		{E5EDA367-145D-4C89-BA6D-E61A024D54F3}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
