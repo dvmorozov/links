@@ -12,7 +12,8 @@ namespace Bookmarks
 
         virtual void OpenOuterTable();
         virtual void OpenInnerTable();
-        virtual void OpenInnerTableRow();
+        //  https://action.mindjet.com/task/14720269
+        virtual void OpenInnerTableRow(std::wstring url = L"#");
 
         //  Выводит строку со ссылкой.
         virtual void PrintLinkRow(TCHAR *lineptr);

@@ -153,7 +153,8 @@ namespace Bookmarks
         </tr>"));
     }
 
-    void Page::OpenInnerTableRow()
+    //  https://action.mindjet.com/task/14720269
+    void Page::OpenInnerTableRow(std::wstring url)
     {
         _tprintf(_T("<tr>"));
     }

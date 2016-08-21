@@ -89,9 +89,10 @@ namespace Bookmarks
                     <tbody>"));
     }
 
-    void PageBootstrap::OpenInnerTableRow()
+    //  https://action.mindjet.com/task/14720269
+    void PageBootstrap::OpenInnerTableRow(std::wstring url)
     {
-        _tprintf(_T("<tr class=\"trlist\">"));
+        _tprintf(_T("<tr class=\"trlist\" onclick=\"window.location.href='%s'\">"), url.c_str());
     }
 
     //  Выводит строку со ссылкой.
@@ -105,15 +106,9 @@ namespace Bookmarks
 #ifdef EXTENDED_URL_FILE
         std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
 #endif
-        OpenInnerTableRow();
+        //  https://action.mindjet.com/task/14720269
+        url.empty() ? OpenInnerTableRow() : OpenInnerTableRow(url);
 
-        if (!url.empty())
-        {   //  vstavlyaetsya vneschnyaya ssylka
-            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("Ссылка"));
-        }
-        else
-            //  ??? здесь нужна простая иконка
-            InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("Ошибка: "));
 #ifdef EXTENDED_URL_FILE
         //  вывод имени ссылки
         if (!name.empty())
