@@ -103,7 +103,7 @@ namespace Bookmarks
     std::vector<std::wstring> Page::ReadFolders()
     {
         Bookmarks::Data fl;
-        std::vector<Bookmarks::File> files = fl.ReadFileList();
+        FileVector files = fl.ReadFileList();
         std::vector<std::wstring> result;
         for (auto f = files.begin(); f != files.end(); ++f)
             result.push_back(f->Name);

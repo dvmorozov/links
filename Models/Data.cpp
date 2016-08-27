@@ -10,9 +10,9 @@
 
 namespace Bookmarks
 {
-    std::vector<Bookmarks::File> Data::FileList::ReadFileList()
+    FileVector Data::FileList::ReadFileList()
     {
-        std::vector<Bookmarks::File> result;
+        FileVector result;
 
         assert(Reader);
         std::vector<std::wstring> lines = Reader->GetFileList();
@@ -76,7 +76,7 @@ namespace Bookmarks
         return result;
     }
 
-    std::vector<Bookmarks::File> Data::ReadFileList()
+    FileVector Data::ReadFileList()
     {
         return Files->ReadFileList();
     }

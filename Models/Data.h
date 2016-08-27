@@ -22,6 +22,8 @@ namespace Bookmarks
         File(std::wstring name, bool isFolder, time_t dateTime, size_t size) : Name(name), IsFolder(isFolder), DateTime(dateTime), Size(size) {}
     };
 
+    typedef std::vector<File> FileVector;
+
     class Data
     {
     private:
@@ -37,13 +39,13 @@ namespace Bookmarks
                 if (Reader) delete Reader;  
             };
 
-            std::vector<Bookmarks::File> ReadFileList();
+            FileVector ReadFileList();
         };
 
         FileList *Files;
 
     public:
-        std::vector<Bookmarks::File> ReadFileList();
+        FileVector ReadFileList();
 
         Data()
         {

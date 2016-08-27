@@ -8,6 +8,7 @@
 
 namespace Bookmarks
 {
+    //  Читает содержимое текущей директории (поэтому имя дир. не передается) с пом. вызова сист. утил.
     class FileListReaderDir : public FileListReader
     {
     private:
