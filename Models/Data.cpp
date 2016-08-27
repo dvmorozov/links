@@ -14,8 +14,8 @@ namespace Bookmarks
     {
         FileVector result;
 
-        assert(Reader);
-        std::vector<std::wstring> lines = Reader->GetFileList();
+        assert(_reader);
+        std::vector<std::wstring> lines = _reader->GetFileList();
 
 #ifndef LINUX
         //  5 первых строк нужно пропустить
@@ -63,7 +63,7 @@ namespace Bookmarks
 #endif // !LINUX
         }
 
-        //  Сортировка списка.
+        //  Сортировка списка (папки вперед).
         //  https://action.mindjet.com/task/14640967
         std::sort(result.begin(), result.end(), [](File a, File b) {
             std::transform(a.Name.begin(), a.Name.end(), a.Name.begin(), (int(*)(int))std::tolower);
@@ -76,9 +76,33 @@ namespace Bookmarks
         return result;
     }
 
+    //  https://action.mindjet.com/task/14726166
+    FileVector Data::FileList::GetFileList()
+    {
+        FileVector result(_files.size());
+
+        //  Copies only files.
+        auto it = std::copy_if(_files.begin(), _files.end(), result.begin(), [](File &f) {return !f.IsFolder;});
+        result.resize(std::distance(result.begin(), it));   //  Shrink container to new size.
+
+        return result;
+    }
+
+    //  https://action.mindjet.com/task/14726166
+    FileVector Data::FileList::GetDirList()
+    {
+        FileVector result(_files.size());
+
+        //  Copies only directories.
+        auto it = std::copy_if(_files.begin(), _files.end(), result.begin(), [](File &f) {return f.IsFolder;});
+        result.resize(std::distance(result.begin(), it));   //  Shrink container to new size.
+
+        return result;
+    }
+
     FileVector Data::ReadFileList()
     {
-        return Files->ReadFileList();
+        return Files->GetFileList();
     }
 
     std::vector<std::wstring> FileListReader::ReadFile(std::wstring fileName)

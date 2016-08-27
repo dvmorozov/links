@@ -20,6 +20,7 @@ namespace Bookmarks
         size_t Size;
 
         File(std::wstring name, bool isFolder, time_t dateTime, size_t size) : Name(name), IsFolder(isFolder), DateTime(dateTime), Size(size) {}
+        File() { }
     };
 
     typedef std::vector<File> FileVector;
@@ -30,16 +31,25 @@ namespace Bookmarks
         class FileList
         {
         private:
-            FileListReader *Reader;
-
-        public:
-            FileList(FileListReader *reader) : Reader(reader) {};
-            ~FileList() 
-            { 
-                if (Reader) delete Reader;  
-            };
+            FileListReader *_reader;
+            FileVector _files;
 
             FileVector ReadFileList();
+
+        public:
+            FileList(FileListReader *reader) : _reader(reader) { 
+                _files = ReadFileList();
+            };
+            ~FileList() 
+            { 
+                if (_reader) delete _reader;  
+            };
+
+            //  https://action.mindjet.com/task/14726166
+            FileVector GetFileList();
+
+            //  https://action.mindjet.com/task/14726166
+            FileVector GetDirList();
         };
 
         FileList *Files;
