@@ -15,7 +15,7 @@ namespace Bookmarks
         FileVector result;
 
         assert(_reader);
-        std::vector<std::wstring> lines = _reader->GetFileList();
+        std::vector<std::wstring> lines = _reader->ReadFileList();
 
 #ifndef LINUX
         //  5 первых строк нужно пропустить
@@ -100,9 +100,14 @@ namespace Bookmarks
         return result;
     }
 
-    FileVector Data::ReadFileList()
+    FileVector Data::GetFileList()
     {
-        return Files->GetFileList();
+        return _files->GetFileList();
+    }
+
+    FileVector Data::GetDirList()
+    {
+        return _files->GetDirList();
     }
 
     std::vector<std::wstring> FileListReader::ReadFile(std::wstring fileName)

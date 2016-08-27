@@ -7,7 +7,7 @@
 
 namespace Bookmarks
 {
-    std::vector<std::wstring> FileListReaderDir::GetFileList()
+    std::vector<std::wstring> FileListReaderDir::ReadFileList()
     {
         std::vector<std::wstring> result;
         //  Получение имени временного файла.

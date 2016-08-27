@@ -34,6 +34,6 @@ namespace Bookmarks
         std::wstring _tmpDir = _T("/tmp/links/");
 #endif
     public:
-        virtual std::vector<std::wstring> GetFileList();
+        virtual std::vector<std::wstring> ReadFileList();
     };
 }

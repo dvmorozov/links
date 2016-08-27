@@ -16,8 +16,10 @@ namespace Bookmarks
 
         void PrintRowTag();     //  Реализует машину состояний для вывода внутр. таблиц.
 
-        bool FirstFolder = true;
-        bool FirstLink = true;
+        bool _firstFolder = true;
+        bool _firstLink = true;
+
+        Bookmarks::Data _data;
 
     protected:
         const std::wstring HintDelete = _T("Удаление");

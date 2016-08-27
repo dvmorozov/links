@@ -7,7 +7,7 @@
 
 namespace Bookmarks
 {
-    std::vector<std::wstring> FileListReaderTest::GetFileList()
+    std::vector<std::wstring> FileListReaderTest::ReadFileList()
     {
         return ReadFile(FileName);
     }

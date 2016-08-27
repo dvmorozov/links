@@ -13,7 +13,7 @@ namespace Bookmarks
         std::wstring FileName;
 
     public:
-        virtual std::vector<std::wstring> GetFileList();
+        virtual std::vector<std::wstring> ReadFileList();
 
         FileListReaderTest(std::wstring fileName) : FileName(fileName) {}
     };

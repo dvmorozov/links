@@ -52,20 +52,21 @@ namespace Bookmarks
             FileVector GetDirList();
         };
 
-        FileList *Files;
+        FileList *_files;
 
     public:
-        FileVector ReadFileList();
+        FileVector GetFileList();
+        FileVector GetDirList();
 
         Data()
         {
-            Files = new FileList(GetFileReader());
+            _files = new FileList(GetFileReader());
         }
 
         ~Data()
         {
-            if (Files) 
-                delete Files;
+            if (_files) 
+                delete _files;
         }
     };
 }

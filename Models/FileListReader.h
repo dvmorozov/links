@@ -11,7 +11,7 @@ namespace Bookmarks
         std::vector<std::wstring> ReadFile(std::wstring fileName);
 
     public:
-        virtual std::vector<std::wstring> GetFileList() = 0;
+        virtual std::vector<std::wstring> ReadFileList() = 0;
     };
 
     FileListReader *GetFileReader();

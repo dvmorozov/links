@@ -102,8 +102,7 @@ namespace Bookmarks
     //  вызывает внешнюю утилиту и читает список файлов
     std::vector<std::wstring> Page::ReadFolders()
     {
-        Bookmarks::Data fl;
-        FileVector files = fl.ReadFileList();
+        FileVector files = _data.GetFileList();
         std::vector<std::wstring> result;
         for (auto f = files.begin(); f != files.end(); ++f)
             result.push_back(f->Name);
@@ -121,17 +120,17 @@ namespace Bookmarks
     //  выводит разделитель
     void Page::PrintRowTag()
     {
-        if (FirstFolder)
+        if (_firstFolder)
         {
-            if (!FirstLink)
+            if (!_firstLink)
                 //  закрываем вложенную таблицу и €чейку внешней таблицы
                 CloseInnerTable();
 
             //  открываем €чейку внешней таблицы, создаем вложенную таблицу,
             //  открываем строку и €чейку вложенной таблицы
             OpenInnerTable();
-            FirstFolder = false;
-            FirstLink = true;
+            _firstFolder = false;
+            _firstLink = true;
         }
         OpenInnerTableRow();
     }
@@ -341,16 +340,16 @@ namespace Bookmarks
                             }
                             else
                             {
-                                if (FirstLink)
+                                if (_firstLink)
                                 {
-                                    if (!FirstFolder)
+                                    if (!_firstFolder)
                                         //  закрываем вложенную таблицу и €чейку внешней таблицы
                                         CloseInnerTable();
                                     //  открываем €чейку внешней таблицы, создаем вложенную таблицу,
                                     //  открываем строку и €чейку вложенной таблицы
                                     OpenInnerTable();
-                                    FirstLink = false;
-                                    FirstFolder = true;
+                                    _firstLink = false;
+                                    _firstFolder = true;
                                 }
                                 //  ¬ыводит строку со ссылкой.
                                 PrintLinkRow(lineptr);
@@ -360,7 +359,7 @@ namespace Bookmarks
             }
         }
 
-        if (!FirstFolder || !FirstLink)
+        if (!_firstFolder || !_firstLink)
             //  закрываетс€ вложенна€ таблица и €чейка внешней таблицы
             CloseInnerTable();
         //  закрываетс€ строка внешней таблицы и внешн€€ таблица
