@@ -102,6 +102,15 @@ namespace Bookmarks
     //  вызывает внешнюю утилиту и читает список файлов
     std::vector<std::wstring> Page::ReadFolders()
     {
+        FileVector files = _data.GetDirList();
+        std::vector<std::wstring> result;
+        for (auto f = files.begin(); f != files.end(); ++f)
+            result.push_back(f->Name);
+        return result;
+    }
+
+    std::vector<std::wstring> Page::ReadFiles()
+    {
         FileVector files = _data.GetFileList();
         std::vector<std::wstring> result;
         for (auto f = files.begin(); f != files.end(); ++f)
@@ -117,29 +126,10 @@ namespace Bookmarks
         _tprintf(_T("\n</p>\n"));
     }
 
-    //  выводит разделитель
-    void Page::PrintRowTag()
-    {
-        if (_firstFolder)
-        {
-            if (!_firstLink)
-                //  закрываем вложенную таблицу и ячейку внешней таблицы
-                CloseInnerTable();
-
-            //  открываем ячейку внешней таблицы, создаем вложенную таблицу,
-            //  открываем строку и ячейку вложенной таблицы
-            OpenInnerTable();
-            _firstFolder = false;
-            _firstLink = true;
-        }
-        OpenInnerTableRow();
-    }
-
-    //  Открывает строку внешней т. и создает ячейку для вложенной таблицы.
     void Page::OpenInnerTable()
     {
-        _tprintf(_T("<tr>\n\
-        <td valign=\"top\">\n\
+        //  Opens new cell for internal table.
+        _tprintf(_T("<td valign=\"top\">\n\
             <table border=\"0\" cellspacing=\"0\" cellpadding=\"1\">\n\
                 <tbody>"));
     }
@@ -148,8 +138,7 @@ namespace Bookmarks
     {
         _tprintf(_T("</tbody>\n\
                 </table>\n\
-            </td>\n\
-        </tr>"));
+            </td>"));
     }
 
     //  https://action.mindjet.com/task/14720269
@@ -166,7 +155,8 @@ namespace Bookmarks
 
     void Page::OpenOuterTable()
     {
-        //  создается внешняя таблица, в кот. помещаются таблицы-колонки
+        //  Creates outer table with 2 columns for folders and files.
+        //  Adds new row for internal tables.
         _tprintf(_T("\n\
 <table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n\
     <tbody>\n\
@@ -175,23 +165,19 @@ namespace Bookmarks
             </th>\n\
             <th>%s [%s]\n\
             </th>\n\
-        </tr>\n"), _T("Папки"), _T("Ссылки"), query);
+        </tr><tr>\n"), _T("Папки"), _T("Ссылки"), query);
     }
 
     void Page::CloseOuterTable()
     {
-        _tprintf(_T("\
+        //  For the first closes internal table row.
+        _tprintf(_T("</tr>\n\
     </tbody>\n\
 </table>\n"));
     }
 
-    //  при вызове заголовок страницы уже выведен, поэтому
-    //  нужно сделать работу настолько, насколько это возможно
-    void Page::PrintFolders()
+    void Page::PrintList(std::vector<std::wstring> dirs)
     {
-        OpenOuterTable();
-
-        std::vector<std::wstring> dirs = ReadFolders();
         for (std::vector<std::wstring>::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
         {
             std::wstring s = *dir;
@@ -262,108 +248,103 @@ namespace Bookmarks
                 {// переход к корневой папке закладок
                     if (_tcslen(query))
                     {
-                        PrintRowTag();
+                        OpenInnerTableRow();
                         InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), _hintFolder.c_str());
                         _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _home.c_str()/*название*/);
                         CloseInnerTableRow();
                     }
                 }
                 else
-                    if (!_tcscmp(lineptr, _T("..")))
-                    {// переход на один уровень вверх или к корневой папке закладок
-                        if (_tcslen(query))
-                        {
-                            TCHAR *temp = (TCHAR *)malloc((_tcslen(query) + 1) * sizeof(TCHAR));
-                            PrintRowTag();
-
-                            if (temp)
-                            {
-                                //  Получаем имя верхней папки.
-                                TCHAR *up_dir;
-                                _tcscpy(temp, query);
-                                up_dir = (TCHAR*)_tcsrchr(temp, '/');
-                                //  Обрезаетт по первому слэшу справа.
-                                if (up_dir)
-                                    *up_dir = 0;
-
-                                //  Переход к самому верхнему уровню каталога (даже если верх. папка явл. корневой).
-                                InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
-                                _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
-                                free(temp);
-                            }
-                            CloseInnerTableRow();
-                            /*  переход к корневой папке уже вставляется выше */
-                        }
-                    }
-                    else
-                        //  если текущий запрос не равен ".", ".." или 0, то
-                        //  строка запроса содержит имя текущей папки, которое нужно
-                        //  добавлять к именам найденных файлов для того, чтобы
-                        //  при последующем запросе произошел переход в нужную папку
+                if (!_tcscmp(lineptr, _T("..")))
+                {// переход на один уровень вверх или к корневой папке закладок
+                    if (_tcslen(query))
                     {
-                        if (_tcscmp(query, _T(".")) && _tcscmp(query, _T("..")))
+                        TCHAR *temp = (TCHAR *)malloc((_tcslen(query) + 1) * sizeof(TCHAR));
+                        OpenInnerTableRow();
+
+                        if (temp)
                         {
-                            //  извлекается URL данного модуля и создаются ссылки
-                            if (folder)
-                            {
-                                //  full_dir в результате содержит url относительно url скрипта 
-                                //  к папке или файлу - используется для создания ссылок
-                                TCHAR *full_dir = lineptr;
-                                if (_tcslen(query))
-                                {
-                                    full_dir = (TCHAR *)malloc((_tcslen(query) + _tcslen(lineptr) + 2) * sizeof(TCHAR));
-                                    if (full_dir)
-                                    {
-                                        _tcscpy(full_dir, query);
-                                        _tcscat(full_dir, _T("/"));
-                                        _tcscat(full_dir, lineptr);
-                                    }
-                                    /*
-                                    else
-                                    {// oshibka fatal'na - nichego ne vyvoditsya,
-                                    // poskol'ku zagolovok stranitsy uzhe vyveden
-                                    }
-                                    */
-                                }
+                            //  Получаем имя верхней папки.
+                            TCHAR *up_dir;
+                            _tcscpy(temp, query);
+                            up_dir = (TCHAR*)_tcsrchr(temp, '/');
+                            //  Обрезаетт по первому слэшу справа.
+                            if (up_dir)
+                                *up_dir = 0;
 
-                                PrintRowTag();
-                                if (full_dir)
-                                    //  переход по каталогу на один уровень вверх
-                                    InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
-
-                                //  вывод названия папки
-                                _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
-                                InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), HintDelete.c_str());
-                                InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), HintEdit.c_str());
-                                CloseInnerTableRow();
-                                if (full_dir != lineptr)free(full_dir);
-                            }
-                            else
-                            {
-                                if (_firstLink)
-                                {
-                                    if (!_firstFolder)
-                                        //  закрываем вложенную таблицу и ячейку внешней таблицы
-                                        CloseInnerTable();
-                                    //  открываем ячейку внешней таблицы, создаем вложенную таблицу,
-                                    //  открываем строку и ячейку вложенной таблицы
-                                    OpenInnerTable();
-                                    _firstLink = false;
-                                    _firstFolder = true;
-                                }
-                                //  Выводит строку со ссылкой.
-                                PrintLinkRow(lineptr);
-                            }
+                            //  Переход к самому верхнему уровню каталога (даже если верх. папка явл. корневой).
+                            InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
+                            _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
+                            free(temp);
                         }
+                        CloseInnerTableRow();
+                        /*  переход к корневой папке уже вставляется выше */
                     }
+                }
+                else
+                    //  если текущий запрос не равен ".", ".." или 0, то
+                    //  строка запроса содержит имя текущей папки, которое нужно
+                    //  добавлять к именам найденных файлов для того, чтобы
+                    //  при последующем запросе произошел переход в нужную папку
+                {
+                    if (_tcscmp(query, _T(".")) && _tcscmp(query, _T("..")))
+                    {
+                        //  извлекается URL данного модуля и создаются ссылки
+                        if (folder)
+                        {
+                            //  full_dir в результате содержит url относительно url скрипта 
+                            //  к папке или файлу - используется для создания ссылок
+                            TCHAR *full_dir = lineptr;
+                            if (_tcslen(query))
+                            {
+                                full_dir = (TCHAR *)malloc((_tcslen(query) + _tcslen(lineptr) + 2) * sizeof(TCHAR));
+                                if (full_dir)
+                                {
+                                    _tcscpy(full_dir, query);
+                                    _tcscat(full_dir, _T("/"));
+                                    _tcscat(full_dir, lineptr);
+                                }
+                                /*
+                                else
+                                {// oshibka fatal'na - nichego ne vyvoditsya,
+                                // poskol'ku zagolovok stranitsy uzhe vyveden
+                                }
+                                */
+                            }
+
+                            OpenInnerTableRow();
+                            if (full_dir)
+                                //  переход по каталогу на один уровень вверх
+                                InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
+
+                            //  вывод названия папки
+                            _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
+                            InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), HintDelete.c_str());
+                            InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), HintEdit.c_str());
+                            CloseInnerTableRow();
+                            if (full_dir != lineptr)free(full_dir);
+                        }
+                        else
+                            //  Выводит строку со ссылкой.
+                            PrintLinkRow(lineptr);
+                    }
+                }
             }
         }
+    }
 
-        if (!_firstFolder || !_firstLink)
-            //  закрывается вложенная таблица и ячейка внешней таблицы
-            CloseInnerTable();
-        //  закрывается строка внешней таблицы и внешняя таблица
-        CloseOuterTable();
+    void Page::PrintFolders()
+    {
+        OpenInnerTable();
+        PrintList(ReadFolders());
+        CloseInnerTable();
+    }
+
+    void Page::PrintFiles()
+    {
+        OpenInnerTable();
+        PrintList(ReadFiles());
+        CloseInnerTable();
     }
 
     //  Выводит строку со ссылкой.
@@ -406,10 +387,16 @@ namespace Bookmarks
         CloseInnerTableRow();
     }
 
+    //  при вызове заголовок страницы уже выведен, поэтому
+    //  нужно сделать работу настолько, насколько это возможно
     void Page::Render()
     {
         PrintHead(_T("Избранные Ссылки"));
+        OpenOuterTable();
         PrintFolders();
+        PrintFiles();
+        //  закрывается строка внешней таблицы и внешняя таблица
+        CloseOuterTable();
         InsertAddButtons();
         PrintTail();
     }

@@ -11,13 +11,11 @@ namespace Bookmarks
         const std::wstring _home = _T("В НАЧАЛО");
 
         void PrintFolders();
+        void PrintFiles();
+        void PrintList(std::vector<std::wstring> dirs);
         std::vector<std::wstring> ReadFolders();
+        std::vector<std::wstring> ReadFiles();
         void InsertAddButtons();
-
-        void PrintRowTag();     //  Реализует машину состояний для вывода внутр. таблиц.
-
-        bool _firstFolder = true;
-        bool _firstLink = true;
 
         Bookmarks::Data _data;
 

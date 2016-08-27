@@ -69,7 +69,6 @@ namespace Bookmarks
 
     void PageBootstrap::OpenOuterTable()
     {
-        //  создаетс€ внешн€€ таблица, в кот. помещаютс€ таблицы-колонки (во внеш. т. 2 колонки)
         _tprintf(_T("\n\
 <table class=\"table\">\n\
     <tbody>\n\
@@ -78,13 +77,12 @@ namespace Bookmarks
             </th>\n\
             <th>%s [%s]\n\
             </th>\n\
-        </tr>\n"), _T("ѕапки"), _T("—сылки"), query);
+        </tr><tr>\n"), _T("ѕапки"), _T("—сылки"), query);
     }
 
     void PageBootstrap::OpenInnerTable()
     {
-        _tprintf(_T("<tr>\n\
-            <td valign=\"top\">\n\
+        _tprintf(_T("<td valign=\"top\">\n\
                 <table class=\"table table-striped\">\n\
                     <tbody>"));
     }
