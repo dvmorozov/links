@@ -262,6 +262,14 @@ namespace Bookmarks
         CloseInnerTable();
     }
 
+    void Page::PrintFileNameWithoutExt(std::wstring fileName)
+    {
+        // делаем название из имени файла без расширения
+        auto pointPos = fileName.rfind(_T("."));
+        std::wstring fileNameWithoutExt = pointPos != std::string::npos ? fileName.substr(0, pointPos) : fileName;
+        _tprintf(_T("<td width=\"100%%\">%s</td>\n"), fileNameWithoutExt.c_str());
+    }
+
     //  Выводит строку со ссылкой.
     void Page::PrintFileRow(std::wstring fileName)
     {
@@ -290,11 +298,7 @@ namespace Bookmarks
         }
         else
 #endif
-        {// делаем название из имени файла без расширения
-            auto pointPos = fileName.rfind(_T("."));
-            std::wstring fileNameWithoutExt = pointPos != std::string::npos ? fileName.substr(0, pointPos) : fileName;
-            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), fileNameWithoutExt.c_str());
-        }
+            PrintFileNameWithoutExt(fileName);
         //  вставка иконок
         InsertRowCommandButton(cmd_del_conf, query, fileName.c_str(), _T("delete_link.bmp"), HintDelete.c_str());
         InsertRowCommandButton(cmd_edit_conf, query, fileName.c_str(), _T("edit_link.bmp"), HintEdit.c_str());

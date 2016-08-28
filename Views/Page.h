@@ -46,6 +46,7 @@ namespace Bookmarks
 
         //  Выводит строку со ссылкой.
         virtual void PrintFileRow(std::wstring fileName);
+        void PrintFileNameWithoutExt(std::wstring fileName);
 
     public:
         Page();

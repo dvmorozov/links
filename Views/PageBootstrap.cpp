@@ -94,15 +94,15 @@ namespace Bookmarks
     }
 
     //  ¬ыводит строку со ссылкой.
-    void PageBootstrap::PrintFileRow(TCHAR *lineptr)
+    void PageBootstrap::PrintFileRow(std::wstring fileName)
     {
         //  !!! нужно скопировать расширение непосредственно
         //  из lineptr, чтобы сохранились исходные символы !!!
         //  воостанавливаетс€
         Bookmarks::FileReader fr(cwd);
-        std::wstring url = fr.GetParamCurDir(lineptr, ParamURL);
+        std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
 #ifdef EXTENDED_URL_FILE
-        std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
+        std::wstring name = fr.GetParamCurDir(fileName, ParamName);
 #endif
         //  https://action.mindjet.com/task/14720269
         url.empty() ? OpenInnerTableRow() : OpenInnerTableRow(url);
@@ -115,15 +115,10 @@ namespace Bookmarks
         }
         else
 #endif
-        {// делаем название из имени файла без расширени€
-            TCHAR *dot = (TCHAR*)_tcsrchr(lineptr, '.');
-            if (dot)*dot = 0;
-            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), lineptr);
-            if (dot)*dot = '.';  //  восстановление имени файла
-        }
+            PrintFileNameWithoutExt(fileName);
         //  вставка иконок
-        InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), HintDelete.c_str());
-        InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), HintEdit.c_str());
+        InsertRowCommandButton(cmd_del_conf, query, fileName.c_str(), _T("delete_link.bmp"), HintDelete.c_str());
+        InsertRowCommandButton(cmd_edit_conf, query, fileName.c_str(), _T("edit_link.bmp"), HintEdit.c_str());
         CloseInnerTableRow();
     }
 }

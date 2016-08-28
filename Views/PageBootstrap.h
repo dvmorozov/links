@@ -16,7 +16,7 @@ namespace Bookmarks
         virtual void OpenInnerTableRow(std::wstring url = L"#");
 
         //  Выводит строку со ссылкой.
-        virtual void PrintFileRow(TCHAR *lineptr);
+        virtual void PrintFileRow(std::wstring fileName);
 
     public:
         PageBootstrap();
