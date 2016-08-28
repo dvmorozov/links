@@ -73,7 +73,7 @@ namespace Bookmarks
         _tprintf(_T("%s"), _T("</body></html>\n"));
     }
 
-    void Page::InsertRowCommandButton(TCHAR *cmd, TCHAR* dir, TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    void Page::InsertRowCommandButton(TCHAR *cmd, TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
     {
         _tprintf(_T("<td>"));
         InsertCommandButton(cmd, dir, file, image_file, hint);
@@ -87,7 +87,7 @@ namespace Bookmarks
         _tprintf(_T("</td>"));
     }
 
-    void Page::InsertCommandButton(TCHAR *cmd, TCHAR* dir, TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    void Page::InsertCommandButton(TCHAR *cmd, TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
     {
         std::wstring command;
         if (dir) command += dir;
@@ -176,7 +176,7 @@ namespace Bookmarks
 </table>\n"));
     }
 
-    void Page::PrintList(std::vector<std::wstring> dirs)
+    void Page::PrintDirList(std::vector<std::wstring> dirs)
     {
         for (std::vector<std::wstring>::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
         {
@@ -194,55 +194,6 @@ namespace Bookmarks
                 unsigned char folder = 0;
                 _tcscpy(lineptr, lineinp);
 
-                while ((lineptr[n - 1] == '\x0a') || (lineptr[n - 1] == '\x0d')
-#ifdef LINUX
-                    || (lineptr[n - 1] == '*')
-#endif
-                    ) n--;
-                lineptr[n] = 0;         //  удаляем из строки все спец. симв. => 
-                                        //  строка содержит имя файла
-#ifdef USE_CYGWIN || LINUX
-                if (lineptr[n - 1] != '/')
-                {// imya fayla
-                 //  proverka dopusimosti rasschireniya
-                    if (!(
-                        ((lineptr[n - 1] == 'l') || (lineptr[n - 1] == 'L')) &&
-                        ((lineptr[n - 2] == 'r') || (lineptr[n - 2] == 'R')) &&
-                        ((lineptr[n - 3] == 'u') || (lineptr[n - 3] == 'U')) &&
-                        (lineptr[n - 4] == '.')
-                        ))continue;
-                    //  imya fayla s rasschireniem
-                }
-                else
-                {// imay papki
-                    lineptr[n - 1] = 0;
-                    folder = 1;
-                }
-#else
-                                        //  проверка расширения
-                if ((
-                    ((lineptr[n - 1] == 'l') || (lineptr[n - 1] == 'L')) &&
-                    ((lineptr[n - 2] == 'r') || (lineptr[n - 2] == 'R')) &&
-                    ((lineptr[n - 3] == 'u') || (lineptr[n - 3] == 'U')) &&
-                    (lineptr[n - 4] == '.')
-                    ))
-                {// imya fayla s rasschireniem
-                }
-                else
-                {
-                    if ((lineptr[n - 1] == '$') && (lineptr[n - 2] == '$') &&
-                        (lineptr[n - 3] == '$') && (lineptr[n - 4] == '.'))
-                    {
-                        // imya sluzhebnogo fayla
-                        continue;
-                    }
-                    else
-                    {
-                        // imya papki
-                        folder = 1;
-                    }
-                }
-#endif
                 // для корневой папки на вставляются ссылки "ВВЕРХ" и "КОРЕНЬ"
                 if (!_tcscmp(lineptr, _T(".")))
                 {// переход к корневой папке закладок
@@ -287,76 +238,75 @@ namespace Bookmarks
                     //  добавлять к именам найденных файлов для того, чтобы
                     //  при последующем запросе произошел переход в нужную папку
                 {
-                    if (_tcscmp(query, _T(".")) && _tcscmp(query, _T("..")))
+                    //  full_dir в результате содержит url относительно url скрипта 
+                    //  к папке или файлу - используется для создания ссылок
+                    TCHAR *full_dir = lineptr;
+                    if (_tcslen(query))
                     {
-                        //  извлекается URL данного модуля и создаются ссылки
-                        if (folder)
+                        full_dir = (TCHAR *)malloc((_tcslen(query) + _tcslen(lineptr) + 2) * sizeof(TCHAR));
+                        if (full_dir)
                         {
-                            //  full_dir в результате содержит url относительно url скрипта 
-                            //  к папке или файлу - используется для создания ссылок
-                            TCHAR *full_dir = lineptr;
-                            if (_tcslen(query))
-                            {
-                                full_dir = (TCHAR *)malloc((_tcslen(query) + _tcslen(lineptr) + 2) * sizeof(TCHAR));
-                                if (full_dir)
-                                {
-                                    _tcscpy(full_dir, query);
-                                    _tcscat(full_dir, _T("/"));
-                                    _tcscat(full_dir, lineptr);
-                                }
-                                /*
-                                else
-                                {// oshibka fatal'na - nichego ne vyvoditsya,
-                                // poskol'ku zagolovok stranitsy uzhe vyveden
-                                }
-                                */
-                            }
-
-                            OpenInnerTableRow();
-                            if (full_dir)
-                                //  переход по каталогу на один уровень вверх
-                                InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
-
-                            //  вывод названия папки
-                            _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
-                            InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), HintDelete.c_str());
-                            InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), HintEdit.c_str());
-                            CloseInnerTableRow();
-                            if (full_dir != lineptr)free(full_dir);
+                            _tcscpy(full_dir, query);
+                            _tcscat(full_dir, _T("/"));
+                            _tcscat(full_dir, lineptr);
                         }
+                        /*
                         else
-                            //  Выводит строку со ссылкой.
-                            PrintLinkRow(lineptr);
+                        {// oshibka fatal'na - nichego ne vyvoditsya,
+                        // poskol'ku zagolovok stranitsy uzhe vyveden
+                        }
+                        */
                     }
+
+                    OpenInnerTableRow();
+                    if (full_dir)
+                        //  переход по каталогу на один уровень вверх
+                        InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
+
+                    //  вывод названия папки
+                    _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
+                    InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), HintDelete.c_str());
+                    InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), HintEdit.c_str());
+                    CloseInnerTableRow();
+                    if (full_dir != lineptr)free(full_dir);
                 }
             }
+        }
+    }
+
+    void Page::PrintFileList(std::vector<std::wstring> files)
+    {
+        for (std::vector<std::wstring>::iterator fileName = files.begin(); fileName != files.end(); ++fileName)
+        {
+            //  Выводит строку со ссылкой.
+            PrintFileRow(*fileName);
         }
     }
 
     void Page::PrintFolders()
     {
         OpenInnerTable();
-        PrintList(ReadFolders());
+        PrintDirList(ReadFolders());
         CloseInnerTable();
     }
 
     void Page::PrintFiles()
     {
         OpenInnerTable();
-        PrintList(ReadFiles());
+        PrintFileList(ReadFiles());
         CloseInnerTable();
     }
 
     //  Выводит строку со ссылкой.
-    void Page::PrintLinkRow(TCHAR *lineptr)
+    void Page::PrintFileRow(std::wstring fileName)
     {
         //  !!! нужно скопировать расширение непосредственно
         //  из lineptr, чтобы сохранились исходные символы !!!
         //  воостанавливается
         Bookmarks::FileReader fr(cwd);
-        std::wstring url = fr.GetParamCurDir(lineptr, ParamURL);
+        std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
 #ifdef EXTENDED_URL_FILE
-        std::wstring name = fr.GetParamCurDir(lineptr, ParamName);
+        std::wstring name = fr.GetParamCurDir(fileName, ParamName);
 #endif
         OpenInnerTableRow();
 
@@ -376,14 +326,13 @@ namespace Bookmarks
         else
 #endif
         {// делаем название из имени файла без расширения
-            TCHAR *dot = (TCHAR*)_tcsrchr(lineptr, '.');
-            if (dot)*dot = 0;
-            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), lineptr);
-            if (dot)*dot = '.';  //  восстановление имени файла
+            auto pointPos = fileName.rfind(_T("."));
+            std::wstring fileNameWithoutExt = pointPos != std::string::npos ? fileName.substr(0, pointPos) : fileName;
+            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), fileNameWithoutExt.c_str());
         }
         //  вставка иконок
-        InsertRowCommandButton(cmd_del_conf, query, lineptr, _T("delete_link.bmp"), HintDelete.c_str());
-        InsertRowCommandButton(cmd_edit_conf, query, lineptr, _T("edit_link.bmp"), HintEdit.c_str());
+        InsertRowCommandButton(cmd_del_conf, query, fileName.c_str(), _T("delete_link.bmp"), HintDelete.c_str());
+        InsertRowCommandButton(cmd_edit_conf, query, fileName.c_str(), _T("edit_link.bmp"), HintEdit.c_str());
         CloseInnerTableRow();
     }
 

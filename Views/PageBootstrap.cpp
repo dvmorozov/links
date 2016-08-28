@@ -94,7 +94,7 @@ namespace Bookmarks
     }
 
     //  ¬ыводит строку со ссылкой.
-    void PageBootstrap::PrintLinkRow(TCHAR *lineptr)
+    void PageBootstrap::PrintFileRow(TCHAR *lineptr)
     {
         //  !!! нужно скопировать расширение непосредственно
         //  из lineptr, чтобы сохранились исходные символы !!!
