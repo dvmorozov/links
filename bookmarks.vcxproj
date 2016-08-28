@@ -151,6 +151,7 @@
     <ClCompile Include="Views\PageBootstrap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="makefile" />
   </ItemGroup>
   <ItemGroup>

@@ -25,33 +25,33 @@ namespace Bookmarks
 
     typedef std::vector<File> FileVector;
 
+    class FileList
+    {
+    private:
+        FileListReader *_reader;
+        FileVector _files;
+
+        FileVector ReadFileList();
+
+    public:
+        FileList(FileListReader *reader) : _reader(reader) {
+            _files = ReadFileList();
+        };
+        ~FileList()
+        {
+            if (_reader) delete _reader;
+        };
+
+        //  https://action.mindjet.com/task/14726166
+        FileVector GetFileList();
+
+        //  https://action.mindjet.com/task/14726166
+        FileVector GetDirList();
+    };
+
     class Data
     {
     private:
-        class FileList
-        {
-        private:
-            FileListReader *_reader;
-            FileVector _files;
-
-            FileVector ReadFileList();
-
-        public:
-            FileList(FileListReader *reader) : _reader(reader) { 
-                _files = ReadFileList();
-            };
-            ~FileList() 
-            { 
-                if (_reader) delete _reader;  
-            };
-
-            //  https://action.mindjet.com/task/14726166
-            FileVector GetFileList();
-
-            //  https://action.mindjet.com/task/14726166
-            FileVector GetDirList();
-        };
-
         FileList *_files;
 
     public:

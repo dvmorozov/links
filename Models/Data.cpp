@@ -10,7 +10,7 @@
 
 namespace Bookmarks
 {
-    FileVector Data::FileList::ReadFileList()
+    FileVector FileList::ReadFileList()
     {
         FileVector result;
 
@@ -77,19 +77,24 @@ namespace Bookmarks
     }
 
     //  https://action.mindjet.com/task/14726166
-    FileVector Data::FileList::GetFileList()
+    FileVector FileList::GetFileList()
     {
         FileVector result(_files.size());
 
-        //  Copies only files.
-        auto it = std::copy_if(_files.begin(), _files.end(), result.begin(), [](File &f) {return !f.IsFolder;});
+        //  Copies only files with given extension.
+        auto it = std::copy_if(_files.begin(), _files.end(), result.begin(), [](File &f) {
+            auto nameLCase = f.Name;
+            const std::wstring ext = _T(".url");
+            std::transform(nameLCase.begin(), nameLCase.end(), nameLCase.begin(), ::tolower);
+            return !f.IsFolder && !nameLCase.compare(nameLCase.size() - ext.size(), ext.size(), ext);
+        });
         result.resize(std::distance(result.begin(), it));   //  Shrink container to new size.
 
         return result;
     }
 
     //  https://action.mindjet.com/task/14726166
-    FileVector Data::FileList::GetDirList()
+    FileVector FileList::GetDirList()
     {
         FileVector result(_files.size());
 
