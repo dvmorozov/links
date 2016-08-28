@@ -73,7 +73,7 @@ namespace Bookmarks
         _tprintf(_T("%s"), _T("</body></html>\n"));
     }
 
-    void Page::InsertRowCommandButton(TCHAR *cmd, TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    void Page::InsertRowCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
     {
         _tprintf(_T("<td>"));
         InsertCommandButton(cmd, dir, file, image_file, hint);
@@ -87,7 +87,7 @@ namespace Bookmarks
         _tprintf(_T("</td>"));
     }
 
-    void Page::InsertCommandButton(TCHAR *cmd, TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    void Page::InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
     {
         std::wstring command;
         if (dir) command += dir;
@@ -180,22 +180,10 @@ namespace Bookmarks
     {
         for (std::vector<std::wstring>::iterator dir = dirs.begin(); dir != dirs.end(); ++dir)
         {
-            std::wstring s = *dir;
-            s.resize(MAX_LINE_LENGTH - 1);
-            //  сохранение совместимости со старым способом работы
-            TCHAR lineinp[MAX_LINE_LENGTH];
-            _tcscpy(lineinp, s.c_str());
-
-            int n = _tcslen(lineinp);
-            if (n)
+            if (dir->size())
             {
-                TCHAR lineptr[MAX_LINE_LENGTH];
-                //  выводятся только имена url-файлов или имена папок
-                unsigned char folder = 0;
-                _tcscpy(lineptr, lineinp);
-
                 // для корневой папки на вставляются ссылки "ВВЕРХ" и "КОРЕНЬ"
-                if (!_tcscmp(lineptr, _T(".")))
+                if (*dir == _T("."))
                 {// переход к корневой папке закладок
                     if (_tcslen(query))
                     {
@@ -206,28 +194,21 @@ namespace Bookmarks
                     }
                 }
                 else
-                if (!_tcscmp(lineptr, _T("..")))
+                if (*dir == _T(".."))
                 {// переход на один уровень вверх или к корневой папке закладок
                     if (_tcslen(query))
                     {
-                        TCHAR *temp = (TCHAR *)malloc((_tcslen(query) + 1) * sizeof(TCHAR));
+                        std::wstring upDir = query;
                         OpenInnerTableRow();
 
-                        if (temp)
-                        {
-                            //  Получаем имя верхней папки.
-                            TCHAR *up_dir;
-                            _tcscpy(temp, query);
-                            up_dir = (TCHAR*)_tcsrchr(temp, '/');
-                            //  Обрезаетт по первому слэшу справа.
-                            if (up_dir)
-                                *up_dir = 0;
+                        //  Получаем имя верхней папки.
+                        auto slashPos = upDir.rfind(_T("/"));
+                        upDir = slashPos != std::string::npos ? upDir.substr(0, slashPos) : upDir;
 
-                            //  Переход к самому верхнему уровню каталога (даже если верх. папка явл. корневой).
-                            InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
-                            _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
-                            free(temp);
-                        }
+                        //  Переход к самому верхнему уровню каталога (даже если верх. папка явл. корневой).
+                        InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
+                        _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
+
                         CloseInnerTableRow();
                         /*  переход к корневой папке уже вставляется выше */
                     }
@@ -240,35 +221,19 @@ namespace Bookmarks
                 {
                     //  full_dir в результате содержит url относительно url скрипта 
                     //  к папке или файлу - используется для создания ссылок
-                    TCHAR *full_dir = lineptr;
-                    if (_tcslen(query))
-                    {
-                        full_dir = (TCHAR *)malloc((_tcslen(query) + _tcslen(lineptr) + 2) * sizeof(TCHAR));
-                        if (full_dir)
-                        {
-                            _tcscpy(full_dir, query);
-                            _tcscat(full_dir, _T("/"));
-                            _tcscat(full_dir, lineptr);
-                        }
-                        /*
-                        else
-                        {// oshibka fatal'na - nichego ne vyvoditsya,
-                        // poskol'ku zagolovok stranitsy uzhe vyveden
-                        }
-                        */
-                    }
-
+                    std::wstring upDir = query;
+                    upDir += _T("/");
+                    upDir += *dir;
                     OpenInnerTableRow();
-                    if (full_dir)
-                        //  переход по каталогу на один уровень вверх
-                        InsertRowCommandButton(cmd_ch_folder, full_dir/* url */, ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
+
+                    //  переход по каталогу на один уровень вверх
+                    InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
 
                     //  вывод названия папки
-                    _tprintf(_T("<td width=\"100%%\">%s</td>"), lineptr);
-                    InsertRowCommandButton(cmd_del_folder_conf, query, lineptr, _T("delete_folder.bmp"), HintDelete.c_str());
-                    InsertRowCommandButton(cmd_edit_folder_conf, query, lineptr, _T("edit_folder.bmp"), HintEdit.c_str());
+                    _tprintf(_T("<td width=\"100%%\">%s</td>"), dir->c_str());
+                    InsertRowCommandButton(cmd_del_folder_conf, upDir.c_str(), dir->c_str(), _T("delete_folder.bmp"), HintDelete.c_str());
+                    InsertRowCommandButton(cmd_edit_folder_conf, upDir.c_str(), dir->c_str(), _T("edit_folder.bmp"), HintEdit.c_str());
                     CloseInnerTableRow();
-                    if (full_dir != lineptr)free(full_dir);
                 }
             }
         }

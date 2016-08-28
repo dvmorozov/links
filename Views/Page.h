@@ -27,8 +27,8 @@ namespace Bookmarks
         static void Page::PrintInfo();
 
         virtual std::wstring GetImagePath(std::wstring image_file);
-        virtual void InsertRowCommandButton(TCHAR *cmd, TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
-        virtual void InsertCommandButton(TCHAR *cmd, TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
+        virtual void InsertRowCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
+        virtual void InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
         virtual void InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
         virtual void InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
         virtual void PrintHead(std::wstring title);
