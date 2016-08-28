@@ -14,6 +14,7 @@ namespace Bookmarks
 
     FileListReader *GetFileReader()
     {
-        return new FileListReaderTest(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\test.txt"));
+        //  The file is copied by postbuild script.
+        return new FileListReaderTest(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\test.txt"));
     }
 }
