@@ -113,6 +113,15 @@ namespace Bookmarks
         //  https://action.mindjet.com/task/14720269
         url.empty() ? OpenInnerFileTableRow() : OpenInnerFileTableRow(url);
 
+        //  The row looks better with button. The button is also clickable.
+        if (!url.empty())
+        {   //  Link button is inserted.
+            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("—сылка"));
+        }
+        else
+            //  ??? здесь нужна проста€ иконка
+            InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("ќшибка: "));
+
 #ifdef EXTENDED_URL_FILE
         //  вывод имени ссылки
         if (!name.empty())

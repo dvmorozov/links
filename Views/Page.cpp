@@ -87,7 +87,7 @@ namespace Bookmarks
         _tprintf(_T("</td>"));
     }
 
-    void Page::InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    std::wstring Page::GetCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file)
     {
         std::wstring command;
         if (dir) command += dir;
@@ -95,8 +95,17 @@ namespace Bookmarks
         if (key) command += key;
         if (cmd) command += cmd;
         if (file) command += file;
+        return command;
+    }
 
-        InsertButton(image_file, full_script_name ? full_script_name : _T(""), command, 16, hint ? hint : _T(""));
+    std::wstring Page::GetFullCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file)
+    {
+        return std::wstring(full_script_name ? full_script_name : _T("")) + _T("?") + GetCommandUrl(cmd, dir, file);
+    }
+
+    void Page::InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    {
+        InsertButton(image_file, full_script_name ? full_script_name : _T(""), GetCommandUrl(cmd, dir, file), 16, hint ? hint : _T(""));
     }
 
     //  вызывает внешнюю утилиту и читает список файлов
@@ -193,7 +202,7 @@ namespace Bookmarks
                 {// переход к корневой папке закладок
                     if (_tcslen(query))
                     {
-                        OpenInnerDirTableRow();
+                        OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */));
                         InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), _hintFolder.c_str());
                         _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _home.c_str()/*название*/);
                         CloseInnerTableRow();
@@ -205,12 +214,11 @@ namespace Bookmarks
                     if (_tcslen(query))
                     {
                         std::wstring upDir = query;
-                        OpenInnerDirTableRow();
-
                         //  Получаем имя верхней папки.
                         auto slashPos = upDir.rfind(_T("/"));
                         upDir = slashPos != std::string::npos ? upDir.substr(0, slashPos) : upDir;
 
+                        OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */));
                         //  Переход к самому верхнему уровню каталога (даже если верх. папка явл. корневой).
                         InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
                         _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
@@ -230,7 +238,7 @@ namespace Bookmarks
                     std::wstring upDir = query;
                     upDir += _T("/");
                     upDir += *dir;
-                    OpenInnerDirTableRow();
+                    OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */));
 
                     //  переход по каталогу на один уровень вверх
                     InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
