@@ -88,7 +88,13 @@ namespace Bookmarks
     }
 
     //  https://action.mindjet.com/task/14720269
-    void PageBootstrap::OpenInnerTableRow(std::wstring url)
+    void PageBootstrap::OpenInnerFileTableRow(std::wstring url)
+    {
+        _tprintf(_T("<tr class=\"trlist\" onclick=\"window.open('%s', '_blank');\">"), url.c_str());
+    }
+
+    //  https://action.mindjet.com/task/14720269
+    void PageBootstrap::OpenInnerDirTableRow(std::wstring url)
     {
         _tprintf(_T("<tr class=\"trlist\" onclick=\"window.location.href='%s'\">"), url.c_str());
     }
@@ -105,7 +111,7 @@ namespace Bookmarks
         std::wstring name = fr.GetParamCurDir(fileName, ParamName);
 #endif
         //  https://action.mindjet.com/task/14720269
-        url.empty() ? OpenInnerTableRow() : OpenInnerTableRow(url);
+        url.empty() ? OpenInnerFileTableRow() : OpenInnerFileTableRow(url);
 
 #ifdef EXTENDED_URL_FILE
         //  вывод имени ссылки

@@ -142,7 +142,13 @@ namespace Bookmarks
     }
 
     //  https://action.mindjet.com/task/14720269
-    void Page::OpenInnerTableRow(std::wstring url)
+    void Page::OpenInnerFileTableRow(std::wstring url)
+    {
+        _tprintf(_T("<tr>"));
+    }
+
+    //  https://action.mindjet.com/task/14720269
+    void Page::OpenInnerDirTableRow(std::wstring url)
     {
         _tprintf(_T("<tr>"));
     }
@@ -187,7 +193,7 @@ namespace Bookmarks
                 {// переход к корневой папке закладок
                     if (_tcslen(query))
                     {
-                        OpenInnerTableRow();
+                        OpenInnerDirTableRow();
                         InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), _hintFolder.c_str());
                         _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _home.c_str()/*название*/);
                         CloseInnerTableRow();
@@ -199,7 +205,7 @@ namespace Bookmarks
                     if (_tcslen(query))
                     {
                         std::wstring upDir = query;
-                        OpenInnerTableRow();
+                        OpenInnerDirTableRow();
 
                         //  Получаем имя верхней папки.
                         auto slashPos = upDir.rfind(_T("/"));
@@ -224,7 +230,7 @@ namespace Bookmarks
                     std::wstring upDir = query;
                     upDir += _T("/");
                     upDir += *dir;
-                    OpenInnerTableRow();
+                    OpenInnerDirTableRow();
 
                     //  переход по каталогу на один уровень вверх
                     InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
@@ -281,7 +287,7 @@ namespace Bookmarks
 #ifdef EXTENDED_URL_FILE
         std::wstring name = fr.GetParamCurDir(fileName, ParamName);
 #endif
-        OpenInnerTableRow();
+        OpenInnerFileTableRow();
 
         if (!url.empty())
         {   //  vstavlyaetsya vneschnyaya ssylka
