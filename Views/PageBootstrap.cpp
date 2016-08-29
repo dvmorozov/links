@@ -33,7 +33,7 @@ namespace Bookmarks
         };
 
         _tprintf(_T(
-                "<button type=\"button\" class=\"btn btn-default\" style=\"min-height: 34px; min-width: 40px;\" aria-label=\"%s\" onclick=\"window.location.href='%s';\">\
+                "<button type=\"button\" class=\"btn btn-default\" style=\"min-height: 34px; min-width: 40px;\" aria-label=\"%s\" onclick=\"window.location.href='%s'; if(event.stopPropagation) event.stopPropagation(); else event.cancelBubble=true;\">\
                     <span class=\"%s\" aria-hidden=\"true\"></span>\
                 </button>"
         ), (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + _T("?") + url : script_name) : _T("#")).c_str(), (styles.count(image_file) ? styles[image_file] : std::wstring()).c_str());
@@ -115,8 +115,8 @@ namespace Bookmarks
 
         //  The row looks better with button. The button is also clickable.
         if (!url.empty())
-        {   //  Link button is inserted (without actual link).
-            InsertLinkButton(_T("link.bmp"), _T(""), _T(""), 16, _T("—сылка"));
+        {   //  Link button is inserted.
+            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("—сылка"));
         }
         else
             //  ??? здесь нужна проста€ иконка
