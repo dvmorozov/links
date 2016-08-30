@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Controllers">
+      <UniqueIdentifier>{18977fb0-c7ef-46ee-8063-b2cd187384d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Views">
+      <UniqueIdentifier>{7b82a466-5f85-4a4b-9e1f-5954edcd90fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{34f91567-6b50-4095-9e8c-d29393bd44d2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Controllers\Commands.cpp">
+      <Filter>Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Views\Page.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Views\PageBootstrap.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Models\Data.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Models\FileListReaderDir.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Models\FileReader.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Controllers\Commands.h">
+      <Filter>Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\Page.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\PageBootstrap.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\View.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\Data.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileListReader.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileListReaderDir.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileReader.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\main.h" />
+  </ItemGroup>
+</Project>

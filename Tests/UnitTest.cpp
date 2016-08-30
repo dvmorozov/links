@@ -142,7 +142,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestFileReader()
         {
-            Bookmarks::FileReader fr(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk"));
+            Bookmarks::FileReader fr(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder"));
             std::wstring url = fr.GetParamCurDir(_T("57564efb.url"), ParamURL);
             std::wstring name = fr.GetParamCurDir(_T("57564efb.url"), ParamName);
 
@@ -150,8 +150,8 @@ namespace bookmarks_test
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name);
 
             Bookmarks::FileReader fr2(_T(""));
-            std::wstring url2 = fr.GetParam(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\57564efb.url"), ParamURL);
-            std::wstring name2 = fr.GetParam(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\57564efb.url"), ParamName);
+            std::wstring url2 = fr.GetParam(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\57564efb.url"), ParamURL);
+            std::wstring name2 = fr.GetParam(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\57564efb.url"), ParamName);
 
             Assert::IsTrue(_T("https://www.youtube.com/watch?v=_8v0Xs7MJLw") == url2);
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name2);

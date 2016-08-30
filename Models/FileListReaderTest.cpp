@@ -16,10 +16,10 @@ namespace Bookmarks
     {
         //  Copies test file.
         CopyFile(
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\test.txt"),
             _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\test.txt"),
+            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\test.txt"),
             FALSE
         );
-        return new FileListReaderTest(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\test.txt"));
+        return new FileListReaderTest(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\test.txt"));
     }
 }
