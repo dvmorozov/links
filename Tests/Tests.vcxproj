@@ -14,11 +14,11 @@
     <TargetName>DefaultTest</TargetName>
     <ProjectTypes>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}</ProjectTypes>
     <CLRSupport>true</CLRSupport>
-    <ProjectGuid>{10F83340-80E2-4DF7-980C-C57E8D4D732C}</ProjectGuid>
+    <ProjectGuid>{2642D6F8-A4C9-4AEE-994A-1FAA34A11C4F}</ProjectGuid>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>bookmarks_test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>test</ProjectName>
+    <ProjectName>Tests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -94,12 +94,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\trunk\Controllers\Commands.cpp" />
-    <ClCompile Include="..\trunk\Models\Data.cpp" />
-    <ClCompile Include="..\trunk\Models\FileListReaderTest.cpp" />
-    <ClCompile Include="..\trunk\Models\FileReader.cpp" />
-    <ClCompile Include="..\trunk\Views\Page.cpp" />
-    <ClCompile Include="..\trunk\Views\PageBootstrap.cpp" />
+    <ClCompile Include="..\Controllers\Commands.cpp" />
+    <ClCompile Include="..\Models\Data.cpp" />
+    <ClCompile Include="..\Models\FileListReaderTest.cpp" />
+    <ClCompile Include="..\Models\FileReader.cpp" />
+    <ClCompile Include="..\Views\Page.cpp" />
+    <ClCompile Include="..\Views\PageBootstrap.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -108,13 +108,13 @@
     <ClCompile Include="UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\trunk\Controllers\Commands.h" />
-    <ClInclude Include="..\trunk\Data\Data.h" />
-    <ClInclude Include="..\trunk\main.h" />
-    <ClInclude Include="..\trunk\Models\FileListReaderTest.h" />
-    <ClInclude Include="..\trunk\Models\FileReader.h" />
-    <ClInclude Include="..\trunk\Views\Page.h" />
-    <ClInclude Include="..\trunk\Views\PageBootstrap.h" />
+    <ClInclude Include="..\Controllers\Commands.h" />
+    <ClInclude Include="..\main.h" />
+    <ClInclude Include="..\Models\Data.h" />
+    <ClInclude Include="..\Models\FileListReader.h" />
+    <ClInclude Include="..\Models\FileListReaderTest.h" />
+    <ClInclude Include="..\Views\Page.h" />
+    <ClInclude Include="..\Views\PageBootstrap.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

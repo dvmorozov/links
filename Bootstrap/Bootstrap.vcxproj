@@ -10,11 +10,31 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Controllers\Commands.cpp" />
+    <ClCompile Include="..\main.c" />
+    <ClCompile Include="..\Models\Data.cpp" />
+    <ClCompile Include="..\Models\FileListReaderDir.cpp" />
+    <ClCompile Include="..\Models\FileReader.cpp" />
+    <ClCompile Include="..\Views\Page.cpp" />
+    <ClCompile Include="..\Views\PageBootstrap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Controllers\Commands.h" />
+    <ClInclude Include="..\main.h" />
+    <ClInclude Include="..\Models\Data.h" />
+    <ClInclude Include="..\Models\FileListReader.h" />
+    <ClInclude Include="..\Models\FileListReaderDir.h" />
+    <ClInclude Include="..\Models\FileReader.h" />
+    <ClInclude Include="..\Views\Page.h" />
+    <ClInclude Include="..\Views\PageBootstrap.h" />
+    <ClInclude Include="..\Views\View.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E5EDA367-145D-4C89-BA6D-E61A024D54F3}</ProjectGuid>
+    <ProjectGuid>{486DCF74-6ED0-43B4-9349-BB79C0A8408B}</ProjectGuid>
     <RootNamespace>bookmarks</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>bootstrap</ProjectName>
+    <ProjectName>Bootstrap</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -139,31 +159,6 @@
       <OutputFile>.\Debug/bookmarks.bsc</OutputFile>
     </Bscmake>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Controllers\Commands.cpp" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="Models\Data.cpp" />
-    <ClCompile Include="Models\FileListReaderDir.cpp" />
-    <ClCompile Include="Models\FileReader.cpp" />
-    <ClCompile Include="Views\Page.cpp" />
-    <ClCompile Include="Views\PageBootstrap.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="makefile" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Controllers\Commands.h" />
-    <ClInclude Include="Data\FileListReaderTest.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Models\Data.h" />
-    <ClInclude Include="Models\FileListReader.h" />
-    <ClInclude Include="Models\FileListReaderDir.h" />
-    <ClInclude Include="Models\FileReader.h" />
-    <ClInclude Include="Views\ContentPrinter.h" />
-    <ClInclude Include="Views\Page.h" />
-    <ClInclude Include="Views\PageBootstrap.h" />
-    <ClInclude Include="Views\View.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

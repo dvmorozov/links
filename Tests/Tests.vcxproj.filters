@@ -24,22 +24,22 @@
     <ClCompile Include="UnitTest.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\trunk\Controllers\Commands.cpp">
+    <ClCompile Include="..\Controllers\Commands.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\trunk\Models\FileListReaderTest.cpp">
+    <ClCompile Include="..\Models\FileListReaderTest.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\trunk\Models\Data.cpp">
+    <ClCompile Include="..\Views\PageBootstrap.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\trunk\Models\FileReader.cpp">
+    <ClCompile Include="..\Views\Page.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\trunk\Views\PageBootstrap.cpp">
+    <ClCompile Include="..\Models\Data.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\trunk\Views\Page.cpp">
+    <ClCompile Include="..\Models\FileReader.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,25 +50,25 @@
     <ClInclude Include="resource.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\Data\Data.h">
+    <ClInclude Include="..\Models\Data.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\main.h">
+    <ClInclude Include="..\Models\FileListReaderTest.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\Views\Page.h">
+    <ClInclude Include="..\Controllers\Commands.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\Views\PageBootstrap.h">
+    <ClInclude Include="..\main.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\Controllers\Commands.h">
+    <ClInclude Include="..\Models\FileListReader.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\Models\FileListReaderTest.h">
+    <ClInclude Include="..\Views\Page.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\trunk\Models\FileReader.h">
+    <ClInclude Include="..\Views\PageBootstrap.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,12 @@
 ﻿#include "stdafx.h"
 
-#include "..\trunk\Models\Data.h"
-#include "..\trunk\Models\FileReader.h"
-#include "..\trunk\Models\FileListReader.h"
-#include "..\trunk\Models\FileListReaderTest.h"
-#include "..\trunk\main.h"
-#include "..\trunk\Views\PageBootstrap.h"
-#include "..\trunk\Controllers\Commands.h"
+#include "..\..\trunk\Models\Data.h"
+#include "..\..\trunk\Models\FileReader.h"
+#include "..\..\trunk\Models\FileListReader.h"
+#include "..\..\trunk\Models\FileListReaderTest.h"
+#include "..\..\trunk\main.h"
+#include "..\..\trunk\Views\PageBootstrap.h"
+#include "..\..\trunk\Controllers\Commands.h"
 
 TCHAR test_out[100 * 1024];
 TCHAR *test_str = test_out;
