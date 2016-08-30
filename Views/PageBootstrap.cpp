@@ -32,11 +32,17 @@ namespace Bookmarks
             { _T("add_folder.bmp"), _T("glyphicon glyphicon-folder-open") }
         };
 
-        _tprintf(_T(
-                "<button type=\"button\" class=\"btn btn-default\" style=\"min-height: 34px; min-width: 40px;\" aria-label=\"%s\" onclick=\"window.location.href='%s'; if(event.stopPropagation) event.stopPropagation(); else event.cancelBubble=true;\">\
+        auto buttonScript = image_file == _T("link.bmp") ? 
+            //  Link is opened in new tab.
+            _T("<button type=\"button\" class=\"btn btn-default\" style=\"min-height: 34px; min-width: 40px;\" aria-label=\"%s\" onclick=\"window.open('%s', '_blank'); if(event.stopPropagation) event.stopPropagation(); else event.cancelBubble=true;\">\
                     <span class=\"%s\" aria-hidden=\"true\"></span>\
-                </button>"
-        ), (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + _T("?") + url : script_name) : _T("#")).c_str(), (styles.count(image_file) ? styles[image_file] : std::wstring()).c_str());
+                </button>")
+            :
+            _T("<button type=\"button\" class=\"btn btn-default\" style=\"min-height: 34px; min-width: 40px;\" aria-label=\"%s\" onclick=\"window.location.href='%s'; if(event.stopPropagation) event.stopPropagation(); else event.cancelBubble=true;\">\
+                    <span class=\"%s\" aria-hidden=\"true\"></span>\
+                </button>");
+
+        _tprintf(buttonScript, (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + _T("?") + url : script_name) : _T("#")).c_str(), (styles.count(image_file) ? styles[image_file] : std::wstring()).c_str());
     }
 
     void PageBootstrap::PrintHead(std::wstring title)
