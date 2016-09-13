@@ -1,5 +1,7 @@
 
 #include "Data.h"
+#include "FileReader.h"
+#include "../Controllers/Commands.h"
 #include "../main.h"
 
 #include <sstream>
@@ -10,109 +12,14 @@
 
 namespace Bookmarks
 {
-    FileVector FileList::ReadFileList()
-    {
-        FileVector result;
-
-        assert(_reader);
-        std::vector<std::wstring> lines = _reader->ReadFileList();
-
-#ifndef LINUX
-        //  5 первых строк нужно пропустить
-        lines.erase(lines.begin(), lines.begin() + 5);
-        //  дл€ Windows 2 последние строки содержат доп. инф., поэтому удал€ютс€
-        lines.pop_back();
-        lines.pop_back();
-#endif // !LINUX
-
-        for (auto l = lines.begin(); l != lines.end(); ++l)
-        {
-            std::wstring line = *l;
-#ifndef LINUX
-            //  удал€етс€ перевод строки (2 симв. на Windows)
-            line.pop_back();
-            //  https://action.mindjet.com/task/14665015
-            //  разбивка строки на набор строк
-            std::vector<std::wstring> columns;
-            std::wstringstream ss(line);
-            std::wstring column;
-            while (ss >> column)
-                columns.push_back(column);
-
-            //  разбор времени создани€ файла/папки
-            struct std::tm tm;
-            std::wstringstream dateTimeStr(columns[0] + _T(" ") + columns[1]);
-            dateTimeStr >> std::get_time(&tm, _T("%d.%m.%Y %H:%M"));
-            std::time_t dateTime = mktime(&tm);
-
-            std::wstring col2 = columns[2];
-            col2.erase(0, col2.find_first_not_of(' '));         //  prefixing spaces
-            col2.erase(col2.find_last_not_of(' ') + 1);         //  surfixing spaces
-
-            bool isFolder = col2 == _T("<DIR>");
-
-            size_t size = col2 != _T("<DIR>") ? std::stoi(col2) : 0;
-
-            std::wstring name = columns[3];
-            std::for_each(columns.begin() + 4, columns.end(), [&](std::wstring &s) { name += _T(" ") + s; });
-
-            result.push_back(File(name, isFolder, dateTime, size));
-#else
-            bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
-            result.push_back(File(line, isFolder, 0, 0));
-#endif // !LINUX
-        }
-
-        //  —ортировка списка (папки вперед).
-        //  https://action.mindjet.com/task/14640967
-        std::sort(result.begin(), result.end(), [](File a, File b) {
-            std::transform(a.Name.begin(), a.Name.end(), a.Name.begin(), (int(*)(int))std::tolower);
-            std::transform(b.Name.begin(), b.Name.end(), b.Name.begin(), (int(*)(int))std::tolower);
-            if (a.IsFolder != b.IsFolder)
-                return a.IsFolder && !b.IsFolder;
-            else
-                return a.Name < b.Name;
-        });
-        return result;
-    }
-
-    //  https://action.mindjet.com/task/14726166
-    FileVector FileList::GetFileList()
-    {
-        FileVector result(_files.size());
-
-        //  Copies only files with given extension.
-        auto it = std::copy_if(_files.begin(), _files.end(), result.begin(), [](File &f) {
-            auto nameLCase = f.Name;
-            const std::wstring ext = _T(".url");
-            std::transform(nameLCase.begin(), nameLCase.end(), nameLCase.begin(), ::tolower);
-            return !f.IsFolder && !nameLCase.compare(nameLCase.size() - ext.size(), ext.size(), ext);
-        });
-        result.resize(std::distance(result.begin(), it));   //  Shrink container to new size.
-
-        return result;
-    }
-
-    //  https://action.mindjet.com/task/14726166
-    FileVector FileList::GetDirList()
-    {
-        FileVector result(_files.size());
-
-        //  Copies only directories.
-        auto it = std::copy_if(_files.begin(), _files.end(), result.begin(), [](File &f) {return f.IsFolder;});
-        result.resize(std::distance(result.begin(), it));   //  Shrink container to new size.
-
-        return result;
-    }
-
     FileVector Data::GetFileList()
     {
-        return _files->GetFileList();
+        return _fileList->GetFileList();
     }
 
     FileVector Data::GetDirList()
     {
-        return _files->GetDirList();
+        return _fileList->GetDirList();
     }
 
     std::vector<std::wstring> FileListReader::ReadFile(std::wstring fileName)

@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="..\Controllers\Commands.cpp" />
     <ClCompile Include="..\Models\Data.cpp" />
+    <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderTest.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
     <ClCompile Include="..\Views\Page.cpp" />
@@ -111,8 +112,10 @@
     <ClInclude Include="..\Controllers\Commands.h" />
     <ClInclude Include="..\main.h" />
     <ClInclude Include="..\Models\Data.h" />
+    <ClInclude Include="..\Models\FileList.h" />
     <ClInclude Include="..\Models\FileListReader.h" />
     <ClInclude Include="..\Models\FileListReaderTest.h" />
+    <ClInclude Include="..\Models\FileReader.h" />
     <ClInclude Include="..\Views\Page.h" />
     <ClInclude Include="..\Views\PageBootstrap.h" />
     <ClInclude Include="resource.h" />

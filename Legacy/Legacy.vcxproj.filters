@@ -45,6 +45,9 @@
     <ClCompile Include="..\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Models\FileList.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\main.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileList.h">
+      <Filter>Source Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
