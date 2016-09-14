@@ -213,9 +213,7 @@ TCHAR rm[] = _T("rm -r -f -d ");                        //  вызов для Linux
                                                         //TCHAR rmdir[] = _T("rmdir ");
 #endif
 
-TCHAR www[] = _T("../users/links/");                    //  путь для перехода в папку с контентом;
-                                                        //  должен содержать разделитель / на конце
-TCHAR tmp[] = _T("../tmp/links/");                      //  put' dlya perehode v papku vremennyh dannyh
+//???
 TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
                                                         //  указывать ее явно не нужно
 TCHAR head_error[] = _T("Ошибка");
@@ -572,7 +570,8 @@ std::wstring get_key_file_name()
     static TCHAR k[11];
     _tsprintf(k, _T("%i"), (int)t);
     key = k;
-
+    //???
+    TCHAR tmp[] = _T("../tmp/links/");
     return std::wstring(tmp) + k;
 }
 
@@ -1068,10 +1067,24 @@ void out_of_memory()
     Bookmarks::Page::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
-
-std::wstring GetCurrentDirName()
+//  https://action.mindjet.com/task/14732139
+std::wstring GetFullDirName(std::wstring relDirName)
 {
-    std::wstring result = www;
+    TCHAR current_dir[_MAX_PATH];
+    _wgetcwd(current_dir, _MAX_PATH);
+
+    std::wstring result = current_dir;
+    size_t lastSlashPos = result.find_last_of(_T("\\/"));
+    if (lastSlashPos != std::wstring::npos)
+        result = result.substr(0, lastSlashPos + 1);
+    result += relDirName;
+    return result;
+}
+//-------------------------------------------------------------------------------------------------
+//  Returns path to user content folder.
+std::wstring GetUserDirName()
+{
+    std::wstring result = GetFullDirName(_T("users/links/"));
     result += username;
     result += L"/";
     result += query;
@@ -1086,11 +1099,8 @@ void change_folder()
     else
     {
         //  создается строка имени папки
-        std::wstring temp = www;            //  imya papki dannyh
-        temp += username;                   //  imya pol'zovatelya
-        temp += _T("/");
-        temp += query;                      //  imya podpapki
-                                            //  переход в запрошенную папку
+        std::wstring temp = GetUserDirName();
+        //  Changes current directory.
         if (-1 == _tchdir(temp.c_str()))
         {
             Bookmarks::Page::PrintHtmlHead(head_error);
@@ -1151,19 +1161,19 @@ void remove_folder(TCHAR *folder)
 
 void get_key()
 {
-    TCHAR *saved_command = command;     //  sohranenie
-    if (CMD_KEY == get_query_command(0)) //  udalenie klyucha iz zaprosa
+    TCHAR *saved_command = command;         //  sohranenie
+    if (CMD_KEY == get_query_command(0))    //  udalenie klyucha iz zaprosa
     {
-        TCHAR file_name[_MAX_PATH];
         FILE *f;
 
         key = (TCHAR*)_tcsrchr(command, '=');
         key++;
-        //  chteniye fayla klyucha
-        _tcscpy(file_name, tmp);
-        _tcscat(file_name, key);
-        //  proverka suschestvovaniya fayla
-        f = _tfopen(file_name, _T("r"));
+        //  Reading session key file.
+        //  https://action.mindjet.com/task/14732139
+        std::wstring fileName = GetFullDirName(_T("tmp/links/"));
+        fileName += key;
+
+        f = _tfopen(fileName.c_str(), _T("r"));
         if (f != NULL)
         {
             username = (TCHAR *)malloc(MAX_USER_NAME);

@@ -88,5 +88,6 @@ extern TCHAR *password;
 extern TCHAR www_sub[];
 
 void MakeFolder(std::wstring name);
-std::wstring GetCurrentDirName();
+std::wstring GetUserDirName();
+std::wstring GetFullDirName(std::wstring relDirName);
 int HandleQuery(TCHAR* query_string, TCHAR* script_name);

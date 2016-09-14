@@ -19,6 +19,7 @@ namespace Bookmarks
         std::vector<std::wstring> lines = _reader->ReadFileList();
 
 #ifndef LINUX
+        assert(lines.size() >= 7);
         //  5 первых строк нужно пропустить
         lines.erase(lines.begin(), lines.begin() + 5);
         //  дл€ Windows 2 последние строки содержат доп. инф., поэтому удал€ютс€

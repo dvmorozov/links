@@ -26,34 +26,6 @@ namespace bookmarks_test
     private:
         TestContext^ testContextInstance;
 
-        void PreparingTest()
-        {
-            CopyFile(
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\test.txt"),
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\test.txt"),
-                FALSE
-                );
-
-            //  Copies tests files.
-            CopyFile(
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\57564efb.url"),
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\57564efb.url"),
-                FALSE
-                );
-            CopyFile(
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\14732139\\57584c98.url"),
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\57584c98.url"),
-                FALSE
-                );
-            CopyFile(
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\14732139\\57584dec.url"),
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\57584dec.url"),
-                FALSE
-                );
-            //  https://action.mindjet.com/task/14732139
-            _tchdir(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест"));
-        }
-
     public: 
         /// <summary>
         ///Получает или устанавливает контекст теста, в котором предоставляются
@@ -96,8 +68,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestGetFileList()
         {
-            PreparingTest();
-
             FileListReader *flrt = GetFileReader();
             //  Returns all the string from file.
             std::vector<std::wstring> list = flrt->ReadFileList();
@@ -109,8 +79,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestReadFileList()
         {
-            PreparingTest();
-
             Bookmarks::Data d;
 
             FileVector files = d.GetFileList();
@@ -123,8 +91,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestFileList()
         {
-            PreparingTest();
-
             FileListReader *flrt = GetFileReader();
             Bookmarks::FileList fl(flrt);
 
@@ -138,8 +104,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestCheckNamesWithSpaces()
         {
-            PreparingTest();
-
             Bookmarks::Data d;
 
             FileVector _data = d.GetDirList();
@@ -156,8 +120,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestRenderBootstrap()
         {
-            PreparingTest();
-
             static TCHAR queryData[] = _T("http://fiteasily.com/cgi-bin/links.cgi?;log_in=lvbnhbq vjhjpjd&;log_in=dct pfrkflrb&;log_in=Ok");
             query = &queryData[0];
             cwd = _T("test");       //  Д. б. ненулевой ук-ль.
@@ -214,8 +176,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestHandleAddFolderQuery()
         {
-            PreparingTest();
-
             TCHAR query[] = L"Estate%3Badd_folder=%D2%E5%F1%F2&%3Bkey%3D1471160335%3Badd_folder=Ok";
             HandleQuery(query, L"/cgi-bin/links.cgi");
         }
@@ -223,8 +183,6 @@ namespace bookmarks_test
         [TestMethod]
         void TestHandleDeleteLinkQuery()
         {
-            PreparingTest();
-
             TCHAR query[] = L"Estate/%CF%F0%E0%E3%E0;key=1471160335;del_conf=57b2edc6.url";
             HandleQuery(query, L"/cgi-bin/links.cgi");
         }
@@ -233,16 +191,16 @@ namespace bookmarks_test
         //  https://action.mindjet.com/task/14732139
         void TestDeleteDuplicates()
         {
-            PreparingTest();
+            //  Copies files to the test directory.
+            FileListReader *flrt = GetFileReader();
             //  Overwriting test file.
             CopyFile(
                 _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\14732139\\test.txt"),
                 _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\test.txt"),
                 FALSE
-                );
+            );
+            _tchdir(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест"));
 
-            //  Copies files to the test directory.
-            FileListReader *flrt = GetFileReader();
             FileList fl(flrt);
             auto fileListBefore = fl.GetFileList();
             Assert::AreEqual((UInt32)3, fileListBefore.size());
