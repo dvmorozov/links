@@ -141,7 +141,7 @@ namespace Bookmarks
         {
             if (it->GetDeleteMark())
             {
-                _tremove(it->FileName.c_str());
+                _wremove(it->FileName.c_str());
                 auto seqNum = it->GetSeqNum();
                 //  Removes data from main file list.
                 auto erased = std::find_if(_fileList.begin(), _fileList.end(), [seqNum](const File &f) {

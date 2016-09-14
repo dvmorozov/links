@@ -213,9 +213,6 @@ TCHAR rm[] = _T("rm -r -f -d ");                        //  вызов для Linux
                                                         //TCHAR rmdir[] = _T("rmdir ");
 #endif
 
-//???
-TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
-                                                        //  указывать ее явно не нужно
 TCHAR head_error[] = _T("Ошибка");
 
 TCHAR err_change_folder[] = _T("Невозможно перейти в папку: ");
@@ -246,7 +243,7 @@ void PrintHtmlTail();
 //  '+' заменяются на пробелы
 void process_query(unsigned char delete_spaces)
 {
-    int query_len = _tcslen(query);
+    int query_len = wcslen(query);
     TCHAR *temp = (TCHAR *)malloc((query_len + 1) * sizeof(TCHAR));
     if (temp)
     {
@@ -265,7 +262,7 @@ void process_query(unsigned char delete_spaces)
         //  '+' заменяются на пробелы
         if (delete_spaces)
         {
-            while (ptr = (TCHAR*)_tcschr(ptr, '+'))
+            while (ptr = (TCHAR*)wcschr(ptr, '+'))
             {
                 *ptr = ' ';
                 ptr++;
@@ -274,7 +271,7 @@ void process_query(unsigned char delete_spaces)
 
         ptr = query;
         //  преобразование символов, заданных с пом. кодов
-        while (ptr = (TCHAR*)_tcschr(ptr, '%'))
+        while (ptr = (TCHAR*)wcschr(ptr, '%'))
         {
             if ((int)(ptr - query) <= query_len - 3)
             {
@@ -290,16 +287,16 @@ void process_query(unsigned char delete_spaces)
 
                 saved = *ptr;
                 *ptr = 0;
-                _tcscat(temp, prev_ptr);
+                wcscat(temp, prev_ptr);
                 *ptr = saved;
 
-                _tcscat(temp, wstr);
+                wcscat(temp, wstr);
                 ptr += 3;
                 prev_ptr = ptr;
             }
             else break;
         }
-        _tcscat(temp, prev_ptr);            //  дописываем остаток строки
+        wcscat(temp, prev_ptr);            //  дописываем остаток строки
 
         query = temp;                       //  пред. ук-ль не освобождается,
                                             //  поскольку получен через getenv
@@ -322,27 +319,27 @@ void create_url_file(
     //  tmktemp оказалось, что эти названия часто повторялись
     TCHAR t[9];
     //srand((unsigned)time(NULL));
-    _tsprintf(t, _T("%08x"), /*(int)rand()*/(int)time(0));
+    swprintf(t, _T("%08x"), /*(int)rand()*/(int)time(0));
 
     std::wstring temp = t + Ext;
 
-    FILE *f = _tfopen(temp.c_str(), _T("w"));
+    FILE *f = _wfopen(temp.c_str(), _T("w"));
     if (f)
     {
-        _ftprintf(f, url_file_template, url, name);
+        fwprintf(f, url_file_template, url, name);
         fclose(f);
     }
 #else
-    TCHAR *full_file_name = malloc((_tcslen(name) + _tcslen(ext) + 1) * sizeof(TCHAR));
+    TCHAR *full_file_name = malloc((wcslen(name) + wcslen(ext) + 1) * sizeof(TCHAR));
     if (full_file_name)
     {
-        _tcscpy(full_file_name, name);
-        _tcscat(full_file_name, ext);
+        wcscpy(full_file_name, name);
+        wcscat(full_file_name, ext);
         {
-            FILE *f = _tfopen(full_file_name, _T("w"));
+            FILE *f = _wfopen(full_file_name, _T("w"));
             if (f)
             {
-                _ftprintf(f, url_file_template, url);
+                fwprintf(f, url_file_template, url);
                 fclose(f);
             }
         }
@@ -369,7 +366,7 @@ void do_edit_conf()
 {
     //  command здесь не д.б. = 0
     //  link содержит имя файла
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
@@ -389,7 +386,7 @@ void do_edit_conf()
                 TCHAR *dot;
 
                 name = link;
-                dot = (TCHAR*)_tcsrchr(link, '.');
+                dot = (TCHAR*)wcsrchr(link, '.');
                 if (dot)
                 {
                     *dot = 0;
@@ -409,27 +406,27 @@ void do_edit_conf()
 void do_edit()
 {
     //  command здесь не д.б. = 0
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
-        if (!_tcscmp(link, ok))
+        if (!wcscmp(link, ok))
         {
             if (get_query_command(0) == CMD_EDIT)
             {// теперь после = старое имя ссылки
-                TCHAR *old_name = (TCHAR*)_tcschr(command, '=');
+                TCHAR *old_name = (TCHAR*)wcschr(command, '=');
                 if (old_name)
                 {
                     old_name++;
                     if (get_query_command(0) == CMD_EDIT)
                     {// теперь после = новое имя ссылки (без расширения)
-                        TCHAR *new_name = (TCHAR*)_tcschr(command, '=');
+                        TCHAR *new_name = (TCHAR*)wcschr(command, '=');
                         if (new_name)
                         {
 #ifdef EXTENDED_URL_FILE
                             TCHAR *and;
                             new_name++;
-                            if (and = (TCHAR*)_tcsrchr(new_name, '&'))*and = 0;
+                            if (and = (TCHAR*)wcsrchr(new_name, '&'))*and = 0;
 #else
                             TCHAR *and;
                             TCHAR *dot;
@@ -437,15 +434,15 @@ void do_edit()
                             new_name++;
                             new_name_ext = new_name;
                             //  из нового имени нужно удалить символ &
-                            if (and = (TCHAR*)_tcsrchr(new_name, '&'))*and = 0;
+                            if (and = (TCHAR*)wcsrchr(new_name, '&'))*and = 0;
                             //  нужно соединить новое имя со старым расширением
-                            if (dot = (TCHAR*)_tcsrchr(old_name, '.'))
+                            if (dot = (TCHAR*)wcsrchr(old_name, '.'))
                             {// есть расширение
-                                new_name_ext = malloc((_tcslen(new_name) + _tcslen(dot) + 1) * sizeof(TCHAR));
+                                new_name_ext = malloc((wcslen(new_name) + wcslen(dot) + 1) * sizeof(TCHAR));
                                 if (new_name_ext)
                                 {
-                                    _tcscpy(new_name_ext, new_name);
-                                    _tcscat(new_name_ext, dot);
+                                    wcscpy(new_name_ext, new_name);
+                                    wcscat(new_name_ext, dot);
                                 }
                                 else out_of_memory();
                             }
@@ -460,10 +457,10 @@ void do_edit()
                                     std::wstring url = fr.GetParamCurDir(old_name, ParamURL);
                                     //  замена файла (!!! остальная информация из файла теряется !!!)
                                     create_url_file(new_name, url.c_str());
-                                    _tremove(old_name);
+                                    _wremove(old_name);
 #else
                                     //  переименование
-                                    _trename(old_name, new_name_ext);
+                                    _wrename(old_name, new_name_ext);
 #endif
                                     print_folder_content();
                                 }
@@ -481,7 +478,7 @@ void do_edit()
             else invalid_query();
         }
         else
-            if (!_tcscmp(link, cancel))
+            if (!wcscmp(link, cancel))
             {// в этой подкоманде старое имя ссылки сокращено
                 if (get_query_command(0) == CMD_EDIT)
                 {// теперь после = новое имя ссылки
@@ -512,33 +509,33 @@ check_log_in_result check_log_in_params()
 {
     //  command здесь не д.б. = 0
     //  komanda nahoditsya za =
-    TCHAR *link = (TCHAR*)_tcsrchr(query, '=');
+    TCHAR *link = (TCHAR*)wcsrchr(query, '=');
     if (link)
     {
         link++;
-        if (!_tcscmp(link, ok))
+        if (!wcscmp(link, ok))
         {   //  izvlekaetsya sleduyuschaya chast' stroki - parol'
             if (get_query_command(0) == CMD_LOG_IN)
             {// teper' posle = parol'
-                if (password = (TCHAR*)_tcsrchr(query, '='))
+                if (password = (TCHAR*)wcsrchr(query, '='))
                 {
                     TCHAR *and;
                     password++;
                     //  iz password nuzhno udalit' simvol &
-                    if (and = (TCHAR*)_tcschr(password, '&'))*and = 0;
+                    if (and = (TCHAR*)wcschr(password, '&'))*and = 0;
                     //  Удаляет остаток параметра-пароля.
                     if (get_query_command(0) == CMD_LOG_IN)
                     {// teper' posle = imya pol'zovatelya
-                        if (username = (TCHAR*)_tcsrchr(query, '='))
+                        if (username = (TCHAR*)wcsrchr(query, '='))
                         {
                             username++;
                             // из имени нужно удалить символ &
-                            if (and = (TCHAR*)_tcsrchr(username, '&'))*and = 0;
+                            if (and = (TCHAR*)wcsrchr(username, '&'))*and = 0;
                             //  Удаляет остаток параметра-имени.
                             if (get_query_command(0) == CMD_LOG_IN)
                             {
                                 // proverka imeni pol'zovatelya i parolya
-                                if (!_tcscmp(username, _T("lvbnhbq vjhjpjd")) && !_tcscmp(password, _T("dct pfrkflrb")))
+                                if (!wcscmp(username, _T("lvbnhbq vjhjpjd")) && !wcscmp(password, _T("dct pfrkflrb")))
                                 {
                                     return nullptr;
                                 }
@@ -567,7 +564,7 @@ std::wstring getKeyFileName()
     time(&t);
     //  Д. б. статическим.
     static TCHAR k[11];
-    _tsprintf(k, _T("%i"), (int)t);
+    swprintf(k, _T("%i"), (int)t);
     key = k;
     return GetTmpDirName() + k;
 }
@@ -581,24 +578,24 @@ void do_log_in()
         std::wstring file_name = getKeyFileName();
         FILE *f;
         //  proverka suschestvovaniya fayla
-        f = _tfopen(file_name.c_str(), _T("r"));
+        f = _wfopen(file_name.c_str(), _T("r"));
         if (f != NULL) do_log_in_conf(); //  trebuetsya povtornyi vvod -
                                          //  drugaya kopiya skripta uzhe
                                          //  sozdala fayl
         else
         {
-            f = _tfopen(file_name.c_str(), _T("w"));
+            f = _wfopen(file_name.c_str(), _T("w"));
             if (f != NULL)
             {
-                if (_tcslen(username) > MAX_USER_NAME - 1)
+                if (wcslen(username) > MAX_USER_NAME - 1)
                 {
                     fclose(f);
-                    _tremove(file_name.c_str());
+                    _wremove(file_name.c_str());
                     out_of_memory();
                 }
                 else
                 {
-                    _ftprintf(f, _T("%s\r\n"), username);
+                    fwprintf(f, _T("%s\r\n"), username);
                     fclose(f);
                     do_change_folder();
                 }
@@ -613,30 +610,30 @@ void do_log_in()
 void do_add()
 {
     //  command здесь не д.б. = 0
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
-        if (!_tcscmp(link, ok))
+        if (!wcscmp(link, ok))
         {
             if (get_query_command(0) == CMD_ADD)
             {// теперь после = url новой ссылки
-                TCHAR *url = (TCHAR*)_tcschr(command, '=');
+                TCHAR *url = (TCHAR*)wcschr(command, '=');
                 if (url)
                 {
                     TCHAR *and;
                     url++;
                     //  из нового url нужно удалить символ &
-                    if (and = (TCHAR*)_tcsrchr(url, '&'))*and = 0;
+                    if (and = (TCHAR*)wcsrchr(url, '&'))*and = 0;
 
                     if (get_query_command(0) == CMD_ADD)
                     {// теперь после = имя новой ссылки (без расширения)
-                        TCHAR *name = (TCHAR*)_tcschr(command, '=');
+                        TCHAR *name = (TCHAR*)wcschr(command, '=');
                         if (name)
                         {
                             name++;
                             //  из имени нужно удалить символ &
-                            if (and = (TCHAR*)_tcsrchr(name, '&'))*and = 0;
+                            if (and = (TCHAR*)wcsrchr(name, '&'))*and = 0;
                             // переход в папку и создание файла .url
                             change_folder();
                             if (!fatal_error)
@@ -654,7 +651,7 @@ void do_add()
             else invalid_query();
         }
         else
-            if (!_tcscmp(link, cancel))
+            if (!wcscmp(link, cancel))
             {
                 if (get_query_command(0) == CMD_ADD)
                 {// теперь после = url новой ссылки
@@ -676,22 +673,22 @@ void do_add()
 void do_del()
 {
     //  распознавание результата
-    TCHAR *result = (TCHAR*)_tcschr(command, '=');
+    TCHAR *result = (TCHAR*)wcschr(command, '=');
     if (result)
     {
         if (get_query_command(0) == CMD_DEL)
         {// теперь после = имя папки
-            if (!_tcsncmp(result + 1, ok, _tcslen(ok)))
+            if (!wcsncmp(result + 1, ok, wcslen(ok)))
             {
                 change_folder();
                 if (!fatal_error)
                 {
-                    result = (TCHAR*)_tcschr(command, '=');
+                    result = (TCHAR*)wcschr(command, '=');
                     if (result)
                     {
                         result++;
                         // удаление ссылки - в result - имя файла
-                        _tremove(result);
+                        _wremove(result);
                         print_folder_content();
                     }
                 }
@@ -711,7 +708,7 @@ void do_del_conf()
 {
     //  command здесь не д.б. = 0
     //  искать надо вправо от command
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
@@ -737,7 +734,7 @@ void do_del_conf()
 
 void do_edit_folder_conf()
 {
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
@@ -748,33 +745,33 @@ void do_edit_folder_conf()
 void do_edit_folder()
 {
     //  command здесь не д.б. = 0
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
-        if (!_tcscmp(link, ok))
+        if (!wcscmp(link, ok))
         {
             if (get_query_command(0) == CMD_EDIT_FOLDER)
             {// теперь после = старое имя папки
-                TCHAR *old_name = (TCHAR*)_tcschr(command, '=');
+                TCHAR *old_name = (TCHAR*)wcschr(command, '=');
                 if (old_name)
                 {
                     old_name++;
                     if (get_query_command(0) == CMD_EDIT_FOLDER)
                     {// теперь после = новое имя папки
-                        TCHAR *new_name = (TCHAR*)_tcschr(command, '=');
+                        TCHAR *new_name = (TCHAR*)wcschr(command, '=');
                         if (new_name)
                         {
                             TCHAR *and;
                             new_name++;
                             //  из нового имени нужно удалить символ &
-                            if (and = (TCHAR*)_tcsrchr(new_name, '&'))*and = 0;
+                            if (and = (TCHAR*)wcsrchr(new_name, '&'))*and = 0;
 
                             // переход в папку и переименование файла
                             change_folder();
                             if (!fatal_error)
                             {// переименование
-                                _trename(old_name, new_name);
+                                _wrename(old_name, new_name);
                                 print_folder_content();
                             }
                             else invalid_query();
@@ -788,7 +785,7 @@ void do_edit_folder()
             else invalid_query();
         }
         else
-            if (!_tcscmp(link, cancel))
+            if (!wcscmp(link, cancel))
             {// в этой подкоманде старое имя ссылки сокращено
                 if (get_query_command(0) == CMD_EDIT_FOLDER)
                 {// теперь после = новое имя ссылки
@@ -815,21 +812,21 @@ void do_add_folder_conf()
 void do_add_folder()
 {
     //  command здесь не д.б. = 0
-    TCHAR *link = (TCHAR*)_tcschr(command, '=');
+    TCHAR *link = (TCHAR*)wcschr(command, '=');
     if (link)
     {
         link++;
-        if (!_tcscmp(link, ok))
+        if (!wcscmp(link, ok))
         {
             if (get_query_command(0) == CMD_ADD_FOLDER)
             {// теперь после = имя новой папки
-                TCHAR *name = (TCHAR*)_tcschr(command, '=');
+                TCHAR *name = (TCHAR*)wcschr(command, '=');
                 if (name)
                 {
                     TCHAR *and;
                     name++;
                     //  из имени нужно удалить символ &
-                    if (and = (TCHAR*)_tcsrchr(name, '&'))*and = 0;
+                    if (and = (TCHAR*)wcsrchr(name, '&'))*and = 0;
                     // переход в папку и создание файла .url
                     change_folder();
                     if (!fatal_error)
@@ -844,7 +841,7 @@ void do_add_folder()
             else invalid_query();
         }
         else
-            if (!_tcscmp(link, cancel))
+            if (!wcscmp(link, cancel))
             {
                 if (get_query_command(0) == CMD_ADD_FOLDER)
                 {// теперь после = имя новой ссылки
@@ -862,17 +859,17 @@ void do_add_folder()
 void do_del_folder()
 {
     //  распознавание результата
-    TCHAR *result = (TCHAR*)_tcschr(command, '=');
+    TCHAR *result = (TCHAR*)wcschr(command, '=');
     if (result)
     {
-        if (!_tcsncmp(result + 1, ok, _tcslen(ok)))
+        if (!wcsncmp(result + 1, ok, wcslen(ok)))
         {
             if (get_query_command(0) == CMD_DEL_FOLDER)
             {// теперь после = имя папки
                 change_folder();
                 if (!fatal_error)
                 {
-                    result = (TCHAR*)_tcschr(command, '=');
+                    result = (TCHAR*)wcschr(command, '=');
                     if (result)
                     {
                         result++;
@@ -898,7 +895,7 @@ void do_del_folder()
 void do_del_folder_conf()
 {
     //  command здесь не д.б. = 0
-    TCHAR *folder = (TCHAR*)_tcschr(command, '=');
+    TCHAR *folder = (TCHAR*)wcschr(command, '=');
     if (folder)
     {
         folder++;
@@ -918,35 +915,35 @@ void do_change_folder()
 int recognize_command(TCHAR *command/*команда без ;*/)
 {
     int result;
-    if (!_tcsncmp(command, cmd_edit + 1, _tcslen(cmd_edit) - 1)) { result = CMD_EDIT; }
+    if (!wcsncmp(command, cmd_edit + 1, wcslen(cmd_edit) - 1)) { result = CMD_EDIT; }
     else
-        if (!_tcsncmp(command, cmd_edit_conf + 1, _tcslen(cmd_edit_conf) - 1)) { result = CMD_EDIT_CONF; }
+        if (!wcsncmp(command, cmd_edit_conf + 1, wcslen(cmd_edit_conf) - 1)) { result = CMD_EDIT_CONF; }
         else
-            if (!_tcsncmp(command, cmd_add + 1, _tcslen(cmd_add) - 1)) { result = CMD_ADD; }
+            if (!wcsncmp(command, cmd_add + 1, wcslen(cmd_add) - 1)) { result = CMD_ADD; }
             else
-                if (!_tcsncmp(command, cmd_log_in + 1, _tcslen(cmd_log_in) - 1)) { result = CMD_LOG_IN; }
+                if (!wcsncmp(command, cmd_log_in + 1, wcslen(cmd_log_in) - 1)) { result = CMD_LOG_IN; }
                 else
-                    if (!_tcsncmp(command, cmd_add_conf + 1, _tcslen(cmd_add_conf) - 1)) { result = CMD_ADD_CONF; }
+                    if (!wcsncmp(command, cmd_add_conf + 1, wcslen(cmd_add_conf) - 1)) { result = CMD_ADD_CONF; }
                     else
-                        if (!_tcsncmp(command, cmd_del_conf + 1, _tcslen(cmd_del_conf) - 1)) { result = CMD_DEL_CONF; }
+                        if (!wcsncmp(command, cmd_del_conf + 1, wcslen(cmd_del_conf) - 1)) { result = CMD_DEL_CONF; }
                         else
-                            if (!_tcsncmp(command, cmd_del + 1, _tcslen(cmd_del) - 1)) { result = CMD_DEL; }
+                            if (!wcsncmp(command, cmd_del + 1, wcslen(cmd_del) - 1)) { result = CMD_DEL; }
                             else
-                                if (!_tcsncmp(command, cmd_edit_folder + 1, _tcslen(cmd_edit_folder) - 1)) { result = CMD_EDIT_FOLDER; }
+                                if (!wcsncmp(command, cmd_edit_folder + 1, wcslen(cmd_edit_folder) - 1)) { result = CMD_EDIT_FOLDER; }
                                 else
-                                    if (!_tcsncmp(command, cmd_edit_folder_conf + 1, _tcslen(cmd_edit_folder_conf) - 1)) { result = CMD_EDIT_FOLDER_CONF; }
+                                    if (!wcsncmp(command, cmd_edit_folder_conf + 1, wcslen(cmd_edit_folder_conf) - 1)) { result = CMD_EDIT_FOLDER_CONF; }
                                     else
-                                        if (!_tcsncmp(command, cmd_add_folder + 1, _tcslen(cmd_add_folder) - 1)) { result = CMD_ADD_FOLDER; }
+                                        if (!wcsncmp(command, cmd_add_folder + 1, wcslen(cmd_add_folder) - 1)) { result = CMD_ADD_FOLDER; }
                                         else
-                                            if (!_tcsncmp(command, cmd_add_folder_conf + 1, _tcslen(cmd_add_folder_conf) - 1)) { result = CMD_ADD_FOLDER_CONF; }
+                                            if (!wcsncmp(command, cmd_add_folder_conf + 1, wcslen(cmd_add_folder_conf) - 1)) { result = CMD_ADD_FOLDER_CONF; }
                                             else
-                                                if (!_tcsncmp(command, cmd_del_folder_conf + 1, _tcslen(cmd_del_folder_conf) - 1)) { result = CMD_DEL_FOLDER_CONF; }
+                                                if (!wcsncmp(command, cmd_del_folder_conf + 1, wcslen(cmd_del_folder_conf) - 1)) { result = CMD_DEL_FOLDER_CONF; }
                                                 else
-                                                    if (!_tcsncmp(command, cmd_ch_folder + 1, _tcslen(cmd_ch_folder) - 1)) { result = CMD_CHANGE_FOLDER; }
+                                                    if (!wcsncmp(command, cmd_ch_folder + 1, wcslen(cmd_ch_folder) - 1)) { result = CMD_CHANGE_FOLDER; }
                                                     else
-                                                        if (!_tcsncmp(command, cmd_del_folder + 1, _tcslen(cmd_del_folder) - 1)) { result = CMD_DEL_FOLDER; }
+                                                        if (!wcsncmp(command, cmd_del_folder + 1, wcslen(cmd_del_folder) - 1)) { result = CMD_DEL_FOLDER; }
                                                         else
-                                                            if (!_tcsncmp(command, cmd_key + 1, _tcslen(cmd_key) - 1)) { result = CMD_KEY; }
+                                                            if (!wcsncmp(command, cmd_key + 1, wcslen(cmd_key) - 1)) { result = CMD_KEY; }
                                                             else { invalid_query(); result = CMD_UNKNOWN; }
                                                             return result;
 }
@@ -958,7 +955,7 @@ int get_query_command(unsigned char save_command /* priznak togo, chto zapros pe
     if (save_command)
     {
         //  poisk ; v kodirovannoy forme
-        command = query + _tcslen(query) - 3;
+        command = query + wcslen(query) - 3;
         for (;command >= query; command--)
         {
             if ((command[0] == '%') && (command[1] == '3') &&
@@ -973,7 +970,7 @@ int get_query_command(unsigned char save_command /* priznak togo, chto zapros pe
         //return CMD_LOG_IN_CONF; nuzhna proverka ; kotoraya est' v ssylkah
     }
 
-    command = (TCHAR*)_tcsrchr(query, ';');
+    command = (TCHAR*)wcsrchr(query, ';');
     if (!command)return CMD_LOG_IN_CONF;
     else
     {
@@ -1103,7 +1100,7 @@ void change_folder()
         //  создается строка имени папки
         std::wstring temp = GetUserDirName();
         //  Changes current directory.
-        if (-1 == _tchdir(temp.c_str()))
+        if (-1 == _wchdir(temp.c_str()))
         {
             Bookmarks::Page::PrintHtmlHead(head_error);
             begin_error_box();
@@ -1115,7 +1112,7 @@ void change_folder()
         }
 
         if (cwd)free(cwd);
-        cwd = (TCHAR*)_tgetcwd(0, 0);
+        cwd = (TCHAR*)_wgetcwd(0, 0);
         if (!cwd)
             out_of_memory();
     }
@@ -1124,23 +1121,23 @@ void change_folder()
 
 void exec_utility(TCHAR *folder, TCHAR *util)
 {
-    TCHAR *utility = (TCHAR *)malloc((_tcslen(util) +
+    TCHAR *utility = (TCHAR *)malloc((wcslen(util) +
 #ifdef LINUX
-        _tcslen(cwd) + 1 +
+        wcslen(cwd) + 1 +
 #endif
-        _tcslen(folder) + 3) * sizeof(TCHAR));
+        wcslen(folder) + 3) * sizeof(TCHAR));
     if (utility)
     {
-        _tcscpy(utility, util);
-        _tcscat(utility, _T("\""));                 //  кавычки требуются, чтобы удалялись папки с пробелами
+        wcscpy(utility, util);
+        wcscat(utility, _T("\""));                 //  кавычки требуются, чтобы удалялись папки с пробелами
 #ifdef LINUX
-        _tcscat(utility, cwd);
-        _tcscat(utility, _T("/"));
+        wcscat(utility, cwd);
+        wcscat(utility, _T("/"));
 #endif
-        _tcscat(utility, folder);
-        _tcscat(utility, _T("\""));
+        wcscat(utility, folder);
+        wcscat(utility, _T("\""));
 
-        if (-1 == _tsystem(utility))
+        if (-1 == _wsystem(utility))
         {
             error = E_SYS_UTILITY;
             //  oschibka ne fatal'na
@@ -1168,14 +1165,14 @@ void get_key()
     {
         FILE *f;
 
-        key = (TCHAR*)_tcsrchr(command, '=');
+        key = (TCHAR*)wcsrchr(command, '=');
         key++;
         //  Reading session key file.
         //  https://action.mindjet.com/task/14732139
         std::wstring fileName = GetTmpDirName();
         fileName += key;
 
-        f = _tfopen(fileName.c_str(), _T("r"));
+        f = _wfopen(fileName.c_str(), _T("r"));
         if (f != NULL)
         {
             username = (TCHAR *)malloc(MAX_USER_NAME);
@@ -1217,7 +1214,7 @@ void MakeFolder(std::wstring name)
 
 int HandleQuery(TCHAR* query_string, TCHAR* script_name)
 {
-    if (!query_string || !_tcslen(query_string))
+    if (!query_string || !wcslen(query_string))
     {
         no_environment(_T("QUERY_STRING"));
         return 1;
@@ -1227,7 +1224,7 @@ int HandleQuery(TCHAR* query_string, TCHAR* script_name)
     //  https://action.mindjet.com/task/14702859
     //  Работаем только по HTTPS.
     TCHAR http[] = _T("https://");
-    int script_name_len = _tcslen(http);        //  полная длина пути к скрипту
+    int script_name_len = wcslen(http);        //  полная длина пути к скрипту
                                                 //  Вместо переменной окружения использует имя домена из конфиг. файла для того, 
                                                 //  чтобы правильно уст. ссылки, когда сервер работает через SSH.
                                                 //  evernote:///view/14501366/s132/44d4835c-cdac-40e1-acff-2fe610f865c8/44d4835c-cdac-40e1-acff-2fe610f865c8/
@@ -1244,36 +1241,39 @@ int HandleQuery(TCHAR* query_string, TCHAR* script_name)
         _T("links.ini")
     );
 #else
-    TCHAR *server_name = _tgetenv(_T("SERVER_NAME"));
+    TCHAR *server_name = _wgetenv(_T("SERVER_NAME"));
 #endif
 
-    if (!_tcslen(server_name)) {
+    if (!wcslen(server_name)) {
         no_environment(_T("SERVER_NAME")); return 1;
     }
-    if (!script_name || !_tcslen(script_name)) {
+    if (!script_name || !wcslen(script_name)) {
         no_environment(_T("SCRIPT_NAME")); return 1;
     }
     if (!fatal_error)
     {
         full_script_name = 0;
-        script_name_len += _tcslen(server_name);
-        script_name_len += _tcslen(script_name);
+        script_name_len += wcslen(server_name);
+        script_name_len += wcslen(script_name);
 
         full_script_name = (TCHAR *)malloc((script_name_len + 1) * sizeof(TCHAR));
         if (full_script_name)
         {
             //  готовится имя скрипта для создания ссылок
-            _tcscpy(full_script_name, http);
-            _tcscat(full_script_name, server_name);
-            _tcscat(full_script_name, script_name);
+            wcscpy(full_script_name, http);
+            wcscat(full_script_name, server_name);
+            wcscat(full_script_name, script_name);
 
-            img_path = (TCHAR *)malloc((_tcslen(server_name) + _tcslen(http) + _tcslen(www_sub) + 1) * sizeof(TCHAR));
+            TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
+                                                                    //  указывать ее явно не нужно
+
+            img_path = (TCHAR *)malloc((wcslen(server_name) + wcslen(http) + wcslen(www_sub) + 1) * sizeof(TCHAR));
             //  готовится путь к скрипту для создания ссылок на картинки
             if (img_path)
             {
-                _tcscpy(img_path, http);
-                _tcscat(img_path, server_name);
-                _tcscat(img_path, www_sub);
+                wcscpy(img_path, http);
+                wcscat(img_path, server_name);
+                wcscat(img_path, www_sub);
             }
             else
             {
@@ -1288,7 +1288,7 @@ int HandleQuery(TCHAR* query_string, TCHAR* script_name)
     //  здесь формируется тело страницы
     if (!fatal_error)
     {
-        cwd = (TCHAR*)_tgetcwd(0, 0);
+        cwd = (TCHAR*)_wgetcwd(0, 0);
         if (cwd)
         {
             //  запрет вставки 0 необходим для того, чтобы 

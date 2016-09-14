@@ -200,7 +200,7 @@ namespace Bookmarks
                 // для корневой папки на вставляются ссылки "ВВЕРХ" и "КОРЕНЬ"
                 if (*dir == _T("."))
                 {// переход к корневой папке закладок
-                    if (_tcslen(query))
+                    if (wcslen(query))
                     {
                         OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */));
                         InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), _hintFolder.c_str());
@@ -211,7 +211,7 @@ namespace Bookmarks
                 else
                 if (*dir == _T(".."))
                 {// переход на один уровень вверх или к корневой папке закладок
-                    if (_tcslen(query))
+                    if (wcslen(query))
                     {
                         std::wstring upDir = query;
                         //  Получаем имя верхней папки.
@@ -343,7 +343,7 @@ namespace Bookmarks
 
         _tprintf(_T("%s"), _T("<br><hr><br>\n"));
         for (auto par = params.begin(); par != params.end(); ++par)
-            _tprintf(_T("%s = %s<br>\n"), par->c_str(), _tgetenv(par->c_str()));
+            _tprintf(_T("%s = %s<br>\n"), par->c_str(), _wgetenv(par->c_str()));
 
         _tprintf(_T("HOME = %s<br>\n"), cwd);
         _tprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("\n")).c_str());

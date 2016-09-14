@@ -199,7 +199,7 @@ namespace bookmarks_test
                 _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\test.txt"),
                 FALSE
             );
-            _tchdir(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест"));
+            _wchdir(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест"));
 
             FileList fl(flrt);
             auto fileListBefore = fl.GetFileList();

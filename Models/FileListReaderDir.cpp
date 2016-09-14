@@ -23,8 +23,8 @@ namespace Bookmarks
 
         //  Имя файла д. содержать полный путь, чтобы утил. могла проверить сущ. файла.
         TCHAR* temp_fn = (TCHAR*)malloc((temp.size() + 1) * sizeof(TCHAR));
-        _tcscpy(temp_fn, temp.c_str());
-        if (NULL == _tmktemp(temp_fn))
+        wcscpy(temp_fn, temp.c_str());
+        if (NULL == _wmktemp(temp_fn))
         {
             error = E_SYS_UTILITY;
             return result;
@@ -36,7 +36,7 @@ namespace Bookmarks
         std::wstring utility_name = _cmdDir;
         utility_name += _T(" \"") + temp + _T("\"");
 
-        if (-1 == _tsystem(utility_name.c_str()))
+        if (-1 == _wsystem(utility_name.c_str()))
         {
             error = E_SYS_UTILITY;
             return result;

@@ -24,7 +24,7 @@ namespace Bookmarks
 
     std::vector<std::wstring> FileListReader::ReadFile(std::wstring fileName)
     {
-        FILE *f = _tfopen(fileName.c_str(), _T("r"));
+        FILE *f = _wfopen(fileName.c_str(), _T("r"));
         std::vector<std::wstring> lines;
 
         if (f)
@@ -42,7 +42,7 @@ namespace Bookmarks
         }
         //  https://action.mindjet.com/task/14719680
         //  Временный файл удаляется.
-        _tremove(fileName.c_str());
+        _wremove(fileName.c_str());
         return lines;
     }
 }

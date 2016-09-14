@@ -13,13 +13,13 @@ namespace Bookmarks
             }
         }
 #endif
-        FILE *f = _tfopen(fileName.c_str(), _T("r"));
+        FILE *f = _wfopen(fileName.c_str(), _T("r"));
         std::wstring result;
 
         if (f)
         {
             char lineptr[MAX_LINE_LENGTH];
-            //  _fgetts дополняет строку 0-м
+            //  fgets дополняет строку 0-м
             while (fgets(lineptr, MAX_LINE_LENGTH, f))
             {
                 wchar_t wlineptr[MAX_LINE_LENGTH];
