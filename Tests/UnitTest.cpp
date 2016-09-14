@@ -161,7 +161,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestGetKeyFileName()
         {
-            std::wstring fileName = get_key_file_name();
+            std::wstring fileName = getKeyFileName();
         };
 
         [TestMethod]

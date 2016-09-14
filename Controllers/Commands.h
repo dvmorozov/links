@@ -21,7 +21,7 @@
 
 typedef void(*check_log_in_result)();
 extern check_log_in_result check_log_in_params();
-extern std::wstring get_key_file_name();
+extern std::wstring getKeyFileName();
 
 extern void change_folder();
 extern void do_change_folder();
@@ -89,5 +89,6 @@ extern TCHAR www_sub[];
 
 void MakeFolder(std::wstring name);
 std::wstring GetUserDirName();
+std::wstring GetTmpDirName();
 std::wstring GetFullDirName(std::wstring relDirName);
 int HandleQuery(TCHAR* query_string, TCHAR* script_name);

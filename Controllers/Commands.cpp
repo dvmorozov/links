@@ -558,10 +558,9 @@ check_log_in_result check_log_in_params()
     }
     else return invalid_query;
 }
-
 //-------------------------------------------------------------------------------------------------
 //  Возвращает имя файла ключа сессии.
-std::wstring get_key_file_name()
+std::wstring getKeyFileName()
 {
     //  Создание ключа.
     time_t t;
@@ -570,11 +569,8 @@ std::wstring get_key_file_name()
     static TCHAR k[11];
     _tsprintf(k, _T("%i"), (int)t);
     key = k;
-    //???
-    TCHAR tmp[] = _T("../tmp/links/");
-    return std::wstring(tmp) + k;
+    return GetTmpDirName() + k;
 }
-
 //-------------------------------------------------------------------------------------------------
 //  проверка имени пользователя и пароля и вход
 void do_log_in()
@@ -582,7 +578,7 @@ void do_log_in()
     check_log_in_result f = check_log_in_params();
     if (!f)
     {
-        std::wstring file_name = get_key_file_name();
+        std::wstring file_name = getKeyFileName();
         FILE *f;
         //  proverka suschestvovaniya fayla
         f = _tfopen(file_name.c_str(), _T("r"));
@@ -1091,6 +1087,12 @@ std::wstring GetUserDirName()
     return result;
 }
 //-------------------------------------------------------------------------------------------------
+
+std::wstring GetTmpDirName()
+{
+    return GetFullDirName(_T("tmp/links/"));
+}
+//-------------------------------------------------------------------------------------------------
 //  переход в требуемую папку (по отношению к заданной корневой папке)
 void change_folder()
 {
@@ -1170,7 +1172,7 @@ void get_key()
         key++;
         //  Reading session key file.
         //  https://action.mindjet.com/task/14732139
-        std::wstring fileName = GetFullDirName(_T("tmp/links/"));
+        std::wstring fileName = GetTmpDirName();
         fileName += key;
 
         f = _tfopen(fileName.c_str(), _T("r"));
