@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 
 #include "..\..\trunk\Models\Data.h"
+#include "..\..\trunk\Models\ConfigTest.h"
 #include "..\..\trunk\Models\FileList.h"
 #include "..\..\trunk\Models\FileReader.h"
 #include "..\..\trunk\Models\FileListReader.h"
@@ -20,6 +21,8 @@ using namespace Bookmarks;
 
 namespace bookmarks_test
 {
+    std::wstring testQuery;
+
     [TestClass]
     public ref class UnitTest
     {
@@ -120,8 +123,10 @@ namespace bookmarks_test
         [TestMethod]
         void TestRenderBootstrap()
         {
-            static TCHAR queryData[] = _T("http://fiteasily.com/cgi-bin/links.cgi?;log_in=lvbnhbq vjhjpjd&;log_in=dct pfrkflrb&;log_in=Ok");
-            query = &queryData[0];
+            //  https://action.mindjet.com/task/14777741
+            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            //  Allow string modification!
+            query = (wchar_t*)testQuery.c_str();
             cwd = _T("test");       //  Д. б. ненулевой ук-ль.
 
             Bookmarks::PageBootstrap p;
@@ -131,11 +136,13 @@ namespace bookmarks_test
         [TestMethod]
         void TestParamsParsing()
         {
-            static TCHAR queryData[] = _T("http://fiteasily.com/cgi-bin/links.cgi?;log_in=lvbnhbq vjhjpjd&;log_in=dct pfrkflrb&;log_in=Ok");
-            query = &queryData[0];
+            //  https://action.mindjet.com/task/14777741
+            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            //  Allow string modification!
+            query = (wchar_t*)testQuery.c_str();
             Assert::IsTrue(check_log_in_params() == nullptr);
-            Assert::IsTrue(std::wstring(username) == std::wstring(L"lvbnhbq vjhjpjd"));
-            Assert::IsTrue(std::wstring(password) == std::wstring(L"dct pfrkflrb"));
+            Assert::IsTrue(std::wstring(username) == Bookmarks::RegConfig::GetValue(_T("UserName")));
+            Assert::IsTrue(std::wstring(password) == Bookmarks::RegConfig::GetValue(_T("Password")));
             //  Все параметры должны быть удалены.
             Assert::IsTrue(std::wstring(query).find(L";&") == std::wstring::npos);
         };
@@ -143,7 +150,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestFileReader()
         {
-            Bookmarks::FileReader fr(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder"));
+            Bookmarks::FileReader fr(Bookmarks::RegConfig::GetValue(_T("TestFolder")));
             std::wstring url = fr.GetParamCurDir(_T("57564efb.url"), ParamURL);
             std::wstring name = fr.GetParamCurDir(_T("57564efb.url"), ParamName);
 
@@ -151,8 +158,8 @@ namespace bookmarks_test
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name);
 
             Bookmarks::FileReader fr2(_T(""));
-            std::wstring url2 = fr.GetParam(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\57564efb.url"), ParamURL);
-            std::wstring name2 = fr.GetParam(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\57564efb.url"), ParamName);
+            std::wstring url2 = fr.GetParam(Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamURL);
+            std::wstring name2 = fr.GetParam(Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamName);
 
             Assert::IsTrue(_T("https://www.youtube.com/watch?v=_8v0Xs7MJLw") == url2);
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name2);
@@ -167,9 +174,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestMakeFolder()
         {
-            const char *str = "C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест";
-            wchar_t wstr[MAX_LINE_LENGTH];
-            MultiByteToWideChar(CP_ACP, 0, str, -1, wstr, MAX_LINE_LENGTH);
+            std::wstring wstr = Bookmarks::RegConfig::GetValue(_T("TestFolder")) + L"\\Тест";
             MakeFolder(wstr);
         };
 
@@ -195,11 +200,11 @@ namespace bookmarks_test
             FileListReader *flrt = GetFileReader();
             //  Overwriting test file.
             CopyFile(
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\14732139\\test.txt"),
-                _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест\\test.txt"),
+                (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\14732139\\test.txt")).c_str(),
+                (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\Тест\\test.txt")).c_str(),
                 FALSE
             );
-            _wchdir(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\Тест"));
+            _wchdir((Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\Тест")).c_str());
 
             FileList fl(flrt);
             auto fileListBefore = fl.GetFileList();

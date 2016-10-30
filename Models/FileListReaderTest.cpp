@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+#include "ConfigTest.h"
 #include "FileListReaderTest.h"
 #include "..\main.h"
 
@@ -16,25 +17,25 @@ namespace Bookmarks
     {
         //  File copying must be here because this function is called many times during the test.
         CopyFile(
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\test.txt"),
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\义耱\\test.txt"),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\test.txt")).c_str(),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\义耱\\test.txt")).c_str(),
             FALSE
         );
         CopyFile(
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\57564efb.url"),
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\义耱\\57564efb.url"),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url")).c_str(),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\义耱\\57564efb.url")).c_str(),
             FALSE
         );
         CopyFile(
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\14732139\\57584c98.url"),
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\义耱\\57584c98.url"),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\14732139\\57584c98.url")).c_str(),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\义耱\\57584c98.url")).c_str(),
             FALSE
         );
         CopyFile(
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\14732139\\57584dec.url"),
-            _T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\义耱\\57584dec.url"),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\14732139\\57584dec.url")).c_str(),
+            (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\义耱\\57584dec.url")).c_str(),
             FALSE
         );
-        return new FileListReaderTest(_T("C:\\04 - morozov\\my\\appsoft\\web\\robot\\bookmarks\\trunk\\TestFolder\\义耱\\test.txt"));
+        return new FileListReaderTest(Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\义耱\\test.txt"));
     }
 }

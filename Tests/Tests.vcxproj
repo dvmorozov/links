@@ -59,7 +59,8 @@
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <AssemblyDebug>true</AssemblyDebug>
     </Link>
@@ -76,7 +77,8 @@
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -95,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Controllers\Commands.cpp" />
+    <ClCompile Include="..\Models\ConfigTest.cpp" />
     <ClCompile Include="..\Models\Data.cpp" />
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderTest.cpp" />
@@ -111,6 +114,7 @@
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h" />
     <ClInclude Include="..\main.h" />
+    <ClInclude Include="..\Models\ConfigTest.h" />
     <ClInclude Include="..\Models\Data.h" />
     <ClInclude Include="..\Models\FileList.h" />
     <ClInclude Include="..\Models\FileListReader.h" />

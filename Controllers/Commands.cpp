@@ -1,6 +1,7 @@
 
 #include "../main.h"
 #include "../Models/Data.h"
+#include "../Models/ConfigTest.h"
 #include "../Models/FileReader.h"
 #include "../Views/PageBootstrap.h"
 #include "Commands.h"
@@ -535,7 +536,8 @@ check_log_in_result check_log_in_params()
                             if (get_query_command(0) == CMD_LOG_IN)
                             {
                                 // proverka imeni pol'zovatelya i parolya
-                                if (!wcscmp(username, _T("lvbnhbq vjhjpjd")) && !wcscmp(password, _T("dct pfrkflrb")))
+                                if (!wcscmp(username, Bookmarks::RegConfig::GetValue(_T("UserName")).c_str()) && 
+                                    !wcscmp(password, Bookmarks::RegConfig::GetValue(_T("Password")).c_str()))
                                 {
                                     return nullptr;
                                 }

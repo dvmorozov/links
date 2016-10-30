@@ -34,6 +34,9 @@
     <ClCompile Include="..\Models\FileList.cpp">
       <Filter>Models</Filter>
     </ClCompile>
+    <ClCompile Include="..\Models\Config.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="..\main.h" />
     <ClInclude Include="..\Models\FileList.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\Config.h">
       <Filter>Models</Filter>
     </ClInclude>
   </ItemGroup>

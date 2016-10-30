@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="..\Controllers\Commands.cpp" />
     <ClCompile Include="..\main.c" />
+    <ClCompile Include="..\Models\Config.cpp" />
     <ClCompile Include="..\Models\Data.cpp" />
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderDir.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h" />
     <ClInclude Include="..\main.h" />
+    <ClInclude Include="..\Models\Config.h" />
     <ClInclude Include="..\Models\Data.h" />
     <ClInclude Include="..\Models\FileList.h" />
     <ClInclude Include="..\Models\FileListReader.h" />
