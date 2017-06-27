@@ -1216,217 +1216,225 @@ void MakeFolder(std::wstring name)
 
 int HandleQuery(TCHAR* query_string, TCHAR* script_name)
 {
-    if (!query_string || !wcslen(query_string))
+    try
     {
-        no_environment(_T("QUERY_STRING"));
-        return 1;
-    }
+        if (!query_string || !wcslen(query_string))
+        {
+            no_environment(_T("QUERY_STRING"));
+            return 1;
+        }
 
-    query = query_string;
-    //  https://action.mindjet.com/task/14702859
-    //  Работаем только по HTTPS.
-    TCHAR http[] = _T("https://");
-    int script_name_len = wcslen(http);        //  полная длина пути к скрипту
-                                                //  Вместо переменной окружения использует имя домена из конфиг. файла для того, 
-                                                //  чтобы правильно уст. ссылки, когда сервер работает через SSH.
-                                                //  evernote:///view/14501366/s132/44d4835c-cdac-40e1-acff-2fe610f865c8/44d4835c-cdac-40e1-acff-2fe610f865c8/
+        query = query_string;
+        //  https://action.mindjet.com/task/14702859
+        //  Работаем только по HTTPS.
+        TCHAR http[] = _T("https://");
+        int script_name_len = wcslen(http);        //  полная длина пути к скрипту
+                                                    //  Вместо переменной окружения использует имя домена из конфиг. файла для того, 
+                                                    //  чтобы правильно уст. ссылки, когда сервер работает через SSH.
+                                                    //  evernote:///view/14501366/s132/44d4835c-cdac-40e1-acff-2fe610f865c8/44d4835c-cdac-40e1-acff-2fe610f865c8/
 #ifdef _WINDOWS
-    TCHAR server_name[MAX_DOMAIN];
-    memset(server_name, 0, sizeof(server_name));
+        TCHAR server_name[MAX_DOMAIN];
+        memset(server_name, 0, sizeof(server_name));
 
-    GetPrivateProfileString(
-        _T("Links"),
-        _T("Domain"),
-        _T("fiteasily.com"),
-        server_name,
-        MAX_DOMAIN,
-        _T("links.ini")
-    );
+        GetPrivateProfileString(
+            _T("Links"),
+            _T("Domain"),
+            _T("fiteasily.com"),
+            server_name,
+            MAX_DOMAIN,
+            _T("links.ini")
+        );
 #else
-    TCHAR *server_name = _wgetenv(_T("SERVER_NAME"));
+        TCHAR *server_name = _wgetenv(_T("SERVER_NAME"));
 #endif
 
-    if (!wcslen(server_name)) {
-        no_environment(_T("SERVER_NAME")); return 1;
-    }
-    if (!script_name || !wcslen(script_name)) {
-        no_environment(_T("SCRIPT_NAME")); return 1;
-    }
-    if (!fatal_error)
-    {
-        full_script_name = 0;
-        script_name_len += wcslen(server_name);
-        script_name_len += wcslen(script_name);
-
-        full_script_name = (TCHAR *)malloc((script_name_len + 1) * sizeof(TCHAR));
-        if (full_script_name)
+        if (!wcslen(server_name)) {
+            no_environment(_T("SERVER_NAME")); return 1;
+        }
+        if (!script_name || !wcslen(script_name)) {
+            no_environment(_T("SCRIPT_NAME")); return 1;
+        }
+        if (!fatal_error)
         {
-            //  готовится имя скрипта для создания ссылок
-            wcscpy(full_script_name, http);
-            wcscat(full_script_name, server_name);
-            wcscat(full_script_name, script_name);
+            full_script_name = 0;
+            script_name_len += wcslen(server_name);
+            script_name_len += wcslen(script_name);
 
-            TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
-                                                                    //  указывать ее явно не нужно
-
-            img_path = (TCHAR *)malloc((wcslen(server_name) + wcslen(http) + wcslen(www_sub) + 1) * sizeof(TCHAR));
-            //  готовится путь к скрипту для создания ссылок на картинки
-            if (img_path)
+            full_script_name = (TCHAR *)malloc((script_name_len + 1) * sizeof(TCHAR));
+            if (full_script_name)
             {
-                wcscpy(img_path, http);
-                wcscat(img_path, server_name);
-                wcscat(img_path, www_sub);
+                //  готовится имя скрипта для создания ссылок
+                wcscpy(full_script_name, http);
+                wcscat(full_script_name, server_name);
+                wcscat(full_script_name, script_name);
+
+                TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
+                                                                        //  указывать ее явно не нужно
+
+                img_path = (TCHAR *)malloc((wcslen(server_name) + wcslen(http) + wcslen(www_sub) + 1) * sizeof(TCHAR));
+                //  готовится путь к скрипту для создания ссылок на картинки
+                if (img_path)
+                {
+                    wcscpy(img_path, http);
+                    wcscat(img_path, server_name);
+                    wcscat(img_path, www_sub);
+                }
+                else
+                {
+                    error = E_OUTOFMEMORY;
+                    //  ошибка не фатальна
+                }
             }
             else
-            {
-                error = E_OUTOFMEMORY;
-                //  ошибка не фатальна
-            }
-        }
-        else
-            out_of_memory();
-    }// if(!fatal_error)
+                out_of_memory();
+        }// if(!fatal_error)
 
-    //  здесь формируется тело страницы
-    if (!fatal_error)
-    {
-        cwd = (TCHAR*)_wgetcwd(0, 0);
-        if (cwd)
+        //  здесь формируется тело страницы
+        if (!fatal_error)
         {
-            //  запрет вставки 0 необходим для того, чтобы 
-            //  process_query мог обработать весь запрос;
-            //  запрос по нажатию кнопки можно отличать от
-            //  перехода по ссылке задавая как метод post
-            //  (сейчас везде используется get), либо по коду
-            //  команды (с нажатием кнопки связаны определенные
-            //  команды); однако при этом требуется поиск команды
-            //  на непреобразованной строке запроса;
-            //  !!! esli zapros poluchen v rezul'tate perehoda po ssylke,
-            //  to nuzhno vyzyvat' process_query(0) !!!
-            switch (get_query_command(1))
+            cwd = (TCHAR*)_wgetcwd(0, 0);
+            if (cwd)
             {
-            default:
-            case(CMD_LOG_IN_CONF): process_query(0);
-                if (!fatal_error)do_log_in_conf();
-                break;
+                //  запрет вставки 0 необходим для того, чтобы 
+                //  process_query мог обработать весь запрос;
+                //  запрос по нажатию кнопки можно отличать от
+                //  перехода по ссылке задавая как метод post
+                //  (сейчас везде используется get), либо по коду
+                //  команды (с нажатием кнопки связаны определенные
+                //  команды); однако при этом требуется поиск команды
+                //  на непреобразованной строке запроса;
+                //  !!! esli zapros poluchen v rezul'tate perehoda po ssylke,
+                //  to nuzhno vyzyvat' process_query(0) !!!
+                switch (get_query_command(1))
+                {
+                default:
+                case(CMD_LOG_IN_CONF): process_query(0);
+                    if (!fatal_error)do_log_in_conf();
+                    break;
 
-            case(CMD_LOG_IN): process_query(1);
-                if (!fatal_error) {
-                    do_log_in();
-                }
-                break;
+                case(CMD_LOG_IN): process_query(1);
+                    if (!fatal_error) {
+                        do_log_in();
+                    }
+                    break;
 
-            case(CMD_CHANGE_FOLDER): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_change_folder();
-                }
-                break;
+                case(CMD_CHANGE_FOLDER): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_change_folder();
+                    }
+                    break;
 
-            case(CMD_EDIT): process_query(1);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_edit();
-                }
-                break;
+                case(CMD_EDIT): process_query(1);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_edit();
+                    }
+                    break;
 
-            case(CMD_EDIT_CONF): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_edit_conf();
-                }
-                break;
+                case(CMD_EDIT_CONF): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_edit_conf();
+                    }
+                    break;
 
-            case(CMD_ADD): process_query(1);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_add();
-                }
-                break;
+                case(CMD_ADD): process_query(1);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_add();
+                    }
+                    break;
 
-            case(CMD_ADD_CONF): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_add_conf();
-                }
-                break;
+                case(CMD_ADD_CONF): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_add_conf();
+                    }
+                    break;
 
-            case(CMD_DEL): process_query(1);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_del();
-                }
-                break;
+                case(CMD_DEL): process_query(1);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_del();
+                    }
+                    break;
 
-            case(CMD_DEL_CONF): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_del_conf();
-                }
-                break;
+                case(CMD_DEL_CONF): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_del_conf();
+                    }
+                    break;
 
-            case(CMD_EDIT_FOLDER): process_query(1);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_edit_folder();
-                }
-                break;
+                case(CMD_EDIT_FOLDER): process_query(1);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_edit_folder();
+                    }
+                    break;
 
-            case(CMD_EDIT_FOLDER_CONF): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_edit_folder_conf();
-                }
-                break;
+                case(CMD_EDIT_FOLDER_CONF): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_edit_folder_conf();
+                    }
+                    break;
 
-            case(CMD_ADD_FOLDER): process_query(1);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_add_folder();
-                }
-                break;
+                case(CMD_ADD_FOLDER): process_query(1);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_add_folder();
+                    }
+                    break;
 
-            case(CMD_ADD_FOLDER_CONF): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_add_folder_conf();
-                }
-                break;
+                case(CMD_ADD_FOLDER_CONF): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_add_folder_conf();
+                    }
+                    break;
 
-            case(CMD_DEL_FOLDER): process_query(1);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_del_folder();
-                }
-                break;
+                case(CMD_DEL_FOLDER): process_query(1);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_del_folder();
+                    }
+                    break;
 
-            case(CMD_DEL_FOLDER_CONF): process_query(0);
-                if (!fatal_error) {
-                    get_query_command(0);   //  udalenie komandy iz zaprosa
-                    get_key();
-                    do_del_folder_conf();
-                }
-                break;
-            }// switch(get_query_command)
-        }// if(cwd)
-        else
-            out_of_memory();
+                case(CMD_DEL_FOLDER_CONF): process_query(0);
+                    if (!fatal_error) {
+                        get_query_command(0);   //  udalenie komandy iz zaprosa
+                        get_key();
+                        do_del_folder_conf();
+                    }
+                    break;
+                }// switch(get_query_command)
+            }// if(cwd)
+            else
+                out_of_memory();
+        }
+        if (query)free(query);   //  posle process_query mozhno osvobozhdat'
+        if (img_path)free(img_path);
+        if (cwd)free(cwd);
+        if (full_script_name)free(full_script_name);
+        return 0;
     }
-    if (query)free(query);   //  posle process_query mozhno osvobozhdat'
-    if (img_path)free(img_path);
-    if (cwd)free(cwd);
-    if (full_script_name)free(full_script_name);
-    return 0;
+    catch (...)
+    {
+        invalid_query();
+        return -1;
+    }
 }
