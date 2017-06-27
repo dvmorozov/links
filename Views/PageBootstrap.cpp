@@ -113,6 +113,13 @@ namespace Bookmarks
         //  воостанавливается
         Bookmarks::FileReader fr(cwd);
         std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
+        //  https://action.mindjet.com/task/14720510
+        //  Add 'http://' prefix if necessary to build correct link.
+        //  Transform URL to lower case.
+        std::transform(url.begin(), url.end(), url.begin(), std::tolower);
+        if (url.find(_T("http://")) == std::string::npos)
+            url = _T("http://") + url;
+
 #ifdef EXTENDED_URL_FILE
         std::wstring name = fr.GetParamCurDir(fileName, ParamName);
 #endif
