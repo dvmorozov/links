@@ -34,6 +34,10 @@ namespace Bookmarks
         virtual void InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
         virtual void InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
         virtual void InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
+        //  https://action.mindjet.com/task/14817423
+        virtual void PrintScripts();
+        //  https://action.mindjet.com/task/14817423
+        virtual void PrintStyles();
         virtual void PrintHead(std::wstring title);
         virtual void PrintTail();
 

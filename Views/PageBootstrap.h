@@ -7,8 +7,10 @@ namespace Bookmarks
     {
     protected:
         virtual void InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
-        virtual void PrintHead(std::wstring title);
-        virtual void PrintTail();
+        //  https://action.mindjet.com/task/14817423
+        virtual void PrintScripts();
+        //  https://action.mindjet.com/task/14817423
+        virtual void PrintStyles();
 
         virtual void OpenOuterTable();
         virtual void OpenInnerTable();
