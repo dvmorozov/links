@@ -219,6 +219,7 @@ TCHAR head_error[] = _T("Ошибка");
 TCHAR err_change_folder[] = _T("Невозможно перейти в папку: ");
 TCHAR err_out_of_memory[] = _T("Недостаточно памяти для выполнения");
 TCHAR err_invalid_query[] = _T("Недопустимый запрос: ");
+TCHAR err_what[] = _T("Детали: ");
 TCHAR err_no_environment[] = _T("Отсутствует требуемое окружение: ");
 TCHAR err_sys_utility[] = _T("Вызов утилиты %s завершился с ошибкой");
 
@@ -420,7 +421,7 @@ void do_edit()
                 {
                     old_name++;
                     if (get_query_command(0) == CMD_EDIT)
-                    {// теперь после = новое имя ссылки (без расширения)
+                    {// теперь после - новое имя ссылки (без расширения)
                         TCHAR *new_name = (TCHAR*)wcschr(command, '=');
                         if (new_name)
                         {
@@ -531,7 +532,7 @@ check_log_in_result check_log_in_params()
                         {
                             username++;
                             // из имени нужно удалить символ &
-                            if (and = (TCHAR*)wcsrchr(username, '&'))*and = 0;
+                            if (and = (TCHAR*)wcschr(username, '&'))*and = 0;
                             //  Удаляет остаток параметра-имени.
                             if (get_query_command(0) == CMD_LOG_IN)
                             {
@@ -1039,11 +1040,39 @@ void no_environment(TCHAR *env_str)
 }
 //-------------------------------------------------------------------------------------------------
 
+const wchar_t *GetWC(const char *c)
+{
+    const size_t cSize = strlen(c) + 1;
+    wchar_t* wc = new wchar_t[cSize];
+    mbstowcs(wc, c, cSize);
+
+    return wc;
+}
+//-------------------------------------------------------------------------------------------------
+
 void invalid_query()
 {
     Bookmarks::Page::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s%s<BR>\n"), err_invalid_query, query);
+    end_error_box();
+    error = E_INVALID_QUERY;
+    fatal_error = 1;
+    Bookmarks::Page::PrintHtmlTail();
+}
+//-------------------------------------------------------------------------------------------------
+
+void print_exception(const char* what = nullptr)
+{
+    Bookmarks::Page::PrintHtmlHead(head_error);
+    begin_error_box();
+    _tprintf(_T("%s%s<BR>\n"), err_invalid_query, query);
+    if (what)
+    {
+        const wchar_t *whatWide = GetWC(what);
+        _tprintf(_T("%s%s<BR>\n"), err_what, whatWide);
+        delete[] whatWide;
+    }
     end_error_box();
     error = E_INVALID_QUERY;
     fatal_error = 1;
@@ -1432,9 +1461,9 @@ int HandleQuery(TCHAR* query_string, TCHAR* script_name)
         if (full_script_name)free(full_script_name);
         return 0;
     }
-    catch (...)
+    catch (std::exception &e)
     {
-        invalid_query();
+        print_exception(e.what());
         return -1;
     }
 }

@@ -25,7 +25,7 @@ namespace Bookmarks
     std::wstring RegConfig::GetValue(std::wstring name)
     {
         std::wstring result;
-        if (ERROR_SUCCESS != GetStringRegKey(HKEY_LOCAL_MACHINE, std::wstring(L"\\SOFTWARE\\Links") + name, result, L""))
+        if (ERROR_SUCCESS != GetStringRegKey(HKEY_LOCAL_MACHINE, std::wstring(L"SOFTWARE\\Links\\") + name, result, L""))
             throw std::exception("Configuration value not found.");
         return result;
     }

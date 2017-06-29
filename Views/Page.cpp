@@ -64,6 +64,7 @@ namespace Bookmarks
     {
         _tprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\" type=\"text/javascript\"></script>\n"));
         //  Attach on submit listener.
+        /*
         _tprintf(_T("<script type=\"text/javascript\">\
             $(function() {\
                  $('form').submit(function(ev) {\
@@ -74,6 +75,7 @@ namespace Bookmarks
                 });\
             });\
             </script>\n"));
+            */
     }
 
     //  https://action.mindjet.com/task/14817423
@@ -372,7 +374,7 @@ namespace Bookmarks
             _tprintf(_T("%s = %s<br>\n"), par->c_str(), _wgetenv(par->c_str()));
 
         _tprintf(_T("HOME = %s<br>\n"), cwd);
-        _tprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("\n")).c_str());
+        _tprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("<br>\n")).c_str());
         _tprintf(_T("Error = %i<br>\n"), error);
 #endif
     }
