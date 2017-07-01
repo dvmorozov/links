@@ -7,7 +7,7 @@
 #include "..\Models\FileListReader.h"
 #include "..\Models\FileListReaderTest.h"
 #include "..\main.h"
-#include "..\Views\PageBootstrap.h"
+#include "..\Views\FileListBootstrap.h"
 #include "..\Controllers\Commands.h"
 
 TCHAR test_out[100 * 1024];
@@ -129,7 +129,7 @@ namespace bookmarks_test
             query = (wchar_t*)testQuery.c_str();
             cwd = _T("test");       //  Д. б. ненулевой ук-ль.
 
-            Bookmarks::PageBootstrap p;
+            Bookmarks::FileListBootstrap p;
             p.Render();
         };
 

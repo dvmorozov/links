@@ -36,12 +36,6 @@
     <ClCompile Include="..\Models\FileListReaderDir.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
-    <ClCompile Include="..\Views\Page.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Views\PageBootstrap.cpp">
-      <Filter>Source Files\Views</Filter>
-    </ClCompile>
     <ClCompile Include="..\main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -50,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="..\Models\Config.cpp">
       <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Views\FileListLegacy.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Views\FileListBootstrap.cpp">
+      <Filter>Source Files\Views</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,13 +71,7 @@
     <ClInclude Include="..\Models\FileListReaderDir.h">
       <Filter>Source Files\Models</Filter>
     </ClInclude>
-    <ClInclude Include="..\Views\PageBootstrap.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
     <ClInclude Include="..\Views\View.h">
-      <Filter>Source Files\Views</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Views\Page.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\main.h">
@@ -88,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="..\Models\Config.h">
       <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\FileListLegacy.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\FileListBootstrap.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

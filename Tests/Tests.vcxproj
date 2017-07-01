@@ -101,8 +101,8 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderTest.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
-    <ClCompile Include="..\Views\Page.cpp" />
-    <ClCompile Include="..\Views\PageBootstrap.cpp" />
+    <ClCompile Include="..\Views\FileListBootstrap.cpp" />
+    <ClCompile Include="..\Views\FileListLegacy.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -129,10 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

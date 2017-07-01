@@ -3,7 +3,7 @@
 #include "../Models/Data.h"
 #include "../Models/ConfigTest.h"
 #include "../Models/FileReader.h"
-#include "../Views/PageBootstrap.h"
+#include "../Views/FileListBootstrap.h"
 #include "Commands.h"
 
 //  команды дл€ исполнени€ программой (вставл€ютс€ в url)
@@ -356,9 +356,9 @@ void print_folder_content()
 {
     //  https://action.mindjet.com/task/14703903
 #ifdef LINKS_LEGACY
-    Bookmarks::Page p;
+    Bookmarks::FileListLegacy p;
 #else
-    Bookmarks::PageBootstrap p;
+    Bookmarks::FileListBootstrap p;
 #endif
     p.Render();
 }
@@ -1029,13 +1029,13 @@ int hex_char_to_int(TCHAR c)
 
 void no_environment(TCHAR *env_str)
 {
-    Bookmarks::Page::PrintHtmlHead(head_error);
+    Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s%s<BR>\n"), err_no_environment, env_str);
     end_error_box();
     error = E_NO_ENVIRONMENT;
     fatal_error = 1;
-    Bookmarks::Page::PrintHtmlTail();
+    Bookmarks::FileListLegacy::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -1051,19 +1051,19 @@ const wchar_t *GetWC(const char *c)
 
 void invalid_query()
 {
-    Bookmarks::Page::PrintHtmlHead(head_error);
+    Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s%s<BR>\n"), err_invalid_query, query);
     end_error_box();
     error = E_INVALID_QUERY;
     fatal_error = 1;
-    Bookmarks::Page::PrintHtmlTail();
+    Bookmarks::FileListLegacy::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 
 void print_exception(const char* what = nullptr)
 {
-    Bookmarks::Page::PrintHtmlHead(head_error);
+    Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s%s<BR>\n"), err_invalid_query, query);
     if (what)
@@ -1075,19 +1075,19 @@ void print_exception(const char* what = nullptr)
     end_error_box();
     error = E_INVALID_QUERY;
     fatal_error = 1;
-    Bookmarks::Page::PrintHtmlTail();
+    Bookmarks::FileListLegacy::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 
 void out_of_memory()
 {
-    Bookmarks::Page::PrintHtmlHead(head_error);
+    Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
     begin_error_box();
     _tprintf(_T("%s<BR>\n"), err_out_of_memory);
     end_error_box();
     error = E_OUTOFMEMORY;
     fatal_error = 1;
-    Bookmarks::Page::PrintHtmlTail();
+    Bookmarks::FileListLegacy::PrintHtmlTail();
 }
 //-------------------------------------------------------------------------------------------------
 //  https://action.mindjet.com/task/14732139
@@ -1132,13 +1132,13 @@ void change_folder()
         //  Changes current directory.
         if (-1 == _wchdir(temp.c_str()))
         {
-            Bookmarks::Page::PrintHtmlHead(head_error);
+            Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
             begin_error_box();
             _tprintf(_T("%s%s<BR>\n"), err_change_folder, temp.c_str());
             fatal_error = 1;
             end_error_box();
             error = E_CHANGE_FOLDER;
-            Bookmarks::Page::PrintHtmlTail();
+            Bookmarks::FileListLegacy::PrintHtmlTail();
         }
 
         if (cwd)free(cwd);
