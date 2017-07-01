@@ -536,12 +536,11 @@ check_log_in_result check_log_in_params()
                             //  Удаляет остаток параметра-имени.
                             if (get_query_command(0) == CMD_LOG_IN)
                             {
-                                // proverka imeni pol'zovatelya i parolya
-                                if (!wcscmp(username, Bookmarks::RegConfig::GetValue(_T("UserName")).c_str()) && 
+                                //  Check username and password.
+                                if (!wcscmp(username, Bookmarks::RegConfig::GetValue(_T("UserName")).c_str()) &&
                                     !wcscmp(password, Bookmarks::RegConfig::GetValue(_T("Password")).c_str()))
-                                {
                                     return nullptr;
-                                }
+                                //  Return to the login page.
                                 else return do_log_in_conf;
                             }
                             else return invalid_query;

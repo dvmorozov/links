@@ -64,7 +64,6 @@ namespace Bookmarks
     {
         _tprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\" type=\"text/javascript\"></script>\n"));
         //  Attach on submit listener.
-        /*
         _tprintf(_T("<script type=\"text/javascript\">\
             $(function() {\
                  $('form').submit(function(ev) {\
@@ -75,7 +74,6 @@ namespace Bookmarks
                 });\
             });\
             </script>\n"));
-            */
     }
 
     //  https://action.mindjet.com/task/14817423

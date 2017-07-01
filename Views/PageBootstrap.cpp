@@ -110,7 +110,7 @@ namespace Bookmarks
     {
         //  !!! нужно скопировать расширение непосредственно
         //  из lineptr, чтобы сохранились исходные символы !!!
-        //  воостанавливается
+        //  восстанавливается
         Bookmarks::FileReader fr(cwd);
         std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
         //  https://action.mindjet.com/task/14720510
