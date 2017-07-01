@@ -20,6 +20,7 @@
     <ClCompile Include="..\Models\FileReader.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />
+    <ClCompile Include="..\Views\Page.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\Models\FileReader.h" />
     <ClInclude Include="..\Views\FileListLegacy.h" />
     <ClInclude Include="..\Views\FileListBootstrap.h" />
+    <ClInclude Include="..\Views\Page.h" />
     <ClInclude Include="..\Views\View.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

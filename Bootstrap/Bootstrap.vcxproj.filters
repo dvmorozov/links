@@ -37,6 +37,9 @@
     <ClCompile Include="..\Views\FileListLegacy.cpp">
       <Filter>Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\Views\Page.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h">
@@ -68,6 +71,9 @@
       <Filter>Views</Filter>
     </ClInclude>
     <ClInclude Include="..\Views\FileListLegacy.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\Page.h">
       <Filter>Views</Filter>
     </ClInclude>
   </ItemGroup>

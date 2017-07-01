@@ -1,10 +1,10 @@
 #pragma once
 
-#include "View.h"
+#include "Page.h"
 
 namespace Bookmarks
 {
-    class FileListLegacy : public View
+    class FileListLegacy : public Page
     {
     private: 
         const std::wstring _hintFolder = _T("Папка");
@@ -24,8 +24,6 @@ namespace Bookmarks
         const std::wstring HintDelete = _T("Удаление");
         const std::wstring HintEdit = _T("Редактирование");
 
-        static void FileListLegacy::PrintInfo();
-
         std::wstring GetCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file);
         std::wstring GetFullCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file);
 
@@ -34,12 +32,6 @@ namespace Bookmarks
         virtual void InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
         virtual void InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
         virtual void InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
-        //  https://action.mindjet.com/task/14817423
-        virtual void PrintScripts();
-        //  https://action.mindjet.com/task/14817423
-        virtual void PrintStyles();
-        virtual void PrintHead(std::wstring title);
-        virtual void PrintTail();
 
         virtual void OpenOuterTable();
         virtual void CloseOuterTable();

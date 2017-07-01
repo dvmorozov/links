@@ -103,6 +103,7 @@
     <ClCompile Include="..\Models\FileReader.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
+    <ClCompile Include="..\Views\Page.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

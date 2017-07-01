@@ -151,6 +151,7 @@
     <ClCompile Include="..\Models\FileReader.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
+    <ClCompile Include="..\Views\Page.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -166,6 +167,7 @@
     <ClInclude Include="..\Models\FileReader.h" />
     <ClInclude Include="..\Views\FileListBootstrap.h" />
     <ClInclude Include="..\Views\FileListLegacy.h" />
+    <ClInclude Include="..\Views\Page.h" />
     <ClInclude Include="..\Views\View.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
