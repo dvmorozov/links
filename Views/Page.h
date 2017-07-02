@@ -1,3 +1,5 @@
+
+#pragma once
 #include "View.h"
 
 namespace Bookmarks

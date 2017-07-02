@@ -145,6 +145,13 @@ namespace bookmarks_test
             Assert::IsTrue(std::wstring(password) == Bookmarks::RegConfig::GetValue(_T("Password")));
             //  Все параметры должны быть удалены.
             Assert::IsTrue(std::wstring(query).find(L";&") == std::wstring::npos);
+
+            //  https://action.mindjet.com/task/14817423
+            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQueryAddLink"));
+            //  Allow string modification!
+            query = (wchar_t*)testQuery.c_str();
+            Assert::IsTrue(get_query_command(1) == CMD_ADD);
+            do_add();
         };
 
         [TestMethod]

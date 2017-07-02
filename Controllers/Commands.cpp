@@ -4,6 +4,7 @@
 #include "../Models/ConfigTest.h"
 #include "../Models/FileReader.h"
 #include "../Views/FileListBootstrap.h"
+#include "../Views/AddLink.h"
 #include "Commands.h"
 
 //  команды для исполнения программой (вставляются в url)
@@ -130,29 +131,6 @@ TCHAR htm_edit_folder[] = _T("<html>\n\
             <p>\n\
                 <input type=\"submit\" value=\"Cancel\" name=\";key=%s;edit_folder\">\n\
                 <input type=\"submit\" value=\"Ok\" name=\";edit_folder=%s;key=%s;edit_folder\">\n\
-            </p>\n\
-        </form>\n\
-    </body>\n\
-</html>\n\
-");
-
-TCHAR htm_add[] = _T("<html>\n\
-    <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
-        <meta http-equiv=\"Content-Language\" content=\"ru\">\
-        <title>Создание Ссылки</title>\n\
-    </head>\n\
-    <body>\n\
-        <form method=get action=\"%s\">\n\
-            <p>\n\
-                Имя ссылки:<br>\n\
-                <input type=\"text\" size=50 value=\"\" name=\"%s;add\"><br>\n\
-                Ссылка указывает на:<br>\n\
-                <input type=\"text\" size=50 value=\"\" name=\";add\"><br>\n\
-            </p>\n\
-            <p>\n\
-                <input type=\"submit\" value=\"Cancel\" name=\";key=%s;add\">\n\
-                <input type=\"submit\" value=\"Ok\" name=\";key=%s;add\">\n\
             </p>\n\
         </form>\n\
     </body>\n\
@@ -497,7 +475,8 @@ void do_edit()
 
 void do_add_conf()
 {
-    _tprintf(htm_add, full_script_name, query, key, key);
+    Bookmarks::AddLink p;
+    p.Render();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -744,6 +723,7 @@ void do_edit_folder_conf()
     }
 }
 //-------------------------------------------------------------------------------------------------
+
 void do_edit_folder()
 {
     //  command здесь не д.б. = 0
@@ -811,6 +791,7 @@ void do_add_folder_conf()
     }
 }
 //-------------------------------------------------------------------------------------------------
+
 void do_add_folder()
 {
     //  command здесь не д.б. = 0

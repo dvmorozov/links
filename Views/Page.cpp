@@ -18,16 +18,18 @@ namespace Bookmarks
     {
         _tprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\" type=\"text/javascript\"></script>\n"));
         //  Attach on submit listener.
-        _tprintf(_T("<script type=\"text/javascript\">\
-            $(function() {\
-                 $('form').submit(function(ev) {\
-                    $('form input:text').each(function() {\
-                         $(this).val(encodeURIComponent($(this).val()));\
-                    });\
-                    this.submit();\
-                });\
-            });\
+        /*
+        _tprintf(_T("<script type=\"text/javascript\">\n\
+            $(function() {\n\
+                 $('form').submit(function(ev) {\n\
+                    $('form input:text').each(function() {\n\
+                         $(this).val(encodeURIComponent($(this).val()));\n\
+                    });\n\
+                    this.submit();\n\
+                });\n\
+            });\n\
             </script>\n"));
+            */
     }
 
     //  https://action.mindjet.com/task/14817423
@@ -44,7 +46,7 @@ namespace Bookmarks
         PrintScripts();
 
         _tprintf(_T("<title>%s</title></head>\n"), title.c_str());
-        _tprintf(_T("<body><br>\n"));
+        _tprintf(_T("<body>\n"));
     }
 
     void Page::PrintTail()

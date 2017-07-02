@@ -54,6 +54,9 @@
     <ClCompile Include="..\Views\Page.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\Views\AddLink.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -93,6 +96,9 @@
       <Filter>Source Files\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\Views\Page.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\AddLink.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>

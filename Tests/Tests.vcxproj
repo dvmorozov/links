@@ -101,6 +101,7 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderTest.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
+    <ClCompile Include="..\Views\AddLink.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
     <ClCompile Include="..\Views\Page.cpp" />
