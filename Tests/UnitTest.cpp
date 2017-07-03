@@ -151,7 +151,12 @@ namespace bookmarks_test
             //  Allow string modification!
             query = (wchar_t*)testQuery.c_str();
             Assert::IsTrue(get_query_command(1) == CMD_ADD);
-            do_add();
+            process_query(1);
+            if (!fatal_error) {
+                get_query_command(0);   //  udalenie komandy iz zaprosa
+                get_key();
+                do_add();
+            }
         };
 
         [TestMethod]

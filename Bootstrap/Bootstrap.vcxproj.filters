@@ -10,6 +10,9 @@
     <Filter Include="Models">
       <UniqueIdentifier>{34f91567-6b50-4095-9e8c-d29393bd44d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{9e738d34-b3c7-4003-a64b-d07d49e7d866}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Controllers\Commands.cpp">
@@ -42,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="..\Views\AddLink.cpp">
       <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utils\entities.c">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="..\Views\AddLink.h">
       <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utils\entities.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

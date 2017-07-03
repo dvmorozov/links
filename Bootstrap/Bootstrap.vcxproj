@@ -18,6 +18,7 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderDir.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
+    <ClCompile Include="..\Utils\entities.c" />
     <ClCompile Include="..\Views\AddLink.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\Models\FileListReader.h" />
     <ClInclude Include="..\Models\FileListReaderDir.h" />
     <ClInclude Include="..\Models\FileReader.h" />
+    <ClInclude Include="..\Utils\entities.h" />
     <ClInclude Include="..\Views\AddLink.h" />
     <ClInclude Include="..\Views\FileListLegacy.h" />
     <ClInclude Include="..\Views\FileListBootstrap.h" />
