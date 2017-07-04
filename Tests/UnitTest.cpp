@@ -6,9 +6,10 @@
 #include "..\Models\FileReader.h"
 #include "..\Models\FileListReader.h"
 #include "..\Models\FileListReaderTest.h"
-#include "..\main.h"
 #include "..\Views\FileListBootstrap.h"
 #include "..\Controllers\Commands.h"
+#include "..\Utils\entities.h"
+#include "..\main.h"
 
 TCHAR test_out[100 * 1024];
 TCHAR *test_str = test_out;
@@ -148,15 +149,17 @@ namespace bookmarks_test
 
             //  https://action.mindjet.com/task/14817423
             testQuery = Bookmarks::RegConfig::GetValue(_T("TestQueryAddLink"));
-            //  Allow string modification!
-            query = (wchar_t*)testQuery.c_str();
-            Assert::IsTrue(get_query_command(1) == CMD_ADD);
-            process_query(1);
-            if (!fatal_error) {
-                get_query_command(0);   //  udalenie komandy iz zaprosa
-                get_key();
-                do_add();
-            }
+            HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
+        };
+
+        [TestMethod]
+        void TestHtmlDecoding()
+        {
+            //  https://action.mindjet.com/task/14817423
+            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQueryAddLink"));
+            //  https://action.mindjet.com/task/14817423
+            query = (TCHAR*)malloc(testQuery.size() * sizeof(wchar_t));
+            decode_html_entities_utf8(query, testQuery.c_str());
         };
 
         [TestMethod]
