@@ -60,7 +60,7 @@
     <ClCompile Include="..\Views\AddLink.cpp">
       <Filter>Source Files\Views</Filter>
     </ClCompile>
-    <ClCompile Include="..\Utils\entities.c">
+    <ClCompile Include="..\Utils\entities.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>

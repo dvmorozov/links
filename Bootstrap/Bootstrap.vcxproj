@@ -18,7 +18,7 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderDir.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
-    <ClCompile Include="..\Utils\entities.c" />
+    <ClCompile Include="..\Utils\entities.cpp" />
     <ClCompile Include="..\Views\AddLink.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />

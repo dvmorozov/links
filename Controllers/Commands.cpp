@@ -5,6 +5,7 @@
 #include "../Models/FileReader.h"
 #include "../Views/FileListBootstrap.h"
 #include "../Views/AddLink.h"
+#include "../Utils/entities.h"
 #include "Commands.h"
 
 //  команды для исполнения программой (вставляются в url)
@@ -278,8 +279,9 @@ void process_query(unsigned char delete_spaces)
         }
         wcscat(temp, prev_ptr);            //  дописываем остаток строки
 
-        query = temp;                       //  пред. ук-ль не освобождается,
-                                            //  поскольку получен через getenv
+        //  https://action.mindjet.com/task/14817423
+        if (query) free(query);
+        query = temp;
     }
     else
     {
@@ -1223,17 +1225,20 @@ void MakeFolder(std::wstring name)
 
 #define MAX_DOMAIN 100
 
-int HandleQuery(TCHAR* query_string, TCHAR* script_name)
+int HandleQuery(TCHAR* encodedQuery, TCHAR* script_name)
 {
     try
     {
-        if (!query_string || !wcslen(query_string))
+        if (!encodedQuery || !wcslen(encodedQuery))
         {
             no_environment(_T("QUERY_STRING"));
             return 1;
         }
 
-        query = query_string;
+        //  https://action.mindjet.com/task/14817423
+        query = (TCHAR*)malloc(_tcslen(encodedQuery) * sizeof(TCHAR));;
+        decode_html_entities_utf8(query, encodedQuery);
+
         //  https://action.mindjet.com/task/14702859
         //  Работаем только по HTTPS.
         TCHAR http[] = _T("https://");
@@ -1435,10 +1440,10 @@ int HandleQuery(TCHAR* query_string, TCHAR* script_name)
             else
                 out_of_memory();
         }
-        if (query)free(query);   //  posle process_query mozhno osvobozhdat'
-        if (img_path)free(img_path);
-        if (cwd)free(cwd);
-        if (full_script_name)free(full_script_name);
+        if (query) free(query);                 //  posle process_query mozhno osvobozhdat'
+        if (img_path) free(img_path);
+        if (cwd) free(cwd);
+        if (full_script_name) free(full_script_name);
         return 0;
     }
     catch (std::exception &e)

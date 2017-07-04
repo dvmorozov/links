@@ -12,27 +12,23 @@
 #include <cctype>
 #include <clocale>
 
-#ifndef LINUX
-#include <Windows.h>
-#endif
-
-#define TCHAR       wchar_t
-#define _T(string)  L##string
-
-#ifndef _TEST
-#define _tprintf(...) wprintf(##__VA_ARGS__);
-#else
-extern TCHAR *test_str;
-#define _tprintf(...) {swprintf(test_str, ##__VA_ARGS__); test_str += wcslen(test_str);}
-#endif
-
 #if defined _WINDOWS
-
+#include <Windows.h>
+#include <tchar.h>
 #include <string.h>
 #include <io.h>
 #include <direct.h>
 #include <time.h>
 
+#elif LINUX
+#endif
+
+#ifdef _TEST
+#pragma warning( push )
+#pragma warning( disable : 4005 )
+extern TCHAR *test_str;
+#define _tprintf(...) {swprintf(test_str, ##__VA_ARGS__); test_str += wcslen(test_str);}
+#pragma warning( pop ) 
 #endif
 
 //  коды ошибок
