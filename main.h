@@ -12,15 +12,15 @@
 #include <cctype>
 #include <clocale>
 
-#if defined _WINDOWS
+#ifdef _WINDOWS
 #include <Windows.h>
 #include <tchar.h>
 #include <string.h>
 #include <io.h>
 #include <direct.h>
 #include <time.h>
-
 #elif LINUX
+#define TCHAR wchar_t
 #endif
 
 #ifdef _TEST

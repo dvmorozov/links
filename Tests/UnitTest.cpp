@@ -156,10 +156,12 @@ namespace bookmarks_test
         void TestHtmlDecoding()
         {
             //  https://action.mindjet.com/task/14817423
-            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQueryAddLink"));
+            testQuery = L"/cgi-bin/links.cgi?/Radio;add=Radiot&#233;ka&;add=Ok";
+
             //  https://action.mindjet.com/task/14817423
-            query = (TCHAR*)malloc(testQuery.size() * sizeof(wchar_t));
+            prepare_query_buffer(testQuery.size());
             decode_html_entities_utf8(query, testQuery.c_str());
+            Assert::IsTrue(std::wstring(L"/cgi-bin/links.cgi?/Radio;add=Radiotéka&;add=Ok") == query);
         };
 
         [TestMethod]
@@ -196,15 +198,15 @@ namespace bookmarks_test
         [TestMethod]
         void TestHandleAddFolderQuery()
         {
-            TCHAR query[] = L"Estate%3Badd_folder=%D2%E5%F1%F2&%3Bkey%3D1471160335%3Badd_folder=Ok";
-            HandleQuery(query, L"/cgi-bin/links.cgi");
+            testQuery = L"Estate%3Badd_folder=%D2%E5%F1%F2&%3Bkey%3D1471160335%3Badd_folder=Ok";
+            HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
         }
 
         [TestMethod]
         void TestHandleDeleteLinkQuery()
         {
-            TCHAR query[] = L"Estate/%CF%F0%E0%E3%E0;key=1471160335;del_conf=57b2edc6.url";
-            HandleQuery(query, L"/cgi-bin/links.cgi");
+            testQuery = L"Estate/%CF%F0%E0%E3%E0;key=1471160335;del_conf=57b2edc6.url";
+            HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
         }
 
         [TestMethod]

@@ -282,37 +282,37 @@ static const TCHAR *get_named_entity(const TCHAR *name)
 	return entity ? entity[1] : NULL;
 }
 
-static size_t putc_utf8(unsigned long cp, TCHAR *buffer)
+static size_t putc_utf8(unsigned long cp, char *buffer)
 {
-	TCHAR *bytes = (TCHAR *)buffer;
+    char *bytes = (char *)buffer;
 
 	if(cp <= 0x007Ful)
 	{
-		bytes[0] = (TCHAR)cp;
+		bytes[0] = (char)cp;
 		return 1;
 	}
 
 	if(cp <= 0x07FFul)
 	{
-		bytes[1] = (TCHAR)((2 << 6) | (cp & 0x3F));
-		bytes[0] = (TCHAR)((6 << 5) | (cp >> 6));
+		bytes[1] = (char)((2 << 6) | (cp & 0x3F));
+		bytes[0] = (char)((6 << 5) | (cp >> 6));
 		return 2;
 	}
 
 	if(cp <= 0xFFFFul)
 	{
-		bytes[2] = (TCHAR)(( 2 << 6) | ( cp       & 0x3F));
-		bytes[1] = (TCHAR)(( 2 << 6) | ((cp >> 6) & 0x3F));
-		bytes[0] = (TCHAR)((14 << 4) |  (cp >> 12));
+		bytes[2] = (char)(( 2 << 6) | ( cp       & 0x3F));
+		bytes[1] = (char)(( 2 << 6) | ((cp >> 6) & 0x3F));
+		bytes[0] = (char)((14 << 4) |  (cp >> 12));
 		return 3;
 	}
 
 	if(cp <= 0x10FFFFul)
 	{
-		bytes[3] = (TCHAR)(( 2 << 6) | ( cp        & 0x3F));
-		bytes[2] = (TCHAR)(( 2 << 6) | ((cp >>  6) & 0x3F));
-		bytes[1] = (TCHAR)(( 2 << 6) | ((cp >> 12) & 0x3F));
-		bytes[0] = (TCHAR)((30 << 3) |  (cp >> 18));
+		bytes[3] = (char)(( 2 << 6) | ( cp        & 0x3F));
+		bytes[2] = (char)(( 2 << 6) | ((cp >>  6) & 0x3F));
+		bytes[1] = (char)(( 2 << 6) | ((cp >> 12) & 0x3F));
+		bytes[0] = (char)((30 << 3) |  (cp >> 18));
 		return 4;
 	}
 
@@ -339,9 +339,19 @@ static bool parse_entity(
 		errno = errno_save;
 		if(fail) return 0;
 
+#ifndef _UNICODE
 		*to += putc_utf8(cp, *to);
+#else
+		char utfchar[5];
+		//  Add terminating zeros.
+		memset(utfchar, 0, sizeof(utfchar));
+		putc_utf8(cp, utfchar);
+		wchar_t wchar[2];
+		MultiByteToWideChar(CP_UTF8, 0, utfchar, -1, wchar, 2);
+		**to = wchar[0];
+		*to += 1;
+#endif
 		*from = end + 1;
-
 		return 1;
 	}
 	else
@@ -368,7 +378,7 @@ size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src)
 
 	for(const TCHAR *current; (current = _tcschr(from, _T('&')));)
 	{
-		memmove(to, from, (size_t)(current - from));
+		memmove(to, from, (size_t)(current - from) * sizeof(TCHAR));
 		to += current - from;
 
 		if(parse_entity(current, &to, &from))
@@ -380,9 +390,9 @@ size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src)
 
 	size_t remaining = _tcslen(from);
 
-	memmove(to, from, remaining);
+	memmove(to, from, remaining * sizeof(TCHAR));
 	to += remaining;
 	*to = 0;
 
-	return (size_t)(to - dest);
+	return (size_t)(to - dest) * sizeof(TCHAR);
 }

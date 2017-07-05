@@ -1222,10 +1222,18 @@ void MakeFolder(std::wstring name)
     //_wmkdir(name.c_str());
 }
 //-------------------------------------------------------------------------------------------------
+//  https://action.mindjet.com/task/14817423
+void prepare_query_buffer(int len)
+{
+    query = (TCHAR*)malloc(len * sizeof(TCHAR));
+    //  Fill by terminating zeros.
+    memset(query, 0, len * sizeof(TCHAR));
+}
+//-------------------------------------------------------------------------------------------------
 
 #define MAX_DOMAIN 100
 
-int HandleQuery(TCHAR* encodedQuery, TCHAR* script_name)
+int HandleQuery(TCHAR* encodedQuery, TCHAR* scriptName)
 {
     try
     {
@@ -1235,14 +1243,13 @@ int HandleQuery(TCHAR* encodedQuery, TCHAR* script_name)
             return 1;
         }
 
-        //  https://action.mindjet.com/task/14817423
-        query = (TCHAR*)malloc(_tcslen(encodedQuery) * sizeof(TCHAR));;
+        prepare_query_buffer(_tcslen(encodedQuery));
         decode_html_entities_utf8(query, encodedQuery);
 
         //  https://action.mindjet.com/task/14702859
         //  Работаем только по HTTPS.
         TCHAR http[] = _T("https://");
-        int script_name_len = wcslen(http);        //  полная длина пути к скрипту
+        int script_name_len = wcslen(http);         //  полная длина пути к скрипту
                                                     //  Вместо переменной окружения использует имя домена из конфиг. файла для того, 
                                                     //  чтобы правильно уст. ссылки, когда сервер работает через SSH.
                                                     //  evernote:///view/14501366/s132/44d4835c-cdac-40e1-acff-2fe610f865c8/44d4835c-cdac-40e1-acff-2fe610f865c8/
@@ -1265,14 +1272,14 @@ int HandleQuery(TCHAR* encodedQuery, TCHAR* script_name)
         if (!wcslen(server_name)) {
             no_environment(_T("SERVER_NAME")); return 1;
         }
-        if (!script_name || !wcslen(script_name)) {
+        if (!scriptName || !wcslen(scriptName)) {
             no_environment(_T("SCRIPT_NAME")); return 1;
         }
         if (!fatal_error)
         {
             full_script_name = 0;
             script_name_len += wcslen(server_name);
-            script_name_len += wcslen(script_name);
+            script_name_len += wcslen(scriptName);
 
             full_script_name = (TCHAR *)malloc((script_name_len + 1) * sizeof(TCHAR));
             if (full_script_name)
@@ -1280,7 +1287,7 @@ int HandleQuery(TCHAR* encodedQuery, TCHAR* script_name)
                 //  готовится имя скрипта для создания ссылок
                 wcscpy(full_script_name, http);
                 wcscat(full_script_name, server_name);
-                wcscat(full_script_name, script_name);
+                wcscat(full_script_name, scriptName);
 
                 TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
                                                                         //  указывать ее явно не нужно
@@ -1440,7 +1447,11 @@ int HandleQuery(TCHAR* encodedQuery, TCHAR* script_name)
             else
                 out_of_memory();
         }
-        if (query) free(query);                 //  posle process_query mozhno osvobozhdat'
+        if (query)
+        {
+            free(query);                 //  posle process_query mozhno osvobozhdat'
+            query = 0;
+        }
         if (img_path) free(img_path);
         if (cwd) free(cwd);
         if (full_script_name) free(full_script_name);

@@ -1,4 +1,11 @@
+
 #pragma once
+
+#ifdef _WINDOWS
+#include <tchar.h>
+#elif LINUX
+#define TCHAR wchar_t
+#endif
 
 //  коды команд
 #define CMD_CHANGE_FOLDER       0
@@ -35,6 +42,7 @@ extern int get_query_command(unsigned char does_not_processes /* priznak togo, c
                                                               zapret udaleniya komandy iz stroki */);
 extern int hex_char_to_int(TCHAR c);
 extern void process_query(unsigned char delete_spaces);
+extern void prepare_query_buffer(int len);
 extern void do_log_in_conf();
 extern void do_log_in();
 extern void get_key();
@@ -91,4 +99,4 @@ void MakeFolder(std::wstring name);
 std::wstring GetUserDirName();
 std::wstring GetTmpDirName();
 std::wstring GetFullDirName(std::wstring relDirName);
-int HandleQuery(TCHAR* query_string, TCHAR* script_name);
+int HandleQuery(TCHAR* encodedQuery, TCHAR* scriptName);
