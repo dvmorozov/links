@@ -1223,11 +1223,12 @@ void MakeFolder(std::wstring name)
 }
 //-------------------------------------------------------------------------------------------------
 //  https://action.mindjet.com/task/14817423
-void prepare_query_buffer(int len)
+void prepare_query_buffer(int queryLen)
 {
-    query = (TCHAR*)malloc(len * sizeof(TCHAR));
+    int bufSize = (queryLen + 1) * sizeof(TCHAR);
+    query = (TCHAR*)malloc(bufSize);
     //  Fill by terminating zeros.
-    memset(query, 0, len * sizeof(TCHAR));
+    memset(query, 0, bufSize);
 }
 //-------------------------------------------------------------------------------------------------
 
