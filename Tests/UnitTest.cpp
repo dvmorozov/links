@@ -146,10 +146,6 @@ namespace bookmarks_test
             Assert::IsTrue(std::wstring(password) == Bookmarks::RegConfig::GetValue(_T("Password")));
             //  Все параметры должны быть удалены.
             Assert::IsTrue(std::wstring(query).find(L";&") == std::wstring::npos);
-
-            //  https://action.mindjet.com/task/14817423
-            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQueryAddLink"));
-            HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
         };
 
         [TestMethod]
@@ -201,6 +197,22 @@ namespace bookmarks_test
             testQuery = L"Estate%3Badd_folder=%D2%E5%F1%F2&%3Bkey%3D1471160335%3Badd_folder=Ok";
             HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
         }
+
+        //  https://action.mindjet.com/task/14817423
+        [TestMethod]
+        void TestAddLink()
+        {
+            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            //  The key int URL must coincide with name of temporary file.
+            //  The URL mustn't include domain and script name.
+            std::wstring testQueryAddLink = L"Radio%3Badd=Radiot%26%23233%3Bka&%3Badd=http%3A%2F%2Fwww.radioteka.cz%2F&%3Bkey%3D1471160335%3Badd=Ok";
+            //  Allow string modification!
+            query = (wchar_t*)testQuery.c_str();
+            Assert::IsTrue(check_log_in_params() == nullptr);
+
+            HandleQuery((wchar_t*)testQueryAddLink.c_str(), L"/cgi-bin/links.cgi");
+            Assert::IsTrue(fatal_error != 1);
+        };
 
         [TestMethod]
         void TestHandleDeleteLinkQuery()
