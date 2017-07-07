@@ -217,77 +217,19 @@ TCHAR *password = 0;
 #define MAX_USER_NAME       100
 //-------------------------------------------------------------------------------------------------
 
-void PrintHtmlHead(TCHAR *title);
-void PrintHtmlTail();
-//-------------------------------------------------------------------------------------------------
-//  поиск % и вставка соответ. символов
-//  '+' заменяются на пробелы
 void process_query(unsigned char delete_spaces)
 {
     int query_len = wcslen(query);
     TCHAR *temp = (TCHAR *)malloc((query_len + 1) * sizeof(TCHAR));
     if (temp)
     {
-        TCHAR *ptr, *prev_ptr;
-        ptr = query;
-        prev_ptr = ptr;
-        temp[0] = 0;
-
-        //  когда браузер отправляет запрос в ответ на нажатие кнопки,
-        //  то он заменяет пробелы на '+', а '+' на % с кодом 
-        //  (=> сначала нужно преобр. '+'  в ' ', а потом % в символы);
-        //  когда браузер переходит по ссылке он заменяет пробел на
-        //  % с кодом, а '+' остаются как были
-        //  (=> нужно только преобр. %  в символы)
-
-        //  '+' заменяются на пробелы
-        if (delete_spaces)
-        {
-            while (ptr = (TCHAR*)wcschr(ptr, '+'))
-            {
-                *ptr = ' ';
-                ptr++;
-            }
-        }
-
-        ptr = query;
-        //  преобразование символов, заданных с пом. кодов
-        while (ptr = (TCHAR*)wcschr(ptr, '%'))
-        {
-            if ((int)(ptr - query) <= query_len - 3)
-            {
-                char chr[2];
-                TCHAR saved;
-
-                chr[0] = (hex_char_to_int(*(ptr + 1)) << 4) + hex_char_to_int(*(ptr + 2));
-                chr[1] = 0;
-
-                //  https://action.mindjet.com/task/14703416
-                wchar_t wstr[MAX_LINE_LENGTH];
-                MultiByteToWideChar(CP_ACP, 0, chr, -1, wstr, MAX_LINE_LENGTH);
-
-                saved = *ptr;
-                *ptr = 0;
-                wcscat(temp, prev_ptr);
-                *ptr = saved;
-
-                wcscat(temp, wstr);
-                ptr += 3;
-                prev_ptr = ptr;
-            }
-            else break;
-        }
-        wcscat(temp, prev_ptr);            //  дописываем остаток строки
-
         //  https://action.mindjet.com/task/14817423
-        if (query) free(query);
-        query = temp;
+        decode_url(temp, query, delete_spaces);
+        decode_html_entities_utf8(query, temp);
+        free(temp);
     }
     else
-    {
         out_of_memory();
-        query = 0;                          //  чтобы не было недопустимого осв. указателя
-    }
 }
 //-------------------------------------------------------------------------------------------------
 //  здесь ошибки не фатальны
@@ -979,37 +921,6 @@ void end_error_box()
 }
 //-------------------------------------------------------------------------------------------------
 
-int hex_char_to_int(TCHAR c)
-{
-    switch (c)
-    {
-    default:
-    case('0'): return 0;
-    case('1'): return 1;
-    case('2'): return 2;
-    case('3'): return 3;
-    case('4'): return 4;
-    case('5'): return 5;
-    case('6'): return 6;
-    case('7'): return 7;
-    case('8'): return 8;
-    case('9'): return 9;
-    case('a'):
-    case('A'): return 10;
-    case('b'):
-    case('B'): return 11;
-    case('c'):
-    case('C'): return 12;
-    case('d'):
-    case('D'): return 13;
-    case('e'):
-    case('E'): return 14;
-    case('f'):
-    case('F'): return 15;
-    }
-}
-//-------------------------------------------------------------------------------------------------
-
 void no_environment(TCHAR *env_str)
 {
     Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
@@ -1244,8 +1155,9 @@ int HandleQuery(TCHAR* encodedQuery, TCHAR* scriptName)
             return 1;
         }
 
+        //  https://action.mindjet.com/task/14817423
         prepare_query_buffer(_tcslen(encodedQuery));
-        decode_html_entities_utf8(query, encodedQuery);
+        _tcscpy(query, encodedQuery);
 
         //  https://action.mindjet.com/task/14702859
         //  Работаем только по HTTPS.

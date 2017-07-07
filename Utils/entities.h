@@ -17,5 +17,6 @@ extern "C" size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src);
 
 	The function returns the length of the decoded string.
 */
+extern "C" void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces);
 
 #endif

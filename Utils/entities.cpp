@@ -396,3 +396,90 @@ size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src)
 
 	return (size_t)(to - dest) * sizeof(TCHAR);
 }
+
+int hex_char_to_int(TCHAR c)
+{
+    switch (c)
+    {
+    default:
+    case('0'): return 0;
+    case('1'): return 1;
+    case('2'): return 2;
+    case('3'): return 3;
+    case('4'): return 4;
+    case('5'): return 5;
+    case('6'): return 6;
+    case('7'): return 7;
+    case('8'): return 8;
+    case('9'): return 9;
+    case('a'):
+    case('A'): return 10;
+    case('b'):
+    case('B'): return 11;
+    case('c'):
+    case('C'): return 12;
+    case('d'):
+    case('D'): return 13;
+    case('e'):
+    case('E'): return 14;
+    case('f'):
+    case('F'): return 15;
+    }
+}
+
+//  поиск % и вставка соответ. символов
+//  '+' заменяются на пробелы
+void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
+{
+    int query_len = wcslen(src);
+    TCHAR *ptr, *prev_ptr;
+    ptr = src;
+    prev_ptr = ptr;
+    dest[0] = 0;
+
+    //  когда браузер отправляет запрос в ответ на нажатие кнопки,
+    //  то он заменяет пробелы на '+', а '+' на % с кодом 
+    //  (=> сначала нужно преобр. '+'  в ' ', а потом % в символы);
+    //  когда браузер переходит по ссылке он заменяет пробел на
+    //  % с кодом, а '+' остаются как были
+    //  (=> нужно только преобр. %  в символы)
+
+    //  '+' replaced by spaces. 'Src' is modified!
+    if (delete_spaces)
+    {
+        while (ptr = (TCHAR*)wcschr(ptr, '+'))
+        {
+            *ptr = ' ';
+            ptr++;
+        }
+    }
+
+    ptr = src;
+    //  преобразование символов, заданных с пом. кодов
+    while (ptr = (TCHAR*)wcschr(ptr, '%'))
+    {
+        if ((int)(ptr - src) <= query_len - 3)
+        {
+            char chr[2];
+            TCHAR saved;
+
+            chr[0] = (hex_char_to_int(*(ptr + 1)) << 4) + hex_char_to_int(*(ptr + 2));
+            chr[1] = 0;
+
+            //  https://action.mindjet.com/task/14703416
+            wchar_t wstr[MAX_LINE_LENGTH];
+            MultiByteToWideChar(CP_ACP, 0, chr, -1, wstr, MAX_LINE_LENGTH);
+
+            saved = *ptr;
+            *ptr = 0;
+            wcscat(dest, prev_ptr);
+            *ptr = saved;
+
+            wcscat(dest, wstr);
+            ptr += 3;
+            prev_ptr = ptr;
+        }
+        else break;
+    }
+    wcscat(dest, prev_ptr);             //  дописываем остаток строки
+}
