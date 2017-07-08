@@ -6,6 +6,7 @@
 #elif LINUX
 #define TCHAR wchar_t
 #endif
+#include "..\main.h"
 
 //  коды команд
 #define CMD_CHANGE_FOLDER       0
@@ -99,4 +100,8 @@ void MakeFolder(std::wstring name);
 std::wstring GetUserDirName();
 std::wstring GetTmpDirName();
 std::wstring GetFullDirName(std::wstring relDirName);
+#ifdef USE_SCRIPT_NAME
 int HandleQuery(TCHAR* encodedQuery, TCHAR* scriptName);
+#else
+int HandleQuery(TCHAR* encodedQuery);
+#endif

@@ -1144,8 +1144,11 @@ void prepare_query_buffer(int queryLen)
 //-------------------------------------------------------------------------------------------------
 
 #define MAX_DOMAIN 100
-
+#ifdef USE_SCRIPT_NAME
 int HandleQuery(TCHAR* encodedQuery, TCHAR* scriptName)
+#else
+int HandleQuery(TCHAR* encodedQuery)
+#endif
 {
     try
     {
@@ -1185,26 +1188,29 @@ int HandleQuery(TCHAR* encodedQuery, TCHAR* scriptName)
         if (!wcslen(server_name)) {
             no_environment(_T("SERVER_NAME")); return 1;
         }
+#ifdef USE_SCRIPT_NAME
         if (!scriptName || !wcslen(scriptName)) {
             no_environment(_T("SCRIPT_NAME")); return 1;
         }
+#endif
         if (!fatal_error)
         {
             full_script_name = 0;
             script_name_len += wcslen(server_name);
+#ifdef USE_SCRIPT_NAME
             script_name_len += wcslen(scriptName);
-
+#endif
             full_script_name = (TCHAR *)malloc((script_name_len + 1) * sizeof(TCHAR));
             if (full_script_name)
             {
                 //  готовится имя скрипта для создания ссылок
                 wcscpy(full_script_name, http);
                 wcscat(full_script_name, server_name);
+#ifdef USE_SCRIPT_NAME
                 wcscat(full_script_name, scriptName);
-
+#endif
                 TCHAR www_sub[] = _T("/links/");                        //  www - папка по-умолчанию для веб-узла, поэтому
                                                                         //  указывать ее явно не нужно
-
                 img_path = (TCHAR *)malloc((wcslen(server_name) + wcslen(http) + wcslen(www_sub) + 1) * sizeof(TCHAR));
                 //  готовится путь к скрипту для создания ссылок на картинки
                 if (img_path)

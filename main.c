@@ -24,6 +24,10 @@ int main(int argc, TCHAR *argv[])
         return 0;
     }
 
-    return HandleQuery(_wgetenv(_T("QUERY_STRING")), _wgetenv(_T("SCRIPT_NAME")));
+    return HandleQuery(_wgetenv(_T("QUERY_STRING"))
+#ifdef USE_SCRIPT_NAME
+        , _wgetenv(_T("SCRIPT_NAME"))
+#endif
+    );
 }
 //-------------------------------------------------------------------------------------------------

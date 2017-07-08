@@ -3,6 +3,7 @@
 
 //#define LINUX     //  native
 #define EXTENDED_URL_FILE
+//#define USE_SCRIPT_NAME
 
 #include <stdio.h>
 #include <stdlib.h>

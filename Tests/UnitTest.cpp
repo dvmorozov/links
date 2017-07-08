@@ -195,7 +195,11 @@ namespace bookmarks_test
         void TestHandleAddFolderQuery()
         {
             testQuery = L"Estate%3Badd_folder=%D2%E5%F1%F2&%3Bkey%3D1471160335%3Badd_folder=Ok";
-            HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
+            HandleQuery((wchar_t*)testQuery.c_str()
+#ifdef USE_SCRIPT_NAME
+                , L"/cgi-bin/links.cgi"
+#endif
+            );
         }
 
         //  https://action.mindjet.com/task/14817423
@@ -210,7 +214,11 @@ namespace bookmarks_test
             query = (wchar_t*)testQuery.c_str();
             Assert::IsTrue(check_log_in_params() == nullptr);
 
-            HandleQuery((wchar_t*)testQueryAddLink.c_str(), L"/cgi-bin/links.cgi");
+            HandleQuery((wchar_t*)testQueryAddLink.c_str()
+#ifdef USE_SCRIPT_NAME
+                , L"/cgi-bin/links.cgi"
+#endif
+            );
             Assert::IsTrue(fatal_error != 1);
         };
 
@@ -218,7 +226,11 @@ namespace bookmarks_test
         void TestHandleDeleteLinkQuery()
         {
             testQuery = L"Estate/%CF%F0%E0%E3%E0;key=1471160335;del_conf=57b2edc6.url";
-            HandleQuery((wchar_t*)testQuery.c_str(), L"/cgi-bin/links.cgi");
+            HandleQuery((wchar_t*)testQuery.c_str()
+#ifdef USE_SCRIPT_NAME
+                , L"/cgi-bin/links.cgi"
+#endif
+            );
         }
 
         [TestMethod]
