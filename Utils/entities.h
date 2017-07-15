@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include "../main.h"
 
-extern "C" size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src);
+size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src);
 /*	Takes input from <src> and decodes into <dest>, which should be a buffer
 	large enough to hold <strlen(src) + 1> characters.
 
@@ -17,6 +17,13 @@ extern "C" size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src);
 
 	The function returns the length of the decoded string.
 */
-extern "C" void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces);
+void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces);
+
+//  Working with URL-files.
+extern const std::wstring Ext;
+extern const std::wstring ParamURL;
+extern const std::wstring ParamName;
+
+std::wstring create_url_file(const TCHAR *name, const TCHAR *url, const TCHAR *folderName = nullptr);
 
 #endif

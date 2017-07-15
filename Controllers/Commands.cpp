@@ -35,25 +35,6 @@ TCHAR pict_error[] = _T("error.bmp");
 
 std::wstring DocumentRoot;
 
-//  –абота с URL-файлами.
-const std::wstring Ext = _T(".url");            //  д. вкл. точку
-const std::wstring ParamURL = _T("URL");
-
-#ifdef EXTENDED_URL_FILE
-const std::wstring ParamName = _T("Name");
-
-TCHAR url_file_template[] = _T("\n\
-[InternetShortcut]\n\
-URL=%s\n\
-Name=%s\n\
-");
-#else
-TCHAR url_file_template[] = _T("\n\
-[InternetShortcut]\n\
-URL=%s\n\
-");
-#endif
-
 int error = 0;
 int fatal_error = 0;                                                //  priznak vyvoda soobscheniya ob oschibke
 
@@ -230,46 +211,6 @@ void process_query(unsigned char delete_spaces)
     }
     else
         out_of_memory();
-}
-//-------------------------------------------------------------------------------------------------
-//  здесь ошибки не фатальны
-void create_url_file(
-    const TCHAR *name,                      //  им€ файла без пути
-    const TCHAR *url)
-{
-#ifdef EXTENDED_URL_FILE
-    //  в качестве имени файла исп. случайное числовое значение
-    //  при использовании случайных названий полученных с пом.
-    //  tmktemp оказалось, что эти названи€ часто повтор€лись
-    TCHAR t[9];
-    //srand((unsigned)time(NULL));
-    swprintf(t, _T("%08x"), /*(int)rand()*/(int)time(0));
-
-    std::wstring temp = t + Ext;
-
-    FILE *f = _wfopen(temp.c_str(), _T("w"));
-    if (f)
-    {
-        fwprintf(f, url_file_template, url, name);
-        fclose(f);
-    }
-#else
-    TCHAR *full_file_name = malloc((wcslen(name) + wcslen(ext) + 1) * sizeof(TCHAR));
-    if (full_file_name)
-    {
-        wcscpy(full_file_name, name);
-        wcscat(full_file_name, ext);
-        {
-            FILE *f = _wfopen(full_file_name, _T("w"));
-            if (f)
-            {
-                fwprintf(f, url_file_template, url);
-                fclose(f);
-            }
-        }
-        free(full_file_name);
-    }
-#endif
 }
 //-------------------------------------------------------------------------------------------------
 

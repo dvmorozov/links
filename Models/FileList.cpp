@@ -1,7 +1,8 @@
 
 #include "FileList.h"
 #include "FileReader.h"
-#include "..\Controllers\Commands.h"
+#include "../Controllers/Commands.h"
+#include "../Utils/entities.h"
 
 #include <sstream>
 #include <locale>

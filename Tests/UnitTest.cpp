@@ -179,6 +179,18 @@ namespace bookmarks_test
         };
 
         [TestMethod]
+        void TestUTF8File()
+        {
+            Bookmarks::FileReader fr(Bookmarks::RegConfig::GetValue(_T("TestFolder")));
+
+            std::wstring folderName = Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\14817423");
+            std::wstring fileName = create_url_file(_T("Radiotéka"), _T("http://www.radioteka.cz/"), folderName.c_str());
+
+            std::wstring localName = fr.GetParam(fileName, ParamName);
+            Assert::IsTrue(_T("Radiotéka") == localName);
+        };
+
+        [TestMethod]
         void TestGetKeyFileName()
         {
             std::wstring fileName = getKeyFileName();

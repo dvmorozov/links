@@ -483,3 +483,61 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
     }
     wcscat(dest, prev_ptr);             //  дописываем остаток строки
 }
+
+//  Работа с URL-файлами.
+const std::wstring Ext = _T(".url");            //  д. вкл. точку
+const std::wstring ParamURL = _T("URL");
+
+#ifdef EXTENDED_URL_FILE
+const std::wstring ParamName = _T("Name");
+
+TCHAR url_file_template[] = _T("\n\
+[InternetShortcut]\n\
+URL=%s\n\
+Name=%s\n\
+");
+#else
+TCHAR url_file_template[] = _T("\n\
+[InternetShortcut]\n\
+URL=%s\n\
+");
+#endif
+
+std::wstring create_url_file(
+    const TCHAR *name,                  //  Link name.
+    const TCHAR *url,                   //  Link URL.
+    const TCHAR *folderName)
+{
+#ifdef EXTENDED_URL_FILE
+    TCHAR timestamp[9];
+    swprintf(timestamp, _T("%08x"), (int)time(0));
+
+    std::wstring fileName = folderName ? std::wstring(folderName) + _T("\\") : _T("");
+    fileName += timestamp + Ext;
+
+    FILE *f = _wfopen(fileName.c_str(), _T("w, ccs=UTF-8"));
+    if (f)
+    {
+        fwprintf(f, url_file_template, url, name);
+        fclose(f);
+    }
+    return fileName;
+#else
+    //??? Remove or upgrade this part.
+    TCHAR *full_file_name = malloc((wcslen(name) + wcslen(ext) + 1) * sizeof(TCHAR));
+    if (full_file_name)
+    {
+        wcscpy(full_file_name, name);
+        wcscat(full_file_name, ext);
+        {
+            FILE *f = _wfopen(full_file_name, _T("w"));
+            if (f)
+            {
+                fwprintf(f, url_file_template, url);
+                fclose(f);
+            }
+        }
+        free(full_file_name);
+    }
+#endif
+}

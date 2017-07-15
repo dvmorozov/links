@@ -2,6 +2,7 @@
 #include "FileListLegacy.h"
 #include "../Models/FileReader.h"
 #include "../Controllers/Commands.h"
+#include "../Utils/entities.h"
 #include "../main.h"
 
 namespace Bookmarks

@@ -3,6 +3,7 @@
 
 #include "../main.h"
 #include "../Controllers/Commands.h"
+#include "../Utils/entities.h"
 #include "../Models/FileReader.h"
 
 namespace Bookmarks

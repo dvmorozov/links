@@ -62,11 +62,6 @@ extern void do_del_folder_conf();
 
 extern std::wstring DocumentRoot; 
 
-//  Работа с URL-файлами.
-extern const std::wstring Ext;
-extern const std::wstring ParamURL;
-extern const std::wstring ParamName;
-
 extern TCHAR url_file_template[];
 extern TCHAR *query;
 extern TCHAR *img_path;
