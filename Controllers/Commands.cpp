@@ -42,7 +42,7 @@ int fatal_error = 0;                                                //  priznak 
                                                                     //  слова Cancel и Ок д.б. такими же, как в строках cancel и ok
 TCHAR htm_folder_del_conf[] = _T("<html>\n\
     <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\
         <meta http-equiv=\"Content-Language\" content=\"ru\">\
         <title>Удаление Папки</title>\n\
     </head>\n\
@@ -60,7 +60,7 @@ TCHAR htm_folder_del_conf[] = _T("<html>\n\
 
 TCHAR htm_del_conf[] = _T("<html>\n\
     <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\
         <meta http-equiv=\"Content-Language\" content=\"ru\">\
         <title>Удаление Ссылки</title>\n\
     </head>\n\
@@ -78,7 +78,7 @@ TCHAR htm_del_conf[] = _T("<html>\n\
 
 TCHAR htm_edit[] = _T("<html>\n\
     <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\
         <meta http-equiv=\"Content-Language\" content=\"ru\">\
         <title>Редактирование Ссылки</title>\n\
     </head>\n\
@@ -100,7 +100,7 @@ TCHAR htm_edit[] = _T("<html>\n\
 
 TCHAR htm_edit_folder[] = _T("<html>\n\
     <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\
         <meta http-equiv=\"Content-Language\" content=\"ru\">\
         <title>Редактирование Папки</title>\n\
     </head>\n\
@@ -121,7 +121,7 @@ TCHAR htm_edit_folder[] = _T("<html>\n\
 
 TCHAR htm_add_folder[] = _T("<html>\n\
     <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\
         <meta http-equiv=\"Content-Language\" content=\"ru\">\
         <title>Создание Папки</title>\n\
     </head>\n\
@@ -142,7 +142,7 @@ TCHAR htm_add_folder[] = _T("<html>\n\
 
 TCHAR htm_log_in_conf[] = _T("<html>\n\
     <head>\n\
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1251\">\
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\
         <meta http-equiv=\"Content-Language\" content=\"ru\">\
         <title>Вход</title>\n\
     </head>\n\

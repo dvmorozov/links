@@ -132,6 +132,7 @@ namespace bookmarks_test
 
             Bookmarks::FileListBootstrap p;
             p.Render();
+            Assert::IsTrue(fatal_error != 1);
         };
 
         [TestMethod]
