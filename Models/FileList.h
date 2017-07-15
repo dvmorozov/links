@@ -68,5 +68,8 @@ namespace Bookmarks
 
         //  https://action.mindjet.com/task/14732139
         void DeleteDuplicates();
+
+        //  https://action.mindjet.com/task/14817423
+        static bool HasExtension(std::wstring fileName, std::wstring ext);
     };
 }

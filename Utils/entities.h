@@ -20,7 +20,7 @@ size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src);
 void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces);
 
 //  Working with URL-files.
-extern const std::wstring Ext;
+extern const std::wstring ExtUtf8;
 extern const std::wstring ParamURL;
 extern const std::wstring ParamName;
 

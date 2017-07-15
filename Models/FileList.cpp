@@ -60,12 +60,17 @@ namespace Bookmarks
             //  Restore folder name.
             std::for_each(columns.begin() + 4, columns.end(), [&](std::wstring &s) { fileName += _T(" ") + s; });
 
-            //  Read file content.
-            FileReader fr;
-            std::wstring url = fr.GetParam(fileName, ParamURL);
-            std::wstring name = fr.GetParam(fileName, ParamName);
+            if (!isFolder) 
+            {
+                //  Read file content.
+                FileReader fr;
+                std::wstring url = fr.GetParam(fileName, ParamURL);
+                std::wstring name = fr.GetParam(fileName, ParamName);
 
-            result.push_back(File(fileName, isFolder, dateTime, size, url, name));
+                result.push_back(File(fileName, isFolder, dateTime, size, url, name));
+            }
+            else
+                result.push_back(File(fileName, isFolder, dateTime, size, _T(""), _T("")));
 #else
             bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
             result.push_back(File(line, isFolder, 0, 0));
@@ -85,17 +90,37 @@ namespace Bookmarks
         return result;
     }
 
+    //  https://action.mindjet.com/task/14817423
+    bool FileList::HasExtension(std::wstring fileName, std::wstring ext)
+    {
+        assert(fileName.size() >= ext.size());
+        return (!fileName.compare(fileName.size() - ext.size(), ext.size(), ext));
+    }
+
     //  https://action.mindjet.com/task/14726166
     FileVector FileList::GetFileList()
     {
         FileVector result(_fileList.size());
 
-        //  Copies only files with given extension.
-        auto it = std::copy_if(_fileList.begin(), _fileList.end(), result.begin(), [](File &f) {
+        //  Copies only files with given extensions.
+        auto it = std::copy_if(_fileList.begin(), _fileList.end(), result.begin(), [](File &f) 
+        {
             auto nameLCase = f.FileName;
-            const std::wstring ext = _T(".url");
+            //  https://action.mindjet.com/task/14817423
+            const std::wstring supportedExts[] = { _T(".url"), ExtUtf8 };
             std::transform(nameLCase.begin(), nameLCase.end(), nameLCase.begin(), ::tolower);
-            return !f.IsFolder && !nameLCase.compare(nameLCase.size() - ext.size(), ext.size(), ext);
+
+            auto isSupported = false;
+            if (!f.IsFolder)
+            {
+                //  Checks file type.
+                std::for_each(std::begin(supportedExts), std::end(supportedExts), [nameLCase, &isSupported](const std::wstring ext) mutable
+                {
+                    if (HasExtension(nameLCase, ext))
+                        isSupported = true;
+                });
+            }
+            return isSupported;
         });
         result.resize(std::distance(result.begin(), it));   //  Shrink container to new size.
 

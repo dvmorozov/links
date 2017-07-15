@@ -485,12 +485,12 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
 }
 
 //  Работа с URL-файлами.
-const std::wstring Ext = _T(".url");            //  д. вкл. точку
 const std::wstring ParamURL = _T("URL");
+//  https://action.mindjet.com/task/14817423
+const std::wstring ExtUtf8 = _T(".utf8");       //  д. вкл. точку
 
 #ifdef EXTENDED_URL_FILE
 const std::wstring ParamName = _T("Name");
-
 TCHAR url_file_template[] = _T("\n\
 [InternetShortcut]\n\
 URL=%s\n\
@@ -504,16 +504,16 @@ URL=%s\n\
 #endif
 
 std::wstring create_url_file(
-    const TCHAR *name,                  //  Link name.
-    const TCHAR *url,                   //  Link URL.
+    const TCHAR *name,                          //  Link name.
+    const TCHAR *url,                           //  Link URL.
     const TCHAR *folderName)
 {
 #ifdef EXTENDED_URL_FILE
     TCHAR timestamp[9];
     swprintf(timestamp, _T("%08x"), (int)time(0));
 
-    std::wstring fileName = folderName ? std::wstring(folderName) + _T("\\") : _T("");
-    fileName += timestamp + Ext;
+    std::wstring fileName = folderName ? (std::wstring(folderName) + _T("\\")) : _T("");
+    fileName += timestamp + ExtUtf8;
 
     FILE *f = _wfopen(fileName.c_str(), _T("w, ccs=UTF-8"));
     if (f)

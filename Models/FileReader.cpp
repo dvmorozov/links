@@ -1,4 +1,6 @@
 #include "FileReader.h"
+#include "FileList.h"
+#include "../Utils/entities.h"
 
 namespace Bookmarks
 {
@@ -13,6 +15,8 @@ namespace Bookmarks
             }
         }
 #endif
+        auto isUtf8 = FileList::HasExtension(fileName, ExtUtf8);
+
         FILE *f = _wfopen(fileName.c_str(), _T("r"));
         std::wstring result;
 
@@ -23,7 +27,12 @@ namespace Bookmarks
             while (fgets(lineptr, MAX_LINE_LENGTH, f))
             {
                 wchar_t wlineptr[MAX_LINE_LENGTH];
-                MultiByteToWideChar(CP_UTF8, 0, lineptr, -1, wlineptr, MAX_LINE_LENGTH);
+                //  https://action.mindjet.com/task/14817423
+                if (isUtf8)
+                    MultiByteToWideChar(CP_UTF8, 0, lineptr, -1, wlineptr, MAX_LINE_LENGTH);
+                else
+                    MultiByteToWideChar(CP_ACP, 0, lineptr, -1, wlineptr, MAX_LINE_LENGTH);
+
                 std::wstring wline = wlineptr;
 
                 //  очистка прочитанной строки от завершающих символов новой строки
