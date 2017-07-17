@@ -945,6 +945,7 @@ std::wstring GetUserDirName()
     std::wstring result = GetFullDirName(_T("users/links/"));
     result += username;
     result += L"/";
+
     result += query;
     return result;
 }
@@ -963,13 +964,16 @@ void change_folder()
     else
     {
         //  создается строка имени папки
-        std::wstring temp = GetUserDirName();
+        std::wstring dirName = GetUserDirName();
         //  Changes current directory.
-        if (-1 == _wchdir(temp.c_str()))
+        char mbDirName[MAX_PATH];
+        WideCharToMultiByte(CP_UTF8, 0, dirName.c_str(), -1, mbDirName, sizeof(mbDirName), NULL, NULL);
+
+        if (-1 == chdir(mbDirName))
         {
             Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
             begin_error_box();
-            _tprintf(_T("%s%s<BR>\n"), err_change_folder, temp.c_str());
+            _tprintf(_T("%s%s<BR>\n"), err_change_folder, dirName.c_str());
             fatal_error = 1;
             end_error_box();
             error = E_CHANGE_FOLDER;
@@ -1071,7 +1075,6 @@ void MakeFolder(std::wstring name)
     WideCharToMultiByte(CP_ACP, 0, name.c_str(), -1, dirName, sizeof(dirName), NULL, NULL);
     //  Функция работает с "узкими" символами.
     _mkdir(dirName);
-    //_wmkdir(name.c_str());
 }
 //-------------------------------------------------------------------------------------------------
 //  https://action.mindjet.com/task/14817423

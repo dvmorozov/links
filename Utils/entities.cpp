@@ -468,7 +468,7 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
 
             //  https://action.mindjet.com/task/14703416
             wchar_t wstr[MAX_LINE_LENGTH];
-            MultiByteToWideChar(CP_ACP, 0, chr, -1, wstr, MAX_LINE_LENGTH);
+            MultiByteToWideChar(CP_UTF8, 0, chr, -1, wstr, MAX_LINE_LENGTH);
 
             saved = *ptr;
             *ptr = 0;

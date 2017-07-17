@@ -247,6 +247,24 @@ namespace bookmarks_test
         }
 
         [TestMethod]
+        void TestChangeFolder()
+        {
+            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            //  Allow string modification!
+            query = (wchar_t*)testQuery.c_str();
+            //  Log in must be done before processing command.
+            Assert::IsTrue(check_log_in_params() == nullptr);
+            //  Key must correspond to test user data ("1471160335").
+            testQuery = L"Business/%D0%A2%D1%80%D0%B5%D0%B9%D0%B4%D0%B8%D0%BD%D0%B3;key=1471160335;ch_folder=Ok";
+            HandleQuery((wchar_t*)testQuery.c_str()
+#ifdef USE_SCRIPT_NAME
+                , L"/cgi-bin/links.cgi"
+#endif
+            );
+            Assert::IsTrue(fatal_error != 1);
+        }
+
+        [TestMethod]
         //  https://action.mindjet.com/task/14732139
         void TestDeleteDuplicates()
         {
