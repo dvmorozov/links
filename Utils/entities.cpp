@@ -432,9 +432,8 @@ int hex_char_to_int(TCHAR c)
 void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
 {
     int query_len = wcslen(src);
-    TCHAR *ptr, *prev_ptr;
+    TCHAR *ptr;
     ptr = src;
-    prev_ptr = ptr;
     dest[0] = 0;
 
     //  когда браузер отправляет запрос в ответ на нажатие кнопки,
@@ -455,33 +454,30 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
     }
 
     ptr = src;
+    std::string s = "";
     //  преобразование символов, заданных с пом. кодов
-    while (ptr = (TCHAR*)wcschr(ptr, '%'))
+    while ((int)(ptr - src) <= query_len)
     {
-        if ((int)(ptr - src) <= query_len - 3)
+        char chr;
+
+        if (*ptr == '%')
         {
-            char chr[2];
-            TCHAR saved;
+            chr = (hex_char_to_int(*(ptr + 1)) << 4) + hex_char_to_int(*(ptr + 2));
 
-            chr[0] = (hex_char_to_int(*(ptr + 1)) << 4) + hex_char_to_int(*(ptr + 2));
-            chr[1] = 0;
-
-            //  https://action.mindjet.com/task/14703416
-            wchar_t wstr[MAX_LINE_LENGTH];
-            MultiByteToWideChar(CP_UTF8, 0, chr, -1, wstr, MAX_LINE_LENGTH);
-
-            saved = *ptr;
-            *ptr = 0;
-            wcscat(dest, prev_ptr);
-            *ptr = saved;
-
-            wcscat(dest, wstr);
             ptr += 3;
-            prev_ptr = ptr;
+            s += chr;
         }
-        else break;
+        else
+        {
+            s += *ptr;
+            ptr++;
+        }
     }
-    wcscat(dest, prev_ptr);             //  дописываем остаток строки
+    //  https://action.mindjet.com/task/14703416
+    wchar_t wstr[MAX_LINE_LENGTH];
+    MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, wstr, MAX_LINE_LENGTH);
+
+    wcscat(dest, wstr);
 }
 
 //  Работа с URL-файлами.

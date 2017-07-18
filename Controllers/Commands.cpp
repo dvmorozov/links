@@ -966,10 +966,8 @@ void change_folder()
         //  создается строка имени папки
         std::wstring dirName = GetUserDirName();
         //  Changes current directory.
-        char mbDirName[MAX_PATH];
-        WideCharToMultiByte(CP_UTF8, 0, dirName.c_str(), -1, mbDirName, sizeof(mbDirName), NULL, NULL);
 
-        if (-1 == chdir(mbDirName))
+        if (-1 == _wchdir(dirName.c_str()))
         {
             Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
             begin_error_box();
