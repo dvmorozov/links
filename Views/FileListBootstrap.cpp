@@ -118,7 +118,7 @@ namespace Bookmarks
         //  Add 'http://' prefix if necessary to build correct link.
         //  Transform URL to lower case.
         std::transform(url.begin(), url.end(), url.begin(), std::tolower);
-        if (url.find(_T("http://")) == std::string::npos)
+        if (url.find(_T("http://")) == std::string::npos && url.find(_T("https://")) == std::string::npos)
             url = _T("http://") + url;
 
 #ifdef EXTENDED_URL_FILE
