@@ -46,3 +46,12 @@ extern TCHAR *test_str;
 
 extern int error;
 extern int fatal_error;                             //  priznak vyvoda soobscheniya ob oschibke
+
+class two_msg_exception : public std::exception
+{
+public:
+    std::wstring msg1;
+    std::wstring msg2;
+
+    two_msg_exception(std::wstring _msg1, std::wstring _msg2) : msg1(_msg1), msg2(_msg2) {}
+};
