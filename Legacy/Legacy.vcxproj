@@ -151,6 +151,7 @@
     <ClCompile Include="..\Models\FileReader.cpp" />
     <ClCompile Include="..\Utils\entities.cpp" />
     <ClCompile Include="..\Views\AddLink.cpp" />
+    <ClCompile Include="..\Views\ErrorBox.cpp" />
     <ClCompile Include="..\Views\FileListBootstrap.cpp" />
     <ClCompile Include="..\Views\FileListLegacy.cpp" />
     <ClCompile Include="..\Views\Page.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="..\Models\FileReader.h" />
     <ClInclude Include="..\Utils\entities.h" />
     <ClInclude Include="..\Views\AddLink.h" />
+    <ClInclude Include="..\Views\ErrorBox.h" />
     <ClInclude Include="..\Views\FileListBootstrap.h" />
     <ClInclude Include="..\Views\FileListLegacy.h" />
     <ClInclude Include="..\Views\Page.h" />

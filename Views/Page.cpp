@@ -63,13 +63,13 @@ namespace Bookmarks
             _T("REQUEST_METHOD"), _T("QUERY_STRING"), _T("DOCUMENT_ROOT")
         };
 
-        _tprintf(_T("%s"), _T("<br><hr><br>\n"));
+        _tprintf(_T("%s"), _T("<br><br>\n"));
         for (auto par = params.begin(); par != params.end(); ++par)
             _tprintf(_T("%s = %s<br>\n"), par->c_str(), _wgetenv(par->c_str()));
 
         _tprintf(_T("HOME = %s<br>\n"), cwd);
         _tprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("<br>\n")).c_str());
-        _tprintf(_T("Error = %i<br>\n"), error);
+        _tprintf(_T("Error = %i\n"), error);
 #endif
     }
 }

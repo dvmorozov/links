@@ -63,6 +63,9 @@
     <ClCompile Include="..\Utils\entities.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Views\ErrorBox.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="..\Utils\entities.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Views\ErrorBox.h">
+      <Filter>Source Files\Views</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

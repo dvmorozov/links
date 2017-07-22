@@ -93,7 +93,6 @@ extern TCHAR www_sub[];
 
 void print_exception(const char* what = nullptr);
 
-void ErrorBox(std::wstring msg1, std::wstring msg2);
 void MakeFolder(std::wstring name);
 std::wstring GetUserDirName();
 std::wstring GetTmpDirName();

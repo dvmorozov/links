@@ -317,16 +317,4 @@ namespace Bookmarks
         InsertAddButtons();
         PrintTail();
     }
-
-    void FileListLegacy::PrintHtmlHead(TCHAR *title)
-    {
-        FileListLegacy p;
-        p.PrintHead(title);
-    }
-
-    void FileListLegacy::PrintHtmlTail()
-    {
-        FileListLegacy p;
-        p.PrintTail();
-    }
 }

@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "Controllers/Commands.h"
+#include "Views/ErrorBox.h"
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -39,7 +40,8 @@ int main(int argc, TCHAR *argv[])
     }
     catch (two_msg_exception &e)
     {
-        ErrorBox(e.msg1, e.msg2);
+        Bookmarks::ErrorBox eb(e.msg1, e.msg2);
+        eb.Render();
         return -1;
     }
     catch (std::exception &e)

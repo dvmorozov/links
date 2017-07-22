@@ -54,7 +54,5 @@ namespace Bookmarks
         ~FileListLegacy();
 
         virtual void Render();
-        static void PrintHtmlHead(TCHAR *title);
-        static void PrintHtmlTail();
     };
 }

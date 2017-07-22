@@ -5,6 +5,7 @@
 #include "../Models/FileReader.h"
 #include "../Views/FileListBootstrap.h"
 #include "../Views/AddLink.h"
+#include "../Views/ErrorBox.h"
 #include "../Utils/entities.h"
 #include "Commands.h"
 
@@ -173,8 +174,6 @@ TCHAR rm[] = _T("rm -r -f ");                           //  вызов для Cygwin
 TCHAR rm[] = _T("rm -r -f -d ");                        //  вызов для Linux
                                                         //TCHAR rmdir[] = _T("rmdir ");
 #endif
-
-TCHAR head_error[] = _T("Ошибка");
 
 TCHAR err_change_folder[] = _T("Невозможно перейти в папку: ");
 TCHAR err_out_of_memory[] = _T("Недостаточно памяти для выполнения");
@@ -850,28 +849,6 @@ int get_query_command(unsigned char save_command /* priznak togo, chto zapros pe
 }
 //-------------------------------------------------------------------------------------------------
 
-void begin_error_box()
-{
-    _tprintf(_T("%s"), _T("<br><hr>\n<font color=\"red\">"));
-}
-//-------------------------------------------------------------------------------------------------
-
-void end_error_box()
-{
-    _tprintf(_T("%s"), _T("</font><hr><br>\n"));
-}
-//-------------------------------------------------------------------------------------------------
-
-void ErrorBox(std::wstring msg1, std::wstring msg2)
-{
-    Bookmarks::FileListLegacy::PrintHtmlHead(head_error);
-    begin_error_box();
-    _tprintf(_T("%s%s<BR>\n"), msg1.c_str(), msg2.c_str());
-    end_error_box();
-    Bookmarks::FileListLegacy::PrintHtmlTail();
-}
-//-------------------------------------------------------------------------------------------------
-
 void no_environment(TCHAR *env_str)
 {
     error = E_NO_ENVIRONMENT;
@@ -903,8 +880,10 @@ void print_exception(const char* what)
     if (what)
     {
         const wchar_t *whatWide = GetWC(what);
-        ErrorBox(err_invalid_query, std::wstring(query) + _T("<br>") + std::wstring(err_what) + std::wstring(whatWide));
+        Bookmarks::ErrorBox eb(err_invalid_query, std::wstring(query) + _T("<br>") + std::wstring(err_what) + std::wstring(whatWide));
         delete[] whatWide;
+
+        eb.Render();
     }
     error = E_INVALID_QUERY;
     fatal_error = 1;
