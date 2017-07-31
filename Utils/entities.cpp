@@ -469,7 +469,7 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
         }
         else
         {
-            s += *ptr;
+            s += (char)*ptr;
             ptr++;
         }
     }

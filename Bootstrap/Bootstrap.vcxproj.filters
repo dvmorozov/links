@@ -27,7 +27,6 @@
     <ClCompile Include="..\Models\FileReader.cpp">
       <Filter>Models</Filter>
     </ClCompile>
-    <ClCompile Include="..\main.c" />
     <ClCompile Include="..\Models\FileList.cpp">
       <Filter>Models</Filter>
     </ClCompile>
@@ -52,6 +51,7 @@
     <ClCompile Include="..\Views\ErrorBox.cpp">
       <Filter>Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h">

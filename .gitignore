@@ -39,3 +39,9 @@
 /.vs/links/v15/ipch/AutoPCH
 *.url
 
+/Bootstrap/Bootstrap.tlog
+*.obj
+/Bootstrap/Bootstrap.log
+*.idb
+*.log
+*.pdb
