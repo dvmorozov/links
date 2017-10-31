@@ -269,8 +269,8 @@ static const TCHAR *const NAMED_ENTITIES[][2] = {
 
 static int cmp(const void *key, const void *value)
 {
-	return _tcsncmp((const TCHAR *)key, *(const TCHAR *const *)value,
-		_tcslen(*(const TCHAR *const *)value));
+    return wcsncmp((const TCHAR *)key, *(const TCHAR *const *)value,
+        wcslen(*(const TCHAR *const *)value));
 }
 
 static const TCHAR *get_named_entity(const TCHAR *name)
@@ -322,7 +322,7 @@ static size_t putc_utf8(unsigned long cp, char *buffer)
 static bool parse_entity(
 	const TCHAR *current, TCHAR **to, const TCHAR **from)
 {
-	const TCHAR *end = _tcschr(current, ';');
+    const TCHAR *end = wcschr(current, ';');
 	if(!end) return 0;
 
 	if(current[1] == '#')
@@ -332,7 +332,7 @@ static bool parse_entity(
 		bool hex = current[2] == 'x' || current[2] == 'X';
 
 		errno = 0;
-		unsigned long cp = _tcstoul(
+        unsigned long cp = wcstoul(
 			current + (hex ? 3 : 2), &tail, hex ? 16 : 10);
 
 		bool fail = errno || tail != end || cp > UNICODE_MAX;
@@ -359,7 +359,7 @@ static bool parse_entity(
 		const TCHAR *entity = get_named_entity(&current[1]);
 		if(!entity) return 0;
 
-		size_t len = _tcslen(entity);
+        size_t len = wcslen(entity);
 		memcpy(*to, entity, len);
 
 		*to += len;
@@ -376,7 +376,7 @@ size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src)
 	TCHAR *to = dest;
 	const TCHAR *from = src;
 
-	for(const TCHAR *current; (current = _tcschr(from, _T('&')));)
+    for(const TCHAR *current; (current = wcschr(from, _T('&')));)
 	{
 		memmove(to, from, (size_t)(current - from) * sizeof(TCHAR));
 		to += current - from;
@@ -388,7 +388,7 @@ size_t decode_html_entities_utf8(TCHAR *dest, const TCHAR *src)
 		*to++ = *from++;
 	}
 
-	size_t remaining = _tcslen(from);
+    size_t remaining = wcslen(from);
 
 	memmove(to, from, remaining * sizeof(TCHAR));
 	to += remaining;
@@ -474,9 +474,10 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
         }
     }
     //  https://action.mindjet.com/task/14703416
+#ifndef LINUX
     wchar_t wstr[MAX_LINE_LENGTH];
     MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, wstr, MAX_LINE_LENGTH);
-
+#endif
     wcscat(dest, wstr);
 }
 

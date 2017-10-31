@@ -4,55 +4,55 @@
 
 namespace Bookmarks
 {
-    class FileListLegacy : public Page
-    {
-    private: 
-        const std::wstring _hintFolder = _T("œ‡ÔÍ‡");
-        const std::wstring _home = _T("¬ Õ¿◊¿ÀŒ");
+class FileListLegacy : public Page
+{
+private:
+    const std::wstring _hintFolder = _T("–ü–∞–ø–∫–∞");
+    const std::wstring _home = _T("–í –ù–ê–ß–ê–õ–û");
 
-        void PrintFolders();
-        void PrintFiles();
-        void PrintFileList(std::vector<std::wstring> files);
-        void PrintDirList(std::vector<std::wstring> dirs);
-        std::vector<std::wstring> ReadFolders();
-        std::vector<std::wstring> ReadFiles();
-        void InsertAddButtons();
+    void PrintFolders();
+    void PrintFiles();
+    void PrintFileList(std::vector<std::wstring> files);
+    void PrintDirList(std::vector<std::wstring> dirs);
+    std::vector<std::wstring> ReadFolders();
+    std::vector<std::wstring> ReadFiles();
+    void InsertAddButtons();
 
-        Bookmarks::Data _data;
+    Bookmarks::Data _data;
 
-    protected:
-        const std::wstring HintDelete = _T("”‰‡ÎÂÌËÂ");
-        const std::wstring HintEdit = _T("–Â‰‡ÍÚËÓ‚‡ÌËÂ");
+protected:
+    const std::wstring HintDelete = _T("–£–¥–∞–ª–µ–Ω–∏–µ");
+    const std::wstring HintEdit = _T("–†–µ–¥–∞–∫—Ç–∏—Ä–æ–≤–∞–Ω–∏–µ");
 
-        std::wstring GetCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file);
-        std::wstring GetFullCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file);
+    std::wstring GetCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file);
+    std::wstring GetFullCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file);
 
-        virtual std::wstring GetImagePath(std::wstring image_file);
-        virtual void InsertRowCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
-        virtual void InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
-        virtual void InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
-        virtual void InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
+    virtual std::wstring GetImagePath(std::wstring image_file);
+    virtual void InsertRowCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
+    virtual void InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint);
+    virtual void InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
+    virtual void InsertButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt);
 
-        virtual void OpenOuterTable();
-        virtual void CloseOuterTable();
+    virtual void OpenOuterTable();
+    virtual void CloseOuterTable();
 
-        virtual void OpenInnerTable();
-        virtual void CloseInnerTable();
+    virtual void OpenInnerTable();
+    virtual void CloseInnerTable();
 
-        //  https://action.mindjet.com/task/14720269
-        virtual void OpenInnerFileTableRow(std::wstring url = L"#");
-        //  https://action.mindjet.com/task/14720269
-        virtual void OpenInnerDirTableRow(std::wstring url = L"#");
-        virtual void CloseInnerTableRow();
+    //  https://action.mindjet.com/task/14720269
+    virtual void OpenInnerFileTableRow(std::wstring url = L"#");
+    //  https://action.mindjet.com/task/14720269
+    virtual void OpenInnerDirTableRow(std::wstring url = L"#");
+    virtual void CloseInnerTableRow();
 
-        //  ¬˚‚Ó‰ËÚ ÒÚÓÍÛ ÒÓ ÒÒ˚ÎÍÓÈ.
-        virtual void PrintFileRow(std::wstring fileName);
-        void PrintFileNameWithoutExt(std::wstring fileName);
+    //  –í—ã–≤–æ–¥–∏—Ç —Å—Ç—Ä–æ–∫—É —Å–æ —Å—Å—ã–ª–∫–æ–π.
+    virtual void PrintFileRow(std::wstring fileName);
+    void PrintFileNameWithoutExt(std::wstring fileName);
 
-    public:
-        FileListLegacy();
-        ~FileListLegacy();
+public:
+    FileListLegacy();
+    ~FileListLegacy();
 
-        virtual void Render();
-    };
+    virtual void Render();
+};
 }

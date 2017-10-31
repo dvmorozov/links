@@ -33,15 +33,17 @@ namespace Bookmarks
             while (fgets(lineptr, MAX_LINE_LENGTH, f))
                 if (strlen(lineptr))
                 {
+#ifndef LINUX
                     wchar_t wline[MAX_LINE_LENGTH];
                     MultiByteToWideChar(CP_OEMCP, 0, lineptr, -1, wline, MAX_LINE_LENGTH);
                     lines.push_back(std::wstring(wline));
+#endif
                 }
 
             fclose(f);
         }
         //  https://action.mindjet.com/task/14719680
-        //  Временный файл удаляется.
+        //  Р’СЂРµРјРµРЅРЅС‹Р№ С„Р°Р№Р» СѓРґР°Р»СЏРµС‚СЃСЏ.
         _wremove(fileName.c_str());
         return lines;
     }

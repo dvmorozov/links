@@ -16,14 +16,14 @@ namespace Bookmarks
 
     void AddLink::Render()
     {
-        PrintHead(_T("Создание Ссылки"));
+        PrintHead(_T("вЂ”РѕР·РґР°РЅРёРµ вЂ”СЃС‹Р»РєРё"));
 
         TCHAR htm_add[] = 
             _T("<form method=get action=\"%s\">\n\
                 <p>\n\
-                    Имя ссылки:<br>\n\
+                    В»РјВ¤ СЃСЃС‹Р»РєРё:<br>\n\
                     <input type=\"text\" size=50 value=\"\" name=\"%s;add\"><br>\n\
-                    Ссылка указывает на:<br>\n\
+                    вЂ”СЃС‹Р»РєР° СѓРєР°Р·С‹РІР°РµС‚ РЅР°:<br>\n\
                     <input type=\"text\" size=50 value=\"\" name=\";add\"><br>\n\
                 </p>\n\
                 <p>\n\
@@ -32,7 +32,7 @@ namespace Bookmarks
                 </p>\n\
             </form>");
 
-        _tprintf(htm_add, full_script_name, query, key, key);
+        wprintf(htm_add, full_script_name, query, key, key);
 
         PrintTail();
     }

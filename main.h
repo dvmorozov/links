@@ -12,16 +12,17 @@
 #include <string>
 #include <cctype>
 #include <clocale>
+#include <time.h>
+#include <string.h>
 
 #ifdef _WINDOWS
 #include <Windows.h>
 #include <tchar.h>
-#include <string.h>
 #include <io.h>
 #include <direct.h>
-#include <time.h>
 #elif LINUX
 #define TCHAR wchar_t
+#define _T(x) L ## x
 #endif
 
 #ifdef _TEST

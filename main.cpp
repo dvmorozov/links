@@ -25,8 +25,8 @@ int main(int argc, TCHAR *argv[])
         _setmode(_fileno(stdout), _O_U8TEXT);
 #endif
         setlocale(LC_ALL, ".1251");
-        _tprintf(_T("%s"), _T("Content-type: text/html\n\n")); //  тип контента должен передаваться до вывода страницы
-        _tprintf(_T("%s"), _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n\n"));
+        wprintf(_T("%s"), _T("Content-type: text/html\n\n")); //  тип контента должен передаваться до вывода страницы
+        wprintf(_T("%s"), _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n\n"));
         //  обработка запроса
         DocumentRoot = _wgetenv(_T("DOCUMENT_ROOT"));
         if (!DocumentRoot.size())

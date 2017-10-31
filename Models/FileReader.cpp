@@ -4,7 +4,7 @@
 
 namespace Bookmarks
 {
-    std::wstring FileReader::GetParam(std::wstring fileName/*полный путь к файлу*/, std::wstring paramName)
+    std::wstring FileReader::GetParam(std::wstring fileName/*РїРѕР»РЅС‹Р№ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ*/, std::wstring paramName)
     {
 #ifndef _WINDOWS
         {
@@ -23,19 +23,21 @@ namespace Bookmarks
         if (f)
         {
             char lineptr[MAX_LINE_LENGTH];
-            //  fgets дополняет строку 0-м
+            //  fgets РґРѕРїРѕР»РЅСЏРµС‚ СЃС‚СЂРѕРєСѓ 0-Рј
             while (fgets(lineptr, MAX_LINE_LENGTH, f))
             {
                 wchar_t wlineptr[MAX_LINE_LENGTH];
                 //  https://action.mindjet.com/task/14817423
+#ifndef LINUX
                 if (isUtf8)
                     MultiByteToWideChar(CP_UTF8, 0, lineptr, -1, wlineptr, MAX_LINE_LENGTH);
                 else
                     MultiByteToWideChar(CP_ACP, 0, lineptr, -1, wlineptr, MAX_LINE_LENGTH);
+#endif
 
                 std::wstring wline = wlineptr;
 
-                //  очистка прочитанной строки от завершающих символов новой строки
+                //  РѕС‡РёСЃС‚РєР° РїСЂРѕС‡РёС‚Р°РЅРЅРѕР№ СЃС‚СЂРѕРєРё РѕС‚ Р·Р°РІРµСЂС€Р°СЋС‰РёС… СЃРёРјРІРѕР»РѕРІ РЅРѕРІРѕР№ СЃС‚СЂРѕРєРё
                 while (wline.size())
                     if ((wline.back() == '\x0a') || (wline.back() == '\x0d'))
                         wline.pop_back();
@@ -53,7 +55,7 @@ namespace Bookmarks
         return result;
     }
 
-    std::wstring FileReader::GetParamCurDir(std::wstring fileName/*путь к файлу отн. cwd*/, std::wstring paramName)
+    std::wstring FileReader::GetParamCurDir(std::wstring fileName/*РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РѕС‚РЅ. cwd*/, std::wstring paramName)
     {
         std::wstring path = _curDir + _T("\\") + fileName;
         return GetParam(path, paramName);

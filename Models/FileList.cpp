@@ -21,9 +21,9 @@ namespace Bookmarks
 
 #ifndef LINUX
         assert(lines.size() >= 7);
-        //  5 первых строк нужно пропустить
+        //  5 РїРµСЂРІС‹С… СЃС‚СЂРѕРє РЅСѓР¶РЅРѕ РїСЂРѕРїСѓСЃС‚РёС‚СЊ
         lines.erase(lines.begin(), lines.begin() + 5);
-        //  для Windows 2 последние строки содержат доп. инф., поэтому удаляются
+        //  РґР»В¤ Windows 2 РїРѕСЃР»РµРґРЅРёРµ СЃС‚СЂРѕРєРё СЃРѕРґРµСЂР¶Р°С‚ РґРѕРї. РёРЅС„., РїРѕСЌС‚РѕРјСѓ СѓРґР°Р»В¤СЋС‚СЃВ¤
         lines.pop_back();
         lines.pop_back();
 #endif // !LINUX
@@ -32,17 +32,17 @@ namespace Bookmarks
         {
             std::wstring line = *l;
 #ifndef LINUX
-            //  удаляется перевод строки (2 симв. на Windows)
+            //  СѓРґР°Р»В¤РµС‚СЃВ¤ РїРµСЂРµРІРѕРґ СЃС‚СЂРѕРєРё (2 СЃРёРјРІ. РЅР° Windows)
             line.pop_back();
             //  https://action.mindjet.com/task/14665015
-            //  разбивка строки на набор строк
+            //  СЂР°Р·Р±РёРІРєР° СЃС‚СЂРѕРєРё РЅР° РЅР°Р±РѕСЂ СЃС‚СЂРѕРє
             std::vector<std::wstring> columns;
             std::wstringstream ss(line);
             std::wstring column;
             while (ss >> column)
                 columns.push_back(column);
 
-            //  разбор времени создания файла/папки
+            //  СЂР°Р·Р±РѕСЂ РІСЂРµРјРµРЅРё СЃРѕР·РґР°РЅРёВ¤ С„Р°Р№Р»Р°/РїР°РїРєРё
             struct std::tm tm;
             std::wstringstream dateTimeStr(columns[0] + _T(" ") + columns[1]);
             dateTimeStr >> std::get_time(&tm, _T("%d.%m.%Y %H:%M"));
@@ -72,12 +72,13 @@ namespace Bookmarks
             else
                 result.push_back(File(fileName, isFolder, dateTime, size, _T(""), _T("")));
 #else
-            bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
-            result.push_back(File(line, isFolder, 0, 0));
+            //???
+            //bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
+            //result.push_back(File(line, isFolder, 0, 0));
 #endif // !LINUX
         }
 
-        //  Сортировка списка (папки вперед).
+        //  вЂ”РѕСЂС‚РёСЂРѕРІРєР° СЃРїРёСЃРєР° (РїР°РїРєРё РІРїРµСЂРµРґ).
         //  https://action.mindjet.com/task/14640967
         std::sort(result.begin(), result.end(), [](File a, File b) {
             std::transform(a.FileName.begin(), a.FileName.end(), a.FileName.begin(), (int(*)(int))std::tolower);
