@@ -18,20 +18,23 @@ namespace Bookmarks
         //  если скомпил с cygwin библ. то вывод работает нормально, но текст получается от браузера в
         //  какой-то иной кодировке
 #if !defined LINUX
+
 #ifndef USE_CYGWIN
         //  https://action.mindjet.com/task/14665015
-        std::wstring _cmdDir = _T("dir /OG >>");                             //  вызов для Windows
+        std::wstring _cmdDir = _T("dir /OG >>");                            //  Windows shell command.
 #else
-        std::wstring _cmdDir = _T("cygdir.exe -a -1 -X -F -N >>");           //  вызов для Cygwin
+        std::wstring _cmdDir = _T("cygdir.exe -a -1 -X -F -N >>");          //  Cygwin shell command.
 #endif  //  USE_CYGWIN
-
         std::wstring _tmpDir = _T("/tmp/links/");
-#else
-        std::wstring _cmdDir = _T("dir -a -1 -X -F -N >>");                  //  вызов для Linux
 
-                                                                            //std::wstring tmpdir = _T("/var/tmp/");                             //  лучше правильно настроить доступ к папке с файлами,
+#else
+
+        std::wstring _cmdDir = _T("dir -a -1 -X -F -N >>");                 //  Linux shell command.
+
+        //std::wstring tmpdir = _T("/var/tmp/");                            //  лучше правильно настроить доступ к папке с файлами,
                                                                             //  чем использовать отдельную директорию
         std::wstring _tmpDir = _T("/tmp/links/");
+
 #endif
     public:
         virtual std::vector<std::wstring> ReadFileList();

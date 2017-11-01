@@ -12,6 +12,71 @@
 
 namespace Bookmarks
 {
+    void FileList::RemoveNonInformativeLines(std::vector<std::wstring> &lines)
+    {
+#ifndef LINUX
+        assert(lines.size() >= 7);
+        //  5 первых строк нужно пропустить
+        lines.erase(lines.begin(), lines.begin() + 5);
+        //  для Windows 2 последние строки содержат доп. инф., поэтому удаляются
+        lines.pop_back();
+        lines.pop_back();
+#else
+        assert(lines.size() >= 1);
+        //  The first string contains "total" and must be removed.
+        lines.erase(lines.begin(), lines.begin() + 1);
+#endif // !LINUX
+    }
+
+    void FileList::ParseLine(std::wstring &line, FileVector &result)
+    {
+#ifndef LINUX
+        //  удаляется перевод строки (2 симв. на Windows)
+        line.pop_back();
+        //  https://action.mindjet.com/task/14665015
+        //  разбивка строки на набор строк
+        std::vector<std::wstring> columns;
+        std::wstringstream ss(line);
+        std::wstring column;
+        while (ss >> column)
+            columns.push_back(column);
+
+        //  разбор времени создания файла/папки
+        struct std::tm tm;
+        std::wstringstream dateTimeStr(columns[0] + _T(" ") + columns[1]);
+        dateTimeStr >> std::get_time(&tm, _T("%d.%m.%Y %H:%M"));
+        std::time_t dateTime = mktime(&tm);
+
+        std::wstring col2 = columns[2];
+        col2.erase(0, col2.find_first_not_of(' '));         //  prefixing spaces
+        col2.erase(col2.find_last_not_of(' ') + 1);         //  surfixing spaces
+
+        bool isFolder = col2 == _T("<DIR>");
+
+        size_t size = col2 != _T("<DIR>") ? std::stoi(col2) : 0;
+
+        std::wstring fileName = columns[3];
+        //  Restore folder name.
+        std::for_each(columns.begin() + 4, columns.end(), [&](std::wstring &s) { fileName += _T(" ") + s; });
+
+        if (!isFolder)
+        {
+            //  Read file content.
+            FileReader fr;
+            std::wstring url = fr.GetParam(fileName, ParamURL);
+            std::wstring name = fr.GetParam(fileName, ParamName);
+
+            result.push_back(File(fileName, isFolder, dateTime, size, url, name));
+        }
+        else
+            result.push_back(File(fileName, isFolder, dateTime, size, _T(""), _T("")));
+#else
+        //???
+        //bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
+        //result.push_back(File(line, isFolder, 0, 0));
+#endif // !LINUX
+    }
+
     FileVector FileList::ReadFileList()
     {
         FileVector result;
@@ -19,66 +84,12 @@ namespace Bookmarks
         assert(_reader);
         std::vector<std::wstring> lines = _reader->ReadFileList();
 
-#ifndef LINUX
-        assert(lines.size() >= 7);
-        //  5 первых строк нужно пропустить
-        lines.erase(lines.begin(), lines.begin() + 5);
-        //  дл¤ Windows 2 последние строки содержат доп. инф., поэтому удал¤ютс¤
-        lines.pop_back();
-        lines.pop_back();
-#endif // !LINUX
+        RemoveNonInformativeLines(lines);
 
         for (auto l = lines.begin(); l != lines.end(); ++l)
-        {
-            std::wstring line = *l;
-#ifndef LINUX
-            //  удал¤етс¤ перевод строки (2 симв. на Windows)
-            line.pop_back();
-            //  https://action.mindjet.com/task/14665015
-            //  разбивка строки на набор строк
-            std::vector<std::wstring> columns;
-            std::wstringstream ss(line);
-            std::wstring column;
-            while (ss >> column)
-                columns.push_back(column);
+            ParseLine(*l, result);
 
-            //  разбор времени создани¤ файла/папки
-            struct std::tm tm;
-            std::wstringstream dateTimeStr(columns[0] + _T(" ") + columns[1]);
-            dateTimeStr >> std::get_time(&tm, _T("%d.%m.%Y %H:%M"));
-            std::time_t dateTime = mktime(&tm);
-
-            std::wstring col2 = columns[2];
-            col2.erase(0, col2.find_first_not_of(' '));         //  prefixing spaces
-            col2.erase(col2.find_last_not_of(' ') + 1);         //  surfixing spaces
-
-            bool isFolder = col2 == _T("<DIR>");
-
-            size_t size = col2 != _T("<DIR>") ? std::stoi(col2) : 0;
-
-            std::wstring fileName = columns[3];
-            //  Restore folder name.
-            std::for_each(columns.begin() + 4, columns.end(), [&](std::wstring &s) { fileName += _T(" ") + s; });
-
-            if (!isFolder) 
-            {
-                //  Read file content.
-                FileReader fr;
-                std::wstring url = fr.GetParam(fileName, ParamURL);
-                std::wstring name = fr.GetParam(fileName, ParamName);
-
-                result.push_back(File(fileName, isFolder, dateTime, size, url, name));
-            }
-            else
-                result.push_back(File(fileName, isFolder, dateTime, size, _T(""), _T("")));
-#else
-            //???
-            //bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
-            //result.push_back(File(line, isFolder, 0, 0));
-#endif // !LINUX
-        }
-
-        //  —ортировка списка (папки вперед).
+        //  Sorts the list (folders at the beginning).
         //  https://action.mindjet.com/task/14640967
         std::sort(result.begin(), result.end(), [](File a, File b) {
             std::transform(a.FileName.begin(), a.FileName.end(), a.FileName.begin(), (int(*)(int))std::tolower);

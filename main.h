@@ -1,7 +1,9 @@
 
 #pragma once
 
-//#define LINUX     //  native
+//#define LINUX             //  Use Linux toolchain.
+//#define _WINDOWS          //  Use Windows-specific things.
+//#define USE_CYGWIN        //  Use Cygwin-specific things.
 #define EXTENDED_URL_FILE
 //#define USE_SCRIPT_NAME
 

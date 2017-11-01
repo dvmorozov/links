@@ -50,6 +50,8 @@ namespace Bookmarks
         FileVector _fileList;
 
         FileVector ReadFileList();
+        void RemoveNonInformativeLines(std::vector<std::wstring> &lines);
+        void ParseLine(std::wstring &line, FileVector &result);
 
     public:
         FileList(FileListReader *reader) : _reader(reader) {
