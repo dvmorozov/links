@@ -342,6 +342,8 @@ static bool parse_entity(
 #ifndef _UNICODE
 		*to += putc_utf8(cp, *to);
 #else
+#ifndef LINUX
+        //???
 		char utfchar[5];
 		//  Add terminating zeros.
 		memset(utfchar, 0, sizeof(utfchar));
@@ -350,6 +352,7 @@ static bool parse_entity(
 		MultiByteToWideChar(CP_UTF8, 0, utfchar, -1, wchar, 2);
 		**to = wchar[0];
 		*to += 1;
+#endif
 #endif
 		*from = end + 1;
 		return 1;
@@ -475,10 +478,11 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
     }
     //  https://action.mindjet.com/task/14703416
 #ifndef LINUX
+    //???
     wchar_t wstr[MAX_LINE_LENGTH];
     MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, wstr, MAX_LINE_LENGTH);
-#endif
     wcscat(dest, wstr);
+#endif
 }
 
 //  Работа с URL-файлами.

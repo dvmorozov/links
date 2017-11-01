@@ -16,10 +16,10 @@ namespace Bookmarks
     //  https://action.mindjet.com/task/14817423
     void Page::PrintScripts()
     {
-        _tprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\" type=\"text/javascript\"></script>\n"));
+        wprintf(_T("<script src=\"https://code.jquery.com/jquery-2.1.3.js\" type=\"text/javascript\"></script>\n"));
         //  Attach on submit listener.
         /*
-        _tprintf(_T("<script type=\"text/javascript\">\n\
+        wprintf(_T("<script type=\"text/javascript\">\n\
             $(function() {\n\
                  $('form').submit(function(ev) {\n\
                     $('form input:text').each(function() {\n\
@@ -39,20 +39,20 @@ namespace Bookmarks
 
     void Page::PrintHead(std::wstring title)
     {
-        _tprintf(_T("%s"), _T("<html>"));
-        _tprintf(_T("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"Content-Language\" content=\"ru\">\n"));
+        wprintf(_T("%s"), _T("<html>"));
+        wprintf(_T("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"Content-Language\" content=\"ru\">\n"));
 
         PrintStyles();
         PrintScripts();
 
-        _tprintf(_T("<title>%s</title></head>\n"), title.c_str());
-        _tprintf(_T("<body>\n"));
+        wprintf(_T("<title>%s</title></head>\n"), title.c_str());
+        wprintf(_T("<body>\n"));
     }
 
     void Page::PrintTail()
     {
         PrintInfo();
-        _tprintf(_T("%s"), _T("</body></html>\n"));
+        wprintf(_T("%s"), _T("</body></html>\n"));
     }
 
     void Page::PrintInfo()
@@ -63,13 +63,13 @@ namespace Bookmarks
             _T("REQUEST_METHOD"), _T("QUERY_STRING"), _T("DOCUMENT_ROOT")
         };
 
-        _tprintf(_T("%s"), _T("<br><br>\n"));
+        wprintf(_T("%s"), _T("<br><br>\n"));
         for (auto par = params.begin(); par != params.end(); ++par)
-            _tprintf(_T("%s = %s<br>\n"), par->c_str(), _wgetenv(par->c_str()));
+            wprintf(_T("%s = %s<br>\n"), par->c_str(), _wgetenv(par->c_str()));
 
-        _tprintf(_T("HOME = %s<br>\n"), cwd);
-        _tprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("<br>\n")).c_str());
-        _tprintf(_T("Error = %i\n"), error);
+        wprintf(_T("HOME = %s<br>\n"), cwd);
+        wprintf((DocumentRoot.substr(0, DocumentRoot.rfind('/')) + _T("<br>\n")).c_str());
+        wprintf(_T("Error = %i\n"), error);
 #endif
     }
 }

@@ -54,11 +54,11 @@ namespace Bookmarks
     public:
         FileList(FileListReader *reader) : _reader(reader) {
             _fileList = ReadFileList();
-        };
+        }
         ~FileList()
         {
             if (_reader) delete _reader;
-        };
+        }
 
         //  https://action.mindjet.com/task/14726166
         FileVector GetFileList();

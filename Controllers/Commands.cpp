@@ -849,7 +849,7 @@ int get_query_command(unsigned char save_command /* priznak togo, chto zapros pe
 }
 //-------------------------------------------------------------------------------------------------
 
-void no_environment(TCHAR *env_str)
+void no_environment(const TCHAR *env_str)
 {
     error = E_NO_ENVIRONMENT;
     fatal_error = 1;

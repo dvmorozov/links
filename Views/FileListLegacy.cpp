@@ -32,44 +32,44 @@ namespace Bookmarks
             {
                 if (!url.empty())
                 {
-                    _tprintf(_T("\
+                    wprintf(_T("\
                             <a href=\"%s?%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), url.c_str(), image_path.c_str(), alt.c_str(), size, size);
                 }
                 else
                 {
-                    //  передается ссылка на внешний ресурс; script_name содержит ссылку к ресурсу
-                    _tprintf(_T("\
+                    //  РїРµСЂРµРґР°РµС‚СЃВ¤ СЃСЃС‹Р»РєР° РЅР° РІРЅРµС€РЅРёР№ СЂРµСЃСѓСЂСЃ; script_name СЃРѕРґРµСЂР¶РёС‚ СЃСЃС‹Р»РєСѓ Рє СЂРµСЃСѓСЂСЃСѓ
+                    wprintf(_T("\
                             <a href=\"%s\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), script_name.c_str(), image_path.c_str(), alt.c_str(), size, size);
                 }
             }
             else
-            {// вставляется иконка без ссылки
-                if (!url.empty()) //  в url передается дополнение к тексту, переданному через alt
+            {// РІСЃС‚Р°РІР»В¤РµС‚СЃВ¤ РёРєРѕРЅРєР° Р±РµР· СЃСЃС‹Р»РєРё
+                if (!url.empty()) //  РІ url РїРµСЂРµРґР°РµС‚СЃВ¤ РґРѕРїРѕР»РЅРµРЅРёРµ Рє С‚РµРєСЃС‚Сѓ, РїРµСЂРµРґР°РЅРЅРѕРјСѓ С‡РµСЂРµР· alt
                 {
-                    _tprintf(_T("\
+                    wprintf(_T("\
                             <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), url.c_str(), size, size);
                 }
                 else
                 {
-                    _tprintf(_T("\
+                    wprintf(_T("\
                             <a href=\"#\"><img src=\"%s\" align=\"absmiddle\" border=\"0\" alt=\"%s\" width=\"%i\" height=\"%i\"></a>"), image_path.c_str(), alt.c_str(), size, size);
                 }
             }
         }
     }
 
-    void FileListLegacy::InsertRowCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    void FileListLegacy::InsertRowCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, const TCHAR *image_file, const TCHAR* hint)
     {
-        _tprintf(_T("<td>"));
+        wprintf(_T("<td>"));
         InsertCommandButton(cmd, dir, file, image_file, hint);
-        _tprintf(_T("</td>"));
+        wprintf(_T("</td>"));
     }
 
     void FileListLegacy::InsertLinkButton(std::wstring image_file, const std::wstring script_name, const std::wstring url, int size, const std::wstring alt)
     {
-        _tprintf(_T("<td>"));
+        wprintf(_T("<td>"));
         InsertButton(image_file, script_name, url, 16, alt);
-        _tprintf(_T("</td>"));
+        wprintf(_T("</td>"));
     }
 
     std::wstring FileListLegacy::GetCommandUrl(TCHAR *cmd, const TCHAR* dir, const TCHAR* file)
@@ -88,12 +88,12 @@ namespace Bookmarks
         return std::wstring(full_script_name ? full_script_name : _T("")) + _T("?") + GetCommandUrl(cmd, dir, file);
     }
 
-    void FileListLegacy::InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, TCHAR *image_file, const TCHAR* hint)
+    void FileListLegacy::InsertCommandButton(TCHAR *cmd, const TCHAR* dir, const TCHAR* file, const TCHAR *image_file, const TCHAR* hint)
     {
         InsertButton(image_file, full_script_name ? full_script_name : _T(""), GetCommandUrl(cmd, dir, file), 16, hint ? hint : _T(""));
     }
 
-    //  вызывает внешнюю утилиту и читает список файлов
+    //  РІС‹Р·С‹РІР°РµС‚ РІРЅРµС€РЅСЋСЋ СѓС‚РёР»РёС‚Сѓ Рё С‡РёС‚Р°РµС‚ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ
     std::vector<std::wstring> FileListLegacy::ReadFolders()
     {
         FileVector files = _data.GetDirList();
@@ -114,23 +114,23 @@ namespace Bookmarks
 
     void FileListLegacy::InsertAddButtons()
     {
-        _tprintf(_T("\n<p>\n"));
-        InsertCommandButton(cmd_add_conf, query, _T(""), _T("add_link.bmp"), _T("Создать ссылку"));
-        InsertCommandButton(cmd_add_folder_conf, query, _T(""), _T("add_folder.bmp"), _T("Создать папку"));
-        _tprintf(_T("\n</p>\n"));
+        wprintf(_T("\n<p>\n"));
+        InsertCommandButton(cmd_add_conf, query, _T(""), _T("add_link.bmp"), _T("вЂ”РѕР·РґР°С‚СЊ СЃСЃС‹Р»РєСѓ"));
+        InsertCommandButton(cmd_add_folder_conf, query, _T(""), _T("add_folder.bmp"), _T("вЂ”РѕР·РґР°С‚СЊ РїР°РїРєСѓ"));
+        wprintf(_T("\n</p>\n"));
     }
 
     void FileListLegacy::OpenInnerTable()
     {
         //  Opens new cell for internal table.
-        _tprintf(_T("<td valign=\"top\">\n\
+        wprintf(_T("<td valign=\"top\">\n\
             <table border=\"0\" cellspacing=\"0\" cellpadding=\"1\">\n\
                 <tbody>"));
     }
 
     void FileListLegacy::CloseInnerTable()
     {
-        _tprintf(_T("</tbody>\n\
+        wprintf(_T("</tbody>\n\
                 </table>\n\
             </td>"));
     }
@@ -138,26 +138,26 @@ namespace Bookmarks
     //  https://action.mindjet.com/task/14720269
     void FileListLegacy::OpenInnerFileTableRow(std::wstring url)
     {
-        _tprintf(_T("<tr>"));
+        wprintf(_T("<tr>"));
     }
 
     //  https://action.mindjet.com/task/14720269
     void FileListLegacy::OpenInnerDirTableRow(std::wstring url)
     {
-        _tprintf(_T("<tr>"));
+        wprintf(_T("<tr>"));
     }
 
-    //  закрывается ячейка и строка внутренней таблицы
+    //  Р·Р°РєСЂС‹РІР°РµС‚СЃВ¤ В¤С‡РµР№РєР° Рё СЃС‚СЂРѕРєР° РІРЅСѓС‚СЂРµРЅРЅРµР№ С‚Р°Р±Р»РёС†С‹
     void FileListLegacy::CloseInnerTableRow()
     {
-        _tprintf(_T("</tr>"));
+        wprintf(_T("</tr>"));
     }
 
     void FileListLegacy::OpenOuterTable()
     {
         //  Creates outer table with 2 columns for folders and files.
         //  Adds new row for internal tables.
-        _tprintf(_T("\n\
+        wprintf(_T("\n\
 <table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n\
     <tbody>\n\
         <tr>\n\
@@ -165,13 +165,13 @@ namespace Bookmarks
             </th>\n\
             <th>%s [%s]\n\
             </th>\n\
-        </tr><tr>\n"), _T("Папки"), _T("Ссылки"), query);
+        </tr><tr>\n"), _T("С•Р°РїРєРё"), _T("вЂ”СЃС‹Р»РєРё"), query);
     }
 
     void FileListLegacy::CloseOuterTable()
     {
         //  For the first closes internal table row.
-        _tprintf(_T("</tr>\n\
+        wprintf(_T("</tr>\n\
     </tbody>\n\
 </table>\n"));
     }
@@ -182,54 +182,54 @@ namespace Bookmarks
         {
             if (dir->size())
             {
-                // для корневой папки на вставляются ссылки "ВВЕРХ" и "КОРЕНЬ"
+                // РґР»В¤ РєРѕСЂРЅРµРІРѕР№ РїР°РїРєРё РЅР° РІСЃС‚Р°РІР»В¤СЋС‚СЃВ¤ СЃСЃС‹Р»РєРё "В¬В¬в‰€вЂ“вЂ™" Рё " СњвЂ“в‰€РЊв„–"
                 if (*dir == _T("."))
-                {// переход к корневой папке закладок
+                {// РїРµСЂРµС…РѕРґ Рє РєРѕСЂРЅРµРІРѕР№ РїР°РїРєРµ Р·Р°РєР»Р°РґРѕРє
                     if (wcslen(query))
                     {
                         OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */));
                         InsertRowCommandButton(cmd_ch_folder, _T("")/* url */, ok/* to, chto posle komandy */, _T("to_start_page.bmp"), _hintFolder.c_str());
-                        _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _home.c_str()/*название*/);
+                        wprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _home.c_str()/*РЅР°Р·РІР°РЅРёРµ*/);
                         CloseInnerTableRow();
                     }
                 }
                 else
                 if (*dir == _T(".."))
-                {// переход на один уровень вверх или к корневой папке закладок
+                {// РїРµСЂРµС…РѕРґ РЅР° РѕРґРёРЅ СѓСЂРѕРІРµРЅСЊ РІРІРµСЂС… РёР»Рё Рє РєРѕСЂРЅРµРІРѕР№ РїР°РїРєРµ Р·Р°РєР»Р°РґРѕРє
                     if (wcslen(query))
                     {
                         std::wstring upDir = query;
-                        //  Получаем имя верхней папки.
+                        //  С•РѕР»СѓС‡Р°РµРј РёРјВ¤ РІРµСЂС…РЅРµР№ РїР°РїРєРё.
                         auto slashPos = upDir.rfind(_T("/"));
                         upDir = slashPos != std::string::npos ? upDir.substr(0, slashPos) : upDir;
 
                         OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */));
-                        //  Переход к самому верхнему уровню каталога (даже если верх. папка явл. корневой).
+                        //  С•РµСЂРµС…РѕРґ Рє СЃР°РјРѕРјСѓ РІРµСЂС…РЅРµРјСѓ СѓСЂРѕРІРЅСЋ РєР°С‚Р°Р»РѕРіР° (РґР°Р¶Рµ РµСЃР»Рё РІРµСЂС…. РїР°РїРєР° В¤РІР». РєРѕСЂРЅРµРІРѕР№).
                         InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("to_upper_folder.bmp"), _hintFolder.c_str());
-                        _tprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("ВВЕРХ"));
+                        wprintf(_T("<td width='100%%' colspan='3'>%s</td>"), _T("В¬В¬в‰€вЂ“вЂ™"));
 
                         CloseInnerTableRow();
-                        /*  переход к корневой папке уже вставляется выше */
+                        /*  РїРµСЂРµС…РѕРґ Рє РєРѕСЂРЅРµРІРѕР№ РїР°РїРєРµ СѓР¶Рµ РІСЃС‚Р°РІР»В¤РµС‚СЃВ¤ РІС‹С€Рµ */
                     }
                 }
                 else
-                    //  если текущий запрос не равен ".", ".." или 0, то
-                    //  строка запроса содержит имя текущей папки, которое нужно
-                    //  добавлять к именам найденных файлов для того, чтобы
-                    //  при последующем запросе произошел переход в нужную папку
+                    //  РµСЃР»Рё С‚РµРєСѓС‰РёР№ Р·Р°РїСЂРѕСЃ РЅРµ СЂР°РІРµРЅ ".", ".." РёР»Рё 0, С‚Рѕ
+                    //  СЃС‚СЂРѕРєР° Р·Р°РїСЂРѕСЃР° СЃРѕРґРµСЂР¶РёС‚ РёРјВ¤ С‚РµРєСѓС‰РµР№ РїР°РїРєРё, РєРѕС‚РѕСЂРѕРµ РЅСѓР¶РЅРѕ
+                    //  РґРѕР±Р°РІР»В¤С‚СЊ Рє РёРјРµРЅР°Рј РЅР°Р№РґРµРЅРЅС‹С… С„Р°Р№Р»РѕРІ РґР»В¤ С‚РѕРіРѕ, С‡С‚РѕР±С‹
+                    //  РїСЂРё РїРѕСЃР»РµРґСѓСЋС‰РµРј Р·Р°РїСЂРѕСЃРµ РїСЂРѕРёР·РѕС€РµР» РїРµСЂРµС…РѕРґ РІ РЅСѓР¶РЅСѓСЋ РїР°РїРєСѓ
                 {
-                    //  full_dir в результате содержит url относительно url скрипта 
-                    //  к папке или файлу - используется для создания ссылок
+                    //  full_dir РІ СЂРµР·СѓР»СЊС‚Р°С‚Рµ СЃРѕРґРµСЂР¶РёС‚ url РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ url СЃРєСЂРёРїС‚Р° 
+                    //  Рє РїР°РїРєРµ РёР»Рё С„Р°Р№Р»Сѓ - РёСЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ РґР»В¤ СЃРѕР·РґР°РЅРёВ¤ СЃСЃС‹Р»РѕРє
                     std::wstring upDir = query;
                     upDir += _T("/");
                     upDir += *dir;
                     OpenInnerDirTableRow(GetFullCommandUrl(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */));
 
-                    //  переход по каталогу на один уровень вверх
+                    //  РїРµСЂРµС…РѕРґ РїРѕ РєР°С‚Р°Р»РѕРіСѓ РЅР° РѕРґРёРЅ СѓСЂРѕРІРµРЅСЊ РІРІРµСЂС…
                     InsertRowCommandButton(cmd_ch_folder, upDir.c_str(), ok/* to, chto posle komandy */, _T("folder.bmp"), _hintFolder.c_str());
 
-                    //  вывод названия папки
-                    _tprintf(_T("<td width=\"100%%\">%s</td>"), dir->c_str());
+                    //  РІС‹РІРѕРґ РЅР°Р·РІР°РЅРёВ¤ РїР°РїРєРё
+                    wprintf(_T("<td width=\"100%%\">%s</td>"), dir->c_str());
                     InsertRowCommandButton(cmd_del_folder_conf, upDir.c_str(), dir->c_str(), _T("delete_folder.bmp"), HintDelete.c_str());
                     InsertRowCommandButton(cmd_edit_folder_conf, upDir.c_str(), dir->c_str(), _T("edit_folder.bmp"), HintEdit.c_str());
                     CloseInnerTableRow();
@@ -242,7 +242,7 @@ namespace Bookmarks
     {
         for (std::vector<std::wstring>::iterator fileName = files.begin(); fileName != files.end(); ++fileName)
         {
-            //  Выводит строку со ссылкой.
+            //  В¬С‹РІРѕРґРёС‚ СЃС‚СЂРѕРєСѓ СЃРѕ СЃСЃС‹Р»РєРѕР№.
             PrintFileRow(*fileName);
         }
     }
@@ -263,18 +263,18 @@ namespace Bookmarks
 
     void FileListLegacy::PrintFileNameWithoutExt(std::wstring fileName)
     {
-        // делаем название из имени файла без расширения
+        // РґРµР»Р°РµРј РЅР°Р·РІР°РЅРёРµ РёР· РёРјРµРЅРё С„Р°Р№Р»Р° Р±РµР· СЂР°СЃС€РёСЂРµРЅРёВ¤
         auto pointPos = fileName.rfind(_T("."));
         std::wstring fileNameWithoutExt = pointPos != std::string::npos ? fileName.substr(0, pointPos) : fileName;
-        _tprintf(_T("<td width=\"100%%\">%s</td>\n"), fileNameWithoutExt.c_str());
+        wprintf(_T("<td width=\"100%%\">%s</td>\n"), fileNameWithoutExt.c_str());
     }
 
-    //  Выводит строку со ссылкой.
+    //  В¬С‹РІРѕРґРёС‚ СЃС‚СЂРѕРєСѓ СЃРѕ СЃСЃС‹Р»РєРѕР№.
     void FileListLegacy::PrintFileRow(std::wstring fileName)
     {
-        //  !!! нужно скопировать расширение непосредственно
-        //  из lineptr, чтобы сохранились исходные символы !!!
-        //  воостанавливается
+        //  !!! РЅСѓР¶РЅРѕ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ СЂР°СЃС€РёСЂРµРЅРёРµ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ
+        //  РёР· lineptr, С‡С‚РѕР±С‹ СЃРѕС…СЂР°РЅРёР»РёСЃСЊ РёСЃС…РѕРґРЅС‹Рµ СЃРёРјРІРѕР»С‹ !!!
+        //  РІРѕРѕСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃВ¤
         Bookmarks::FileReader fr(cwd);
         std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
 #ifdef EXTENDED_URL_FILE
@@ -284,35 +284,35 @@ namespace Bookmarks
 
         if (!url.empty())
         {   //  vstavlyaetsya vneschnyaya ssylka
-            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("Ссылка"));
+            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("вЂ”СЃС‹Р»РєР°"));
         }
         else
-            //  ??? здесь нужна простая иконка
-            InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("Ошибка: "));
+            //  ??? Р·РґРµСЃСЊ РЅСѓР¶РЅР° РїСЂРѕСЃС‚Р°В¤ РёРєРѕРЅРєР°
+            InsertLinkButton(_T("error.bmp"), _T(""), _T("РЅРµРІРѕР·РјРѕР¶РЅРѕ РїСЂРѕС‡РёС‚Р°С‚СЊ URL РёР· С„Р°Р№Р»Р°!"), 16, _T("СњС€РёР±РєР°: "));
 #ifdef EXTENDED_URL_FILE
-        //  вывод имени ссылки
+        //  РІС‹РІРѕРґ РёРјРµРЅРё СЃСЃС‹Р»РєРё
         if (!name.empty())
         {
-            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
+            wprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
         }
         else
 #endif
             PrintFileNameWithoutExt(fileName);
-        //  вставка иконок
+        //  РІСЃС‚Р°РІРєР° РёРєРѕРЅРѕРє
         InsertRowCommandButton(cmd_del_conf, query, fileName.c_str(), _T("delete_link.bmp"), HintDelete.c_str());
         InsertRowCommandButton(cmd_edit_conf, query, fileName.c_str(), _T("edit_link.bmp"), HintEdit.c_str());
         CloseInnerTableRow();
     }
 
-    //  при вызове заголовок страницы уже выведен, поэтому
-    //  нужно сделать работу настолько, насколько это возможно
+    //  РїСЂРё РІС‹Р·РѕРІРµ Р·Р°РіРѕР»РѕРІРѕРє СЃС‚СЂР°РЅРёС†С‹ СѓР¶Рµ РІС‹РІРµРґРµРЅ, РїРѕСЌС‚РѕРјСѓ
+    //  РЅСѓР¶РЅРѕ СЃРґРµР»Р°С‚СЊ СЂР°Р±РѕС‚Сѓ РЅР°СЃС‚РѕР»СЊРєРѕ, РЅР°СЃРєРѕР»СЊРєРѕ СЌС‚Рѕ РІРѕР·РјРѕР¶РЅРѕ
     void FileListLegacy::Render()
     {
-        PrintHead(_T("Избранные Ссылки"));
+        PrintHead(_T("В»Р·Р±СЂР°РЅРЅС‹Рµ вЂ”СЃС‹Р»РєРё"));
         OpenOuterTable();
         PrintFolders();
         PrintFiles();
-        //  закрывается строка внешней таблицы и внешняя таблица
+        //  Р·Р°РєСЂС‹РІР°РµС‚СЃВ¤ СЃС‚СЂРѕРєР° РІРЅРµС€РЅРµР№ С‚Р°Р±Р»РёС†С‹ Рё РІРЅРµС€РЅВ¤В¤ С‚Р°Р±Р»РёС†Р°
         CloseOuterTable();
         InsertAddButtons();
         PrintTail();

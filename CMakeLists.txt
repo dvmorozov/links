@@ -26,7 +26,3 @@ list(REMOVE_ITEM SRC "${PROJECT_SOURCE_DIR}/Models/FileListReaderTest.cpp")
 list(REMOVE_ITEM SRC "${PROJECT_SOURCE_DIR}/Models/FileListReaderTest.h")
 
 add_executable(${PROJECT_NAME} ${SRC})
-
-#target_sources(${PROJECT_NAME}
-#  main.cpp
-#  )

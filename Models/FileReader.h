@@ -16,9 +16,9 @@ namespace Bookmarks
         FileReader(std::wstring curDir) : _curDir(curDir) {};
         ~FileReader() {};
 
-        //  Читает строку параметра из файла.
-        static std::wstring GetParam(std::wstring fileName/*полный путь к файлу*/, std::wstring paramName);
-        //  Читает строку паарметра из файла тек. каталога.
-        std::wstring GetParamCurDir(std::wstring fileName/*путь к файлу отн. cwd*/, std::wstring paramName);
+        //  вЂћРёС‚Р°РµС‚ СЃС‚СЂРѕРєСѓ РїР°СЂР°РјРµС‚СЂР° РёР· С„Р°Р№Р»Р°.
+        static std::wstring GetParam(std::wstring fileName/*РїРѕР»РЅС‹Р№ РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ*/, std::wstring paramName);
+        //  вЂћРёС‚Р°РµС‚ СЃС‚СЂРѕРєСѓ РїР°Р°СЂРјРµС‚СЂР° РёР· С„Р°Р№Р»Р° С‚РµРє. РєР°С‚Р°Р»РѕРіР°.
+        std::wstring GetParamCurDir(std::wstring fileName/*РїСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РѕС‚РЅ. cwd*/, std::wstring paramName);
     };
 }

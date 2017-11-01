@@ -12,6 +12,7 @@
 #include <string>
 #include <cctype>
 #include <clocale>
+#include <locale>
 #include <time.h>
 #include <string.h>
 
@@ -33,7 +34,7 @@ extern TCHAR *test_str;
 #pragma warning( pop ) 
 #endif
 
-//  коды ошибок
+//  РєРѕРґС‹ РѕС€РёР±РѕРє
 #ifdef E_OUTOFMEMORY
 #undef E_OUTOFMEMORY
 #endif
@@ -43,7 +44,7 @@ extern TCHAR *test_str;
 #define E_NO_ENVIRONMENT    4
 #define E_SYS_UTILITY       5
 
-#define MAX_LINE_LENGTH     1000                    //  максимально допустимая длина строки файла, содержащего имена файлов и папок
+#define MAX_LINE_LENGTH     1000                    //  РјР°РєСЃРёРјР°Р»СЊРЅРѕ РґРѕРїСѓСЃС‚РёРјР°СЏ РґР»РёРЅР° СЃС‚СЂРѕРєРё С„Р°Р№Р»Р°, СЃРѕРґРµСЂР¶Р°С‰РµРіРѕ РёРјРµРЅР° С„Р°Р№Р»РѕРІ Рё РїР°РїРѕРє
 
 extern int error;
 extern int fatal_error;                             //  priznak vyvoda soobscheniya ob oschibke

@@ -104,7 +104,7 @@ namespace Bookmarks
         FileVector result(_fileList.size());
 
         //  Copies only files with given extensions.
-        auto it = std::copy_if(_fileList.begin(), _fileList.end(), result.begin(), [](File &f) 
+        auto it = std::copy_if(_fileList.begin(), _fileList.end(), result.begin(), [this](File &f)
         {
             auto nameLCase = f.FileName;
             //  https://action.mindjet.com/task/14817423
@@ -115,7 +115,7 @@ namespace Bookmarks
             if (!f.IsFolder)
             {
                 //  Checks file type.
-                std::for_each(std::begin(supportedExts), std::end(supportedExts), [nameLCase, &isSupported](const std::wstring ext) mutable
+                std::for_each(std::begin(supportedExts), std::end(supportedExts), [nameLCase, &isSupported, this](const std::wstring ext) mutable
                 {
                     if (HasExtension(nameLCase, ext))
                         isSupported = true;

@@ -15,10 +15,10 @@ namespace Bookmarks
 
     void ErrorBox::Render()
     {
-        PrintHead(_T("Œ¯Ë·Í‡"));
-        _tprintf(_T("%s"), _T("<br><font color=\"red\">"));
-        _tprintf(_T("%s%s\n"), msg1.c_str(), msg2.c_str());
-        _tprintf(_T("%s"), _T("</font>\n"));
+        PrintHead(_T("—ú—à–∏–±–∫–∞"));
+        wprintf(_T("%s"), _T("<br><font color=\"red\">"));
+        wprintf(_T("%s%s\n"), msg1.c_str(), msg2.c_str());
+        wprintf(_T("%s"), _T("</font>\n"));
         PrintTail();
     }
 }

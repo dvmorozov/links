@@ -43,7 +43,7 @@ namespace Bookmarks
                     <span class=\"%s\" aria-hidden=\"true\"></span>\
                 </button>");
 
-        _tprintf(buttonScript, (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + _T("?") + url : script_name) : _T("#")).c_str(), (styles.count(image_file) ? styles[image_file] : std::wstring()).c_str());
+        wprintf(buttonScript, (alt + url).c_str(), (!script_name.empty() ? (!url.empty() ? script_name + _T("?") + url : script_name) : _T("#")).c_str(), (styles.count(image_file) ? styles[image_file] : std::wstring()).c_str());
     }
 
     //  https://action.mindjet.com/task/14817423
@@ -51,10 +51,10 @@ namespace Bookmarks
     {
         FileListLegacy::PrintStyles();
 
-        _tprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\" rel=\"stylesheet\">\n"));
-        _tprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css\" rel=\"stylesheet\">\n"));
-        _tprintf(_T("<link href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css\" rel=\"stylesheet\">\n"));
-        _tprintf(_T("<style type=\"text/css\">\
+        wprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css\" rel=\"stylesheet\">\n"));
+        wprintf(_T("<link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css\" rel=\"stylesheet\">\n"));
+        wprintf(_T("<link href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css\" rel=\"stylesheet\">\n"));
+        wprintf(_T("<style type=\"text/css\">\
             .trlist {\
                 border-radius: 4px;\
                 color: #2A6496;\
@@ -70,13 +70,13 @@ namespace Bookmarks
     {
         FileListLegacy::PrintScripts();
 
-        _tprintf(_T("<script src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js\" type=\"text/javascript\"></script>\n"));
-        _tprintf(_T("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\" type=\"text/javascript\"></script>\n"));
+        wprintf(_T("<script src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js\" type=\"text/javascript\"></script>\n"));
+        wprintf(_T("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js\" type=\"text/javascript\"></script>\n"));
     }
 
     void FileListBootstrap::OpenOuterTable()
     {
-        _tprintf(_T("\n\
+        wprintf(_T("\n\
 <table class=\"table\">\n\
     <tbody>\n\
         <tr>\n\
@@ -84,12 +84,12 @@ namespace Bookmarks
             </th>\n\
             <th>%s [%s]\n\
             </th>\n\
-        </tr><tr>\n"), _T("Папки"), _T("Ссылки"), query);
+        </tr><tr>\n"), _T("РџР°РїРєРё"), _T("РЎСЃС‹Р»РєРё"), query);
     }
 
     void FileListBootstrap::OpenInnerTable()
     {
-        _tprintf(_T("<td valign=\"top\">\n\
+        wprintf(_T("<td valign=\"top\">\n\
                 <table class=\"table table-striped\">\n\
                     <tbody>"));
     }
@@ -97,27 +97,27 @@ namespace Bookmarks
     //  https://action.mindjet.com/task/14720269
     void FileListBootstrap::OpenInnerFileTableRow(std::wstring url)
     {
-        _tprintf(_T("<tr class=\"trlist\" onclick=\"window.open('%s', '_blank');\">"), url.c_str());
+        wprintf(_T("<tr class=\"trlist\" onclick=\"window.open('%s', '_blank');\">"), url.c_str());
     }
 
     //  https://action.mindjet.com/task/14720269
     void FileListBootstrap::OpenInnerDirTableRow(std::wstring url)
     {
-        _tprintf(_T("<tr class=\"trlist\" onclick=\"window.location.href='%s'\">"), url.c_str());
+        wprintf(_T("<tr class=\"trlist\" onclick=\"window.location.href='%s'\">"), url.c_str());
     }
 
-    //  Выводит строку со ссылкой.
+    //  Р’С‹РІРѕРґРёС‚ СЃС‚СЂРѕРєСѓ СЃРѕ СЃСЃС‹Р»РєРѕР№.
     void FileListBootstrap::PrintFileRow(std::wstring fileName)
     {
-        //  !!! нужно скопировать расширение непосредственно
-        //  из lineptr, чтобы сохранились исходные символы !!!
-        //  восстанавливается
+        //  !!! РЅСѓР¶РЅРѕ СЃРєРѕРїРёСЂРѕРІР°С‚СЊ СЂР°СЃС€РёСЂРµРЅРёРµ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ
+        //  РёР· lineptr, С‡С‚РѕР±С‹ СЃРѕС…СЂР°РЅРёР»РёСЃСЊ РёСЃС…РѕРґРЅС‹Рµ СЃРёРјРІРѕР»С‹ !!!
+        //  РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ
         Bookmarks::FileReader fr(cwd);
         std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
         //  https://action.mindjet.com/task/14720510
         //  Add 'http://' prefix if necessary to build correct link.
         //  Transform URL to lower case.
-        std::transform(url.begin(), url.end(), url.begin(), std::tolower);
+        std::transform(url.begin(), url.end(), url.begin(), tolower);
         if (url.find(_T("http://")) == std::string::npos && url.find(_T("https://")) == std::string::npos)
             url = _T("http://") + url;
 
@@ -130,22 +130,22 @@ namespace Bookmarks
         //  The row looks better with button. The button is also clickable.
         if (!url.empty())
         {   //  Link button is inserted.
-            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("Ссылка"));
+            InsertLinkButton(_T("link.bmp"), url, _T(""), 16, _T("РЎСЃС‹Р»РєР°"));
         }
         else
-            //  ??? здесь нужна простая иконка
-            InsertLinkButton(_T("error.bmp"), _T(""), _T("невозможно прочитать URL из файла!"), 16, _T("Ошибка: "));
+            //  ??? Р·РґРµСЃСЊ РЅСѓР¶РЅР° РїСЂРѕСЃС‚Р°СЏ РёРєРѕРЅРєР°
+            InsertLinkButton(_T("error.bmp"), _T(""), _T("РЅРµРІРѕР·РјРѕР¶РЅРѕ РїСЂРѕС‡РёС‚Р°С‚СЊ URL РёР· С„Р°Р№Р»Р°!"), 16, _T("РћС€РёР±РєР°: "));
 
 #ifdef EXTENDED_URL_FILE
-        //  вывод имени ссылки
+        //  РІС‹РІРѕРґ РёРјРµРЅРё СЃСЃС‹Р»РєРё
         if (!name.empty())
         {
-            _tprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
+            wprintf(_T("<td width=\"100%%\">%s</td>\n"), name.c_str());
         }
         else
 #endif
             PrintFileNameWithoutExt(fileName);
-        //  вставка иконок
+        //  РІСЃС‚Р°РІРєР° РёРєРѕРЅРѕРє
         InsertRowCommandButton(cmd_del_conf, query, fileName.c_str(), _T("delete_link.bmp"), HintDelete.c_str());
         InsertRowCommandButton(cmd_edit_conf, query, fileName.c_str(), _T("edit_link.bmp"), HintEdit.c_str());
         CloseInnerTableRow();
