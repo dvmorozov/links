@@ -15,17 +15,25 @@
 #include <cctype>
 #include <clocale>
 #include <locale>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <time.h>
 #include <string.h>
+#include <assert.h>
 
 #ifdef _WINDOWS
+
 #include <Windows.h>
 #include <tchar.h>
 #include <io.h>
 #include <direct.h>
+
 #elif LINUX
+
 #define TCHAR wchar_t
 #define _T(x) L ## x
+
 #endif
 
 #ifdef _TEST

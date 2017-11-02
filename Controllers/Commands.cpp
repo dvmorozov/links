@@ -290,7 +290,7 @@ void do_edit()
 #ifdef EXTENDED_URL_FILE
                             TCHAR *and_;
                             new_name++;
-                            if (and_ = (TCHAR*)wcsrchr(new_name, '&'))*and_ = 0;
+                            if ((and_ = (TCHAR*)wcsrchr(new_name, '&'))) *and_ = 0;
 #else
                             TCHAR *and;
                             TCHAR *dot;
@@ -382,20 +382,20 @@ check_log_in_result check_log_in_params()
         {   //  izvlekaetsya sleduyuschaya chast' stroki - parol'
             if (get_query_command(0) == CMD_LOG_IN)
             {// teper' posle = parol'
-                if (password = (TCHAR*)wcsrchr(query, '='))
+                if ((password = (TCHAR*)wcsrchr(query, '=')))
                 {
                     TCHAR *and_;
                     password++;
                     //  iz password nuzhno udalit' simvol &
-                    if (and_ = (TCHAR*)wcschr(password, '&'))*and_ = 0;
+                    if ((and_ = (TCHAR*)wcschr(password, '&'))) *and_ = 0;
                     //  Удаляет остаток параметра-пароля.
                     if (get_query_command(0) == CMD_LOG_IN)
                     {// teper' posle = imya pol'zovatelya
-                        if (username = (TCHAR*)wcsrchr(query, '='))
+                        if ((username = (TCHAR*)wcsrchr(query, '=')))
                         {
                             username++;
                             // из имени нужно удалить символ &
-                            if (and_ = (TCHAR*)wcschr(username, '&'))*and_ = 0;
+                            if ((and_ = (TCHAR*)wcschr(username, '&'))) *and_ = 0;
                             //  Удаляет остаток параметра-имени.
                             if (get_query_command(0) == CMD_LOG_IN)
                             {
@@ -489,7 +489,7 @@ void do_add()
                     TCHAR *and_;
                     url++;
                     //  из нового url нужно удалить символ &
-                    if (and_ = (TCHAR*)wcsrchr(url, '&'))*and_ = 0;
+                    if ((and_ = (TCHAR*)wcsrchr(url, '&'))) *and_ = 0;
 
                     if (get_query_command(0) == CMD_ADD)
                     {// теперь после = имя новой ссылки (без расширения)
@@ -498,7 +498,7 @@ void do_add()
                         {
                             name++;
                             //  из имени нужно удалить символ &
-                            if (and_ = (TCHAR*)wcsrchr(name, '&'))*and_ = 0;
+                            if ((and_ = (TCHAR*)wcsrchr(name, '&'))) *and_ = 0;
                             // переход в папку и создание файла .url
                             change_folder();
                             if (!fatal_error)
@@ -631,7 +631,7 @@ void do_edit_folder()
                             TCHAR *and_;
                             new_name++;
                             //  из нового имени нужно удалить символ &
-                            if (and_ = (TCHAR*)wcsrchr(new_name, '&'))*and_ = 0;
+                            if ((and_ = (TCHAR*)wcsrchr(new_name, '&'))) *and_ = 0;
 
                             // переход в папку и переименование файла
                             change_folder();
@@ -693,7 +693,7 @@ void do_add_folder()
                     TCHAR *and_;
                     name++;
                     //  из имени нужно удалить символ &
-                    if (and_ = (TCHAR*)wcsrchr(name, '&'))*and_ = 0;
+                    if ((and_ = (TCHAR*)wcsrchr(name, '&'))) *and_ = 0;
                     // переход в папку и создание файла .url
                     change_folder();
                     if (!fatal_error)

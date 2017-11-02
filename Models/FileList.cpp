@@ -3,12 +3,7 @@
 #include "FileReader.h"
 #include "../Controllers/Commands.h"
 #include "../Utils/entities.h"
-
-#include <sstream>
-#include <locale>
-#include <iomanip>
-#include <algorithm>
-#include <assert.h>
+#include "../main.h"
 
 namespace Bookmarks
 {
@@ -28,37 +23,83 @@ namespace Bookmarks
 #endif // !LINUX
     }
 
-    void FileList::ParseLine(std::wstring &line, FileVector &result)
+    std::vector<std::wstring> FileList::SplitLine(std::wstring &line)
     {
-#ifndef LINUX
-        //  удаляется перевод строки (2 симв. на Windows)
-        line.pop_back();
-        //  https://action.mindjet.com/task/14665015
-        //  разбивка строки на набор строк
         std::vector<std::wstring> columns;
         std::wstringstream ss(line);
         std::wstring column;
         while (ss >> column)
             columns.push_back(column);
+        return columns;
+    }
 
-        //  разбор времени создания файла/папки
+    std::time_t FileList::ParseDateTime(std::vector<std::wstring> lineColumns)
+    {
         struct std::tm tm;
-        std::wstringstream dateTimeStr(columns[0] + _T(" ") + columns[1]);
-        dateTimeStr >> std::get_time(&tm, _T("%d.%m.%Y %H:%M"));
+
+#ifndef LINUX
+        std::wstringstream dateTimeStr(lineColumns[5] + _T(" ") + lineColumns[6]);
+        dateTimeStr >> std::get_time(&tm, _T("%Y-%m-%d %H:%M"));
+#else
+        std::wstring dateTimeStr(lineColumns[0] + _T(" ") + lineColumns[1]);
+        int day, month, year, hour, min;
+        //  Date has following format "%d.%m.%Y %H:%M".
+        swscanf(dateTimeStr.c_str(), _T("%2d/%2d/%4d %2d.%2d.%4d %2d:%2d"), &day, &month, &year, &hour, &min);
+        tm.tm_sec = 0;
+        tm.tm_min = 0;
+        tm.tm_hour = hour;
+        tm.tm_mon = month - 1;
+        tm.tm_year = year - 1900;
+        tm.tm_wday = 0;
+        tm.tm_yday = 0;
+        tm.tm_isdst = 0;
+#endif
         std::time_t dateTime = mktime(&tm);
+        return dateTime;
+    }
 
-        std::wstring col2 = columns[2];
-        col2.erase(0, col2.find_first_not_of(' '));         //  prefixing spaces
-        col2.erase(col2.find_last_not_of(' ') + 1);         //  surfixing spaces
+    std::wstring FileList::TrimSpaces(std::wstring str)
+    {
+        str.erase(0, str.find_first_not_of(' '));         //  Removes prefixing spaces.
+        str.erase(str.find_last_not_of(' ') + 1);         //  Removes surfixing spaces.
+        return str;
+    }
 
+    std::wstring FileList::ConcatFileName(std::vector<std::wstring> lineColumns, int firstColumnIndex)
+    {
+        std::wstring fileName = lineColumns[firstColumnIndex];
+        std::for_each(lineColumns.begin() + firstColumnIndex + 1, lineColumns.end(),
+                      [&](std::wstring &s) { fileName += _T(" ") + s; });
+        return fileName;
+    }
+
+    void FileList::ParseLine(std::wstring &line, FileVector &result)
+    {
+        line.pop_back();
+#ifndef LINUX
+        //  The second line terminating symbol on Windows is removed.
+        line.pop_back();
+#endif
+        //  https://action.mindjet.com/task/14665015
+        std::vector<std::wstring> columns = SplitLine(line);
+        std::time_t dateTime = ParseDateTime(columns);
+
+#ifndef LINUX
+        std::wstring col2 = TrimSpaces(columns[2]);
         bool isFolder = col2 == _T("<DIR>");
 
         size_t size = col2 != _T("<DIR>") ? std::stoi(col2) : 0;
 
-        std::wstring fileName = columns[3];
-        //  Restore folder name.
-        std::for_each(columns.begin() + 4, columns.end(), [&](std::wstring &s) { fileName += _T(" ") + s; });
+        std::wstring fileName = ConcatFileName(columns, 3);
 
+#else
+        bool isFolder = columns[0][0] == 'd';
+
+        size_t size;
+        swscanf(TrimSpaces(columns[4]).c_str(), _T("%zd"), &size);
+
+        std::wstring fileName = ConcatFileName(columns, 7);
+#endif // !LINUX
         if (!isFolder)
         {
             //  Read file content.
@@ -70,11 +111,6 @@ namespace Bookmarks
         }
         else
             result.push_back(File(fileName, isFolder, dateTime, size, _T(""), _T("")));
-#else
-        //???
-        //bool isFolder = (fileName.size() <= 4) || (fileName.rfind('.') != (fileName.size() - 4));
-        //result.push_back(File(line, isFolder, 0, 0));
-#endif // !LINUX
     }
 
     FileVector FileList::ReadFileList()

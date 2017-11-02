@@ -20,20 +20,28 @@ namespace Bookmarks
 
     public:
         //  https://action.mindjet.com/task/14665015
-        time_t DateTime = 0;
+        time_t DateTime;
         //  File name without dir name.
         std::wstring FileName;
-        bool IsFolder = false;
-        size_t Size = 0;
+        bool IsFolder;
+        size_t Size;
         //  https://action.mindjet.com/task/14732139
         std::wstring Url;
         std::wstring Name;
 
         File(std::wstring fileName, bool isFolder, time_t dateTime, size_t size, std::wstring url, std::wstring name) :
-            FileName(fileName), IsFolder(isFolder), DateTime(dateTime), Size(size), Url(url), Name(name) {
+            DateTime(dateTime), FileName(fileName), IsFolder(isFolder), Size(size), Url(url), Name(name)
+        {
             _seqNum = _seqNumCounter++;
         }
-        File() { _seqNum = _seqNumCounter++; }
+
+        File()
+        {
+            _seqNum = _seqNumCounter++;
+            IsFolder = false;
+            Size = 0;
+            DateTime = 0;
+        }
 
         //  https://action.mindjet.com/task/14732139
         void SetDeleteMark() { _deleted = true; }
@@ -52,6 +60,12 @@ namespace Bookmarks
         FileVector ReadFileList();
         void RemoveNonInformativeLines(std::vector<std::wstring> &lines);
         void ParseLine(std::wstring &line, FileVector &result);
+
+        static std::vector<std::wstring> SplitLine(std::wstring &line);
+        static std::time_t ParseDateTime(std::vector<std::wstring> lineColumns);
+        static std::wstring TrimSpaces(std::wstring);
+        //  Restores file or folder name as divided by spaces from the rest of columns.
+        static std::wstring ConcatFileName(std::vector<std::wstring> lineColumns, int firstColumnIndex);
 
     public:
         FileList(FileListReader *reader) : _reader(reader) {

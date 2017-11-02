@@ -449,7 +449,7 @@ void decode_url(TCHAR *dest, TCHAR *src, unsigned char delete_spaces)
     //  '+' replaced by spaces. 'Src' is modified!
     if (delete_spaces)
     {
-        while (ptr = (TCHAR*)wcschr(ptr, '+'))
+        while ((ptr = (TCHAR*)wcschr(ptr, '+')))
         {
             *ptr = ' ';
             ptr++;

@@ -29,7 +29,7 @@ namespace Bookmarks
 
 #else
 
-        std::wstring _cmdDir = _T("dir -a -1 -X -F -N >>");                 //  Linux shell command.
+        std::wstring _cmdDir = _T("dir -alXFN >>");                         //  Linux shell command.
 
         //std::wstring tmpdir = _T("/var/tmp/");                            //  лучше правильно настроить доступ к папке с файлами,
                                                                             //  чем использовать отдельную директорию

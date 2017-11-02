@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(links)
 
-set (CMAKE_CXX_FLAGS "-std=c++11")
+set (CMAKE_CXX_FLAGS "-std=c++11 -O3 -Wall -pedantic")
 
 add_definitions(-DLINUX)
 add_definitions(-D_UNICODE)
