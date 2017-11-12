@@ -4,11 +4,10 @@
 
 namespace Bookmarks
 {
-    //  Read configuration parameters from Windows registry.
-    //  https://action.mindjet.com/task/14777741
-    class RegConfig
+    //  Abstract base class for reading configuration.
+    class Config
     {
     public:
-        static std::wstring GetValue(std::wstring name);
+        virtual std::wstring GetValue(std::wstring name) = 0;
     };
 }

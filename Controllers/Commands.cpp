@@ -1,6 +1,8 @@
 
 #include "../main.h"
 #include "../Models/Data.h"
+#include "../Models/Config.h"
+#include "../Models/ConfigFactory.h"
 #include "../Models/ConfigTest.h"
 #include "../Models/FileReader.h"
 #include "../Views/FileListBootstrap.h"
@@ -8,6 +10,8 @@
 #include "../Views/ErrorBox.h"
 #include "../Utils/entities.h"
 #include "Commands.h"
+
+#include <memory>
 
 //  команды для исполнения программой (вставляются в url)
 //  !!! нужны наборы одинаковых команд для папок и файлов, поскольку расширение
@@ -400,8 +404,9 @@ check_log_in_result check_log_in_params()
                             if (get_query_command(0) == CMD_LOG_IN)
                             {
                                 //  Check username and password.
-                                if (!wcscmp(username, Bookmarks::RegConfig::GetValue(_T("UserName")).c_str()) &&
-                                    !wcscmp(password, Bookmarks::RegConfig::GetValue(_T("Password")).c_str()))
+                                std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
+                                if (!wcscmp(username, config->GetValue(_T("UserName")).c_str()) &&
+                                    !wcscmp(password, config->GetValue(_T("Password")).c_str()))
                                     return nullptr;
                                 //  Return to the login page.
                                 else return do_log_in_conf;
