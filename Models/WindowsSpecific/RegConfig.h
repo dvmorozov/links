@@ -1,9 +1,9 @@
 #ifndef REGCONFIG_H
 #define REGCONFIG_H
 
-#include "Config.h"
+#include "..\Config.h"
 
-#include "..\main.h"
+#include "..\..\main.h"
 
 namespace Bookmarks
 {

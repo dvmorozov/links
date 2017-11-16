@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
 #include "..\Models\Data.h"
-#include "..\Models\ConfigTest.h"
+#include "..\Models\Config.h"
+#include "..\Models\TestSpecific\ConfigTest.h"
 #include "..\Models\FileList.h"
 #include "..\Models\FileReader.h"
 #include "..\Models\FileListReader.h"
-#include "..\Models\FileListReaderTest.h"
 #include "..\Views\FileListBootstrap.h"
 #include "..\Controllers\Commands.h"
 #include "..\Utils\entities.h"
@@ -125,7 +125,7 @@ namespace bookmarks_test
         void TestRenderBootstrap()
         {
             //  https://action.mindjet.com/task/14777741
-            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            testQuery = Bookmarks::TestRegConfig::GetValue(_T("TestQuery"));
             //  Allow string modification!
             query = (wchar_t*)testQuery.c_str();
             cwd = _T("test");       //  Д. б. ненулевой ук-ль.
@@ -139,12 +139,12 @@ namespace bookmarks_test
         void TestParamsParsing()
         {
             //  https://action.mindjet.com/task/14777741
-            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            testQuery = Bookmarks::TestRegConfig::GetValue(_T("TestQuery"));
             //  Allow string modification!
             query = (wchar_t*)testQuery.c_str();
             Assert::IsTrue(check_log_in_params() == nullptr);
-            Assert::IsTrue(std::wstring(username) == Bookmarks::RegConfig::GetValue(_T("UserName")));
-            Assert::IsTrue(std::wstring(password) == Bookmarks::RegConfig::GetValue(_T("Password")));
+            Assert::IsTrue(std::wstring(username) == Bookmarks::TestRegConfig::GetValue(_T("UserName")));
+            Assert::IsTrue(std::wstring(password) == Bookmarks::TestRegConfig::GetValue(_T("Password")));
             //  Все параметры должны быть удалены.
             Assert::IsTrue(std::wstring(query).find(L";&") == std::wstring::npos);
         };
@@ -164,7 +164,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestFileReader()
         {
-            Bookmarks::FileReader fr(Bookmarks::RegConfig::GetValue(_T("TestFolder")));
+            Bookmarks::FileReader fr(Bookmarks::TestRegConfig::GetValue(_T("TestFolder")));
             std::wstring url = fr.GetParamCurDir(_T("57564efb.url"), ParamURL);
             std::wstring name = fr.GetParamCurDir(_T("57564efb.url"), ParamName);
 
@@ -172,8 +172,8 @@ namespace bookmarks_test
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name);
 
             Bookmarks::FileReader fr2(_T(""));
-            std::wstring url2 = fr.GetParam(Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamURL);
-            std::wstring name2 = fr.GetParam(Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamName);
+            std::wstring url2 = fr.GetParam(Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamURL);
+            std::wstring name2 = fr.GetParam(Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamName);
 
             Assert::IsTrue(_T("https://www.youtube.com/watch?v=_8v0Xs7MJLw") == url2);
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name2);
@@ -182,9 +182,9 @@ namespace bookmarks_test
         [TestMethod]
         void TestUTF8File()
         {
-            Bookmarks::FileReader fr(Bookmarks::RegConfig::GetValue(_T("TestFolder")));
+            Bookmarks::FileReader fr(Bookmarks::TestRegConfig::GetValue(_T("TestFolder")));
 
-            std::wstring folderName = Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\14817423");
+            std::wstring folderName = Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + _T("\\14817423");
             std::wstring fileName = create_url_file(_T("Radiotéka"), _T("http://www.radioteka.cz/"), folderName.c_str());
 
             std::wstring localName = fr.GetParam(fileName, ParamName);
@@ -200,7 +200,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestMakeFolder()
         {
-            std::wstring wstr = Bookmarks::RegConfig::GetValue(_T("TestFolder")) + L"\\Тест";
+            std::wstring wstr = Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + L"\\Тест";
             MakeFolder(wstr);
         };
 
@@ -219,7 +219,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestAddLink()
         {
-            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            testQuery = Bookmarks::TestRegConfig::GetValue(_T("TestQuery"));
             //  The key int URL must coincide with name of temporary file.
             //  The URL mustn't include domain and script name.
             std::wstring testQueryAddLink = L"Radio%3Badd=Radiot%26%23233%3Bka&%3Badd=http%3A%2F%2Fwww.radioteka.cz%2F&%3Bkey%3D1471160335%3Badd=Ok";
@@ -249,7 +249,7 @@ namespace bookmarks_test
         [TestMethod]
         void TestChangeFolder()
         {
-            testQuery = Bookmarks::RegConfig::GetValue(_T("TestQuery"));
+            testQuery = Bookmarks::TestRegConfig::GetValue(_T("TestQuery"));
             //  Allow string modification!
             query = (wchar_t*)testQuery.c_str();
             //  Log in must be done before processing command.
@@ -272,11 +272,11 @@ namespace bookmarks_test
             FileListReader *flrt = GetFileReader();
             //  Overwriting test file.
             CopyFile(
-                (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\14732139\\test.txt")).c_str(),
-                (Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\Тест\\test.txt")).c_str(),
+                (Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + _T("\\14732139\\test.txt")).c_str(),
+                (Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + _T("\\Тест\\test.txt")).c_str(),
                 FALSE
             );
-            _wchdir((Bookmarks::RegConfig::GetValue(_T("TestFolder")) + _T("\\Тест")).c_str());
+            _wchdir((Bookmarks::TestRegConfig::GetValue(_T("TestFolder")) + _T("\\Тест")).c_str());
 
             FileList fl(flrt);
             auto fileListBefore = fl.GetFileList();

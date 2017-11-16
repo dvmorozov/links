@@ -138,6 +138,8 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderDir.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
+    <ClCompile Include="..\Models\WindowsSpecific\ConfigFactory.cpp" />
+    <ClCompile Include="..\Models\WindowsSpecific\RegConfig.cpp" />
     <ClCompile Include="..\Utils\entities.cpp" />
     <ClCompile Include="..\Views\AddLink.cpp" />
     <ClCompile Include="..\Views\ErrorBox.cpp" />
@@ -157,6 +159,8 @@
     <ClInclude Include="..\Models\FileListReader.h" />
     <ClInclude Include="..\Models\FileListReaderDir.h" />
     <ClInclude Include="..\Models\FileReader.h" />
+    <ClInclude Include="..\Models\WindowsSpecific\ConfigFactory.h" />
+    <ClInclude Include="..\Models\WindowsSpecific\RegConfig.h" />
     <ClInclude Include="..\Utils\entities.h" />
     <ClInclude Include="..\Views\AddLink.h" />
     <ClInclude Include="..\Views\ErrorBox.h" />

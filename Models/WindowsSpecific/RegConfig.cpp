@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <Windows.h>
 
-#include "../main.h"
+#include "..\..\main.h"
 
 namespace Bookmarks
 {

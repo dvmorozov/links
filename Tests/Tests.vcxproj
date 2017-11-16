@@ -76,8 +76,6 @@
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -96,11 +94,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Controllers\Commands.cpp" />
-    <ClCompile Include="..\Models\ConfigTest.cpp" />
+    <ClCompile Include="..\Models\Config.cpp" />
     <ClCompile Include="..\Models\Data.cpp" />
     <ClCompile Include="..\Models\FileList.cpp" />
-    <ClCompile Include="..\Models\FileListReaderTest.cpp" />
     <ClCompile Include="..\Models\FileReader.cpp" />
+    <ClCompile Include="..\Models\TestSpecific\ConfigTest.cpp" />
+    <ClCompile Include="..\Models\TestSpecific\FileListReaderTest.cpp" />
+    <ClCompile Include="..\Models\WindowsSpecific\ConfigFactory.cpp" />
+    <ClCompile Include="..\Models\WindowsSpecific\RegConfig.cpp" />
     <ClCompile Include="..\Utils\entities.cpp" />
     <ClCompile Include="..\Views\AddLink.cpp" />
     <ClCompile Include="..\Views\ErrorBox.cpp" />
@@ -117,12 +118,15 @@
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h" />
     <ClInclude Include="..\main.h" />
-    <ClInclude Include="..\Models\ConfigTest.h" />
+    <ClInclude Include="..\Models\Config.h" />
     <ClInclude Include="..\Models\Data.h" />
     <ClInclude Include="..\Models\FileList.h" />
     <ClInclude Include="..\Models\FileListReader.h" />
-    <ClInclude Include="..\Models\FileListReaderTest.h" />
     <ClInclude Include="..\Models\FileReader.h" />
+    <ClInclude Include="..\Models\TestSpecific\ConfigTest.h" />
+    <ClInclude Include="..\Models\TestSpecific\FileListReaderTest.h" />
+    <ClInclude Include="..\Models\WindowsSpecific\ConfigFactory.h" />
+    <ClInclude Include="..\Models\WindowsSpecific\RegConfig.h" />
     <ClInclude Include="..\Utils\entities.h" />
     <ClInclude Include="..\Views\Page.h" />
     <ClInclude Include="..\Views\PageBootstrap.h" />
