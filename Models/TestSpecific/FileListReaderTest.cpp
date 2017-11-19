@@ -1,8 +1,7 @@
-
+﻿
 #include <string>
 #include <vector>
 
-#include "ConfigTest.h"
 #include "FileListReaderTest.h"
 #include "..\..\Models\Config.h"
 #include "..\..\Models\ConfigFactory.h"
@@ -22,8 +21,8 @@ namespace Bookmarks
         std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
         //  File copying must be here because this function is called many times during the test.
         CopyFile(
-            (config->GetValue(_T("TestFolder")) + _T("\\test.txt")).c_str(),
-            (config->GetValue(_T("TestFolder")) + _T("\\Тест\\test.txt")).c_str(),
+            (config->GetValue(_T("TestFolder")) + _T("\\dir_windows.txt")).c_str(),
+            (config->GetValue(_T("TestFolder")) + _T("\\Тест\\dir_windows.txt")).c_str(),
             FALSE
         );
         CopyFile(
@@ -41,6 +40,6 @@ namespace Bookmarks
             (config->GetValue(_T("TestFolder")) + _T("\\Тест\\57584dec.url")).c_str(),
             FALSE
         );
-        return new FileListReaderTest(config->GetValue(_T("TestFolder")) + _T("\\Тест\\test.txt"));
+        return new FileListReaderTest(config->GetValue(_T("TestFolder")) + _T("\\Тест\\dir_windows.txt"));
     }
 }

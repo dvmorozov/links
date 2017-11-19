@@ -37,19 +37,20 @@ namespace Bookmarks
     {
         struct std::tm tm;
 
-#ifndef LINUX
+#ifdef LINUX
         std::wstringstream dateTimeStr(lineColumns[5] + _T(" ") + lineColumns[6]);
         dateTimeStr >> std::get_time(&tm, _T("%Y-%m-%d %H:%M"));
 #else
         std::wstring dateTimeStr(lineColumns[0] + _T(" ") + lineColumns[1]);
         int day, month, year, hour, min;
         //  Date has following format "%d.%m.%Y %H:%M".
-        swscanf(dateTimeStr.c_str(), _T("%2d/%2d/%4d %2d.%2d.%4d %2d:%2d"), &day, &month, &year, &hour, &min);
+        swscanf(dateTimeStr.c_str(), _T("%2d.%2d.%4d %2d:%2d"), &day, &month, &year, &hour, &min);
         tm.tm_sec = 0;
         tm.tm_min = 0;
         tm.tm_hour = hour;
         tm.tm_mon = month - 1;
         tm.tm_year = year - 1900;
+        tm.tm_mday = 0;
         tm.tm_wday = 0;
         tm.tm_yday = 0;
         tm.tm_isdst = 0;
@@ -75,11 +76,8 @@ namespace Bookmarks
 
     void FileList::ParseLine(std::wstring &line, FileVector &result)
     {
+        //  Line terminating symbol is removed.
         line.pop_back();
-#ifndef LINUX
-        //  The second line terminating symbol on Windows is removed.
-        line.pop_back();
-#endif
         //  https://action.mindjet.com/task/14665015
         std::vector<std::wstring> columns = SplitLine(line);
         std::time_t dateTime = ParseDateTime(columns);

@@ -14,7 +14,7 @@ namespace Bookmarks
     {
         ULONG nError;
         HKEY hKeyOut;
-        nError = RegCreateKeyEx(hKey, subKey.c_str(), 0, NULL, REG_OPTION_NON_VOLATILE, KEY_READ, NULL, &hKeyOut, NULL);
+        nError = RegCreateKeyExW(hKey, subKey.c_str(), 0, NULL, REG_OPTION_NON_VOLATILE, KEY_READ | KEY_WOW64_64KEY, NULL, &hKeyOut, NULL);
         if (ERROR_SUCCESS != nError)
             return nError;
 
