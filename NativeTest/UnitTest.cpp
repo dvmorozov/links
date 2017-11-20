@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "..\Models\Data.h"
 #include "..\Models\Config.h"
@@ -71,7 +71,8 @@ namespace NativeTest
 
             for (auto f = _data.begin(); f != _data.end(); ++f)
             {
-                if (f->FileName == _T("Эхо Москвы")) matches.push_back(*f);
+                if (f->FileName == _T("Эхо Москвы")) 
+                    matches.push_back(*f);
             }
 
             Assert::AreEqual(1, (int)matches.size());
