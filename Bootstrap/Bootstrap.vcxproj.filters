@@ -24,9 +24,6 @@
     <ClCompile Include="..\Models\FileListReaderDir.cpp">
       <Filter>Models</Filter>
     </ClCompile>
-    <ClCompile Include="..\Models\FileReader.cpp">
-      <Filter>Models</Filter>
-    </ClCompile>
     <ClCompile Include="..\Models\FileList.cpp">
       <Filter>Models</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
     <ClCompile Include="..\Models\WindowsSpecific\ConfigFactory.cpp">
       <Filter>Models</Filter>
     </ClCompile>
+    <ClCompile Include="..\Models\LinkFileReader.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h">
@@ -73,9 +73,6 @@
       <Filter>Models</Filter>
     </ClInclude>
     <ClInclude Include="..\Models\FileListReaderDir.h">
-      <Filter>Models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\FileReader.h">
       <Filter>Models</Filter>
     </ClInclude>
     <ClInclude Include="..\main.h" />
@@ -107,6 +104,9 @@
       <Filter>Models</Filter>
     </ClInclude>
     <ClInclude Include="..\Models\WindowsSpecific\ConfigFactory.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\LinkFileReader.h">
       <Filter>Models</Filter>
     </ClInclude>
   </ItemGroup>

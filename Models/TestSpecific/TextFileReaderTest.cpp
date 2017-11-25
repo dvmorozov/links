@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "FileListReaderTest.h"
+#include "TextFileReaderTest.h"
 #include "..\..\Models\Config.h"
 #include "..\..\Models\ConfigFactory.h"
 #include "..\..\main.h"
@@ -11,12 +11,13 @@
 
 namespace Bookmarks
 {
-    std::vector<std::wstring> FileListReaderTest::ReadFileList()
+    std::vector<std::wstring> TextFileReaderTest::ReadFileLines()
     {
         return ReadFile(FileName);
     }
 
-    FileListReader *GetFileReader()
+    //  Factory method returning FileListReader.
+    TextFileReader *GetFileReader()
     {
         std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
         //  File copying must be here because this function is called many times during the test.
@@ -40,6 +41,6 @@ namespace Bookmarks
             (config->GetValue(_T("TestFolder")) + _T("\\Тест\\57584dec.url")).c_str(),
             FALSE
         );
-        return new FileListReaderTest(config->GetValue(_T("TestFolder")) + _T("\\Тест\\dir_windows.txt"));
+        return new TextFileReaderTest(config->GetValue(_T("TestFolder")) + _T("\\Тест\\dir_windows.txt"));
     }
 }

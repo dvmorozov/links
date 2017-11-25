@@ -45,3 +45,10 @@
 *.idb
 *.log
 *.pdb
+/Bootstrap/Release
+/.vs/links/v15/ipch
+/BuildQTCreator
+/Legacy/Release/Legacy.tlog
+/NativeTest/Debug
+/NativeTest/x64/Debug
+/x64/Debug

@@ -158,10 +158,10 @@
     <ClInclude Include="..\Models\ConfigFactory.h" />
     <ClInclude Include="..\Models\Data.h" />
     <ClInclude Include="..\Models\FileList.h" />
-    <ClInclude Include="..\Models\FileListReader.h" />
-    <ClInclude Include="..\Models\FileReader.h" />
+    <ClInclude Include="..\Models\TextFileReader.h" />
+    <ClInclude Include="..\Models\LinkFileReader.h" />
     <ClInclude Include="..\Models\TestSpecific\ConfigTest.h" />
-    <ClInclude Include="..\Models\TestSpecific\FileListReaderTest.h" />
+    <ClInclude Include="..\Models\TestSpecific\TextFileReaderTest.h" />
     <ClInclude Include="..\Models\WindowsSpecific\RegConfig.h" />
     <ClInclude Include="..\Utils\entities.h" />
     <ClInclude Include="..\Views\FileListBootstrap.h" />
@@ -175,8 +175,8 @@
     <ClCompile Include="..\Models\Config.cpp" />
     <ClCompile Include="..\Models\Data.cpp" />
     <ClCompile Include="..\Models\FileList.cpp" />
-    <ClCompile Include="..\Models\FileReader.cpp" />
-    <ClCompile Include="..\Models\TestSpecific\FileListReaderTest.cpp" />
+    <ClCompile Include="..\Models\LinkFileReader.cpp" />
+    <ClCompile Include="..\Models\TestSpecific\TextFileReaderTest.cpp" />
     <ClCompile Include="..\Models\WindowsSpecific\ConfigFactory.cpp" />
     <ClCompile Include="..\Models\WindowsSpecific\RegConfig.cpp" />
     <ClCompile Include="..\Utils\entities.cpp" />

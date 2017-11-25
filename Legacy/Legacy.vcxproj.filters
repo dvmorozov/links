@@ -30,9 +30,6 @@
     <ClCompile Include="..\Controllers\Commands.cpp">
       <Filter>Source Files\Controllers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Models\FileReader.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
     <ClCompile Include="..\Models\Data.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
@@ -72,6 +69,9 @@
     <ClCompile Include="..\Models\WindowsSpecific\RegConfig.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
+    <ClCompile Include="..\Models\LinkFileReader.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -80,29 +80,11 @@
     <ClInclude Include="..\Controllers\Commands.h">
       <Filter>Source Files\Controllers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Models\FileReader.h">
-      <Filter>Source Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\Data.h">
-      <Filter>Source Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\FileListReader.h">
-      <Filter>Source Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\FileListReaderDir.h">
-      <Filter>Source Files\Models</Filter>
-    </ClInclude>
     <ClInclude Include="..\Views\View.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\main.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\FileList.h">
-      <Filter>Source Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\Config.h">
-      <Filter>Source Files\Models</Filter>
     </ClInclude>
     <ClInclude Include="..\Views\FileListLegacy.h">
       <Filter>Source Files\Views</Filter>
@@ -122,11 +104,29 @@
     <ClInclude Include="..\Views\ErrorBox.h">
       <Filter>Source Files\Views</Filter>
     </ClInclude>
+    <ClInclude Include="..\Models\LinkFileReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Models\WindowsSpecific\ConfigFactory.h">
-      <Filter>Source Files\Models</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\Data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileListReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\FileListReaderDir.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Models\WindowsSpecific\RegConfig.h">
-      <Filter>Source Files\Models</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 
-#include "FileListReader.h"
+#include "TextFileReader.h"
 #include "..\main.h"
 
 namespace Bookmarks
 {
-    //  Читает содержимое текущей директории (поэтому имя дир. не передается) с пом. вызова сист. утил.
-    class FileListReaderDir : public FileListReader
+    //  Reads contents of current directory by means of system utility.
+    class FileListReaderDir : public TextFileReader
     {
     private:
         //-------------------------------------------------------------------------------------------------
@@ -37,6 +37,6 @@ namespace Bookmarks
 
 #endif
     public:
-        virtual std::vector<std::wstring> ReadFileList();
+        virtual std::vector<std::wstring> ReadFileLines();
     };
 }

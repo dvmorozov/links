@@ -1,6 +1,6 @@
 
 #include "Data.h"
-#include "FileReader.h"
+#include "LinkFileReader.h"
 #include "../Controllers/Commands.h"
 #include "../main.h"
 
@@ -22,7 +22,7 @@ namespace Bookmarks
         return _fileList->GetDirList();
     }
 
-    std::vector<std::wstring> FileListReader::ReadFile(std::wstring fileName)
+    std::vector<std::wstring> TextFileReader::ReadFile(std::wstring fileName)
     {
         FILE *f = _wfopen(fileName.c_str(), _T("r"));
         std::vector<std::wstring> lines;

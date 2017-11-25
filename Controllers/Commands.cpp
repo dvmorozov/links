@@ -3,7 +3,7 @@
 #include "../Models/Data.h"
 #include "../Models/Config.h"
 #include "../Models/ConfigFactory.h"
-#include "../Models/FileReader.h"
+#include "../Models/LinkFileReader.h"
 #include "../Views/FileListBootstrap.h"
 #include "../Views/AddLink.h"
 #include "../Views/ErrorBox.h"
@@ -240,7 +240,7 @@ void do_edit_conf()
         change_folder();
         if (!fatal_error)
         {
-            Bookmarks::FileReader fr(cwd);
+            Bookmarks::LinkFileReader fr(cwd);
             std::wstring url = fr.GetParamCurDir(link, ParamURL);
             //  name содержит название без расширения
             std::wstring name;
@@ -320,7 +320,7 @@ void do_edit()
                                 if (!fatal_error)
                                 {
 #ifdef EXTENDED_URL_FILE
-                                    Bookmarks::FileReader fr(cwd);
+                                    Bookmarks::LinkFileReader fr(cwd);
                                     std::wstring url = fr.GetParamCurDir(old_name, ParamURL);
                                     //  замена файла (!!! остальная информация из файла теряется !!!)
                                     create_url_file(new_name, url.c_str());
@@ -584,7 +584,7 @@ void do_del_conf()
         change_folder();
         if (!fatal_error)
         {
-            Bookmarks::FileReader fr(cwd);
+            Bookmarks::LinkFileReader fr(cwd);
             std::wstring url = fr.GetParamCurDir(link, ParamURL);
             std::wstring name;
 #ifdef EXTENDED_URL_FILE

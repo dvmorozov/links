@@ -4,8 +4,8 @@
 #include "..\Models\Config.h"
 #include "..\Models\ConfigFactory.h"
 #include "..\Models\FileList.h"
-#include "..\Models\FileReader.h"
-#include "..\Models\FileListReader.h"
+#include "..\Models\LinkFileReader.h"
+#include "..\Models\TextFileReader.h"
 #include "..\Views\FileListBootstrap.h"
 #include "..\Controllers\Commands.h"
 #include "..\Utils\entities.h"
@@ -31,9 +31,9 @@ namespace NativeTest
     public:
         TEST_METHOD(TestGetFileList)
         {
-            FileListReader *flrt = GetFileReader();
+            TextFileReader *flrt = GetFileReader();
             //  Returns all the string from file.
-            std::vector<std::wstring> list = flrt->ReadFileList();
+            std::vector<std::wstring> list = flrt->ReadFileLines();
 
             Assert::AreEqual(36, (int)list.size());
             delete flrt;
@@ -52,7 +52,7 @@ namespace NativeTest
 
         TEST_METHOD(TestFileList)
         {
-            FileListReader *flrt = GetFileReader();
+            TextFileReader *flrt = GetFileReader();
             Bookmarks::FileList fl(flrt);
 
             FileVector files = fl.GetFileList();
@@ -120,14 +120,14 @@ namespace NativeTest
         TEST_METHOD(TestFileReader)
         {
             std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
-            Bookmarks::FileReader fr(config->GetValue(_T("TestFolder")));
+            Bookmarks::LinkFileReader fr(config->GetValue(_T("TestFolder")));
             std::wstring url = fr.GetParamCurDir(_T("57564efb.url"), ParamURL);
             std::wstring name = fr.GetParamCurDir(_T("57564efb.url"), ParamName);
 
             Assert::IsTrue(_T("https://www.youtube.com/watch?v=_8v0Xs7MJLw") == url);
             Assert::IsTrue(_T("Москва и провинция: что там у людей? (Рыжков)") == name);
 
-            Bookmarks::FileReader fr2(_T(""));
+            Bookmarks::LinkFileReader fr2(_T(""));
             std::wstring url2 = fr.GetParam(config->GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamURL);
             std::wstring name2 = fr.GetParam(config->GetValue(_T("TestFolder")) + _T("\\57564efb.url"), ParamName);
 
@@ -138,7 +138,7 @@ namespace NativeTest
         TEST_METHOD(TestUTF8File)
         {
             std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
-            Bookmarks::FileReader fr(config->GetValue(_T("TestFolder")));
+            Bookmarks::LinkFileReader fr(config->GetValue(_T("TestFolder")));
 
             std::wstring folderName = config->GetValue(_T("TestFolder")) + _T("\\14817423");
             std::wstring fileName = create_url_file(_T("Radiotéka"), _T("http://www.radioteka.cz/"), folderName.c_str());
@@ -222,7 +222,7 @@ namespace NativeTest
         {
             //  Copies files to the test directory.
             std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
-            FileListReader *flrt = GetFileReader();
+            TextFileReader *flrt = GetFileReader();
             //  Overwriting test file.
             CopyFile(
                 (config->GetValue(_T("TestFolder")) + _T("\\14732139\\test.txt")).c_str(),

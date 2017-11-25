@@ -1,6 +1,6 @@
 
 #include "FileListLegacy.h"
-#include "../Models/FileReader.h"
+#include "../Models/LinkFileReader.h"
 #include "../Controllers/Commands.h"
 #include "../Utils/entities.h"
 #include "../main.h"
@@ -275,7 +275,7 @@ namespace Bookmarks
         //  !!! нужно скопировать расширение непосредственно
         //  из lineptr, чтобы сохранились исходные символы !!!
         //  воостанавливаетс¤
-        Bookmarks::FileReader fr(cwd);
+        Bookmarks::LinkFileReader fr(cwd);
         std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
 #ifdef EXTENDED_URL_FILE
         std::wstring name = fr.GetParamCurDir(fileName, ParamName);

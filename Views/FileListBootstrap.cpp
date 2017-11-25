@@ -4,7 +4,7 @@
 #include "../main.h"
 #include "../Controllers/Commands.h"
 #include "../Utils/entities.h"
-#include "../Models/FileReader.h"
+#include "../Models/LinkFileReader.h"
 
 namespace Bookmarks
 {
@@ -112,7 +112,7 @@ namespace Bookmarks
         //  !!! нужно скопировать расширение непосредственно
         //  из lineptr, чтобы сохранились исходные символы !!!
         //  восстанавливается
-        Bookmarks::FileReader fr(cwd);
+        Bookmarks::LinkFileReader fr(cwd);
         std::wstring url = fr.GetParamCurDir(fileName, ParamURL);
         //  https://action.mindjet.com/task/14720510
         //  Add 'http://' prefix if necessary to build correct link.

@@ -1,6 +1,6 @@
 
 #include "FileList.h"
-#include "FileReader.h"
+#include "LinkFileReader.h"
 #include "../Controllers/Commands.h"
 #include "../Utils/entities.h"
 #include "../main.h"
@@ -101,7 +101,7 @@ namespace Bookmarks
         if (!isFolder)
         {
             //  Read file content.
-            FileReader fr;
+            LinkFileReader fr;
             std::wstring url = fr.GetParam(fileName, ParamURL);
             std::wstring name = fr.GetParam(fileName, ParamName);
 
@@ -111,12 +111,12 @@ namespace Bookmarks
             result.push_back(File(fileName, isFolder, dateTime, size, _T(""), _T("")));
     }
 
-    FileVector FileList::ReadFileList()
+    FileVector FileList::ReadFileLines()
     {
         FileVector result;
 
         assert(_reader);
-        std::vector<std::wstring> lines = _reader->ReadFileList();
+        std::vector<std::wstring> lines = _reader->ReadFileLines();
 
         RemoveNonInformativeLines(lines);
 

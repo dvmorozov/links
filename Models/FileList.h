@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "../main.h"
-#include "FileListReader.h"
+#include "TextFileReader.h"
 #include "FileListReaderDir.h"
 
 namespace Bookmarks
@@ -54,10 +54,10 @@ namespace Bookmarks
     class FileList
     {
     private:
-        FileListReader *_reader;
+        TextFileReader *_reader;
         FileVector _fileList;
 
-        FileVector ReadFileList();
+        FileVector ReadFileLines();
         void RemoveNonInformativeLines(std::vector<std::wstring> &lines);
         void ParseLine(std::wstring &line, FileVector &result);
 
@@ -68,8 +68,8 @@ namespace Bookmarks
         static std::wstring ConcatFileName(std::vector<std::wstring> lineColumns, int firstColumnIndex);
 
     public:
-        FileList(FileListReader *reader) : _reader(reader) {
-            _fileList = ReadFileList();
+        FileList(TextFileReader *reader) : _reader(reader) {
+            _fileList = ReadFileLines();
         }
         ~FileList()
         {
