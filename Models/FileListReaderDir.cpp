@@ -42,7 +42,8 @@ namespace Bookmarks
             return result;
         }
 
-        result = ReadFile(temp);
+        SetFileName(temp);
+        result = ReadFile();
         return result;
     }
 

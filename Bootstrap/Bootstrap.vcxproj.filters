@@ -58,6 +58,9 @@
     <ClCompile Include="..\Models\LinkFileReader.cpp">
       <Filter>Models</Filter>
     </ClCompile>
+    <ClCompile Include="..\Models\TextFileReader.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Controllers\Commands.h">
@@ -67,9 +70,6 @@
       <Filter>Views</Filter>
     </ClInclude>
     <ClInclude Include="..\Models\Data.h">
-      <Filter>Models</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Models\FileListReader.h">
       <Filter>Models</Filter>
     </ClInclude>
     <ClInclude Include="..\Models\FileListReaderDir.h">
@@ -107,6 +107,9 @@
       <Filter>Models</Filter>
     </ClInclude>
     <ClInclude Include="..\Models\LinkFileReader.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Models\TextFileReader.h">
       <Filter>Models</Filter>
     </ClInclude>
   </ItemGroup>

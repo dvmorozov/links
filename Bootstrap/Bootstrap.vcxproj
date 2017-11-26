@@ -18,6 +18,7 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderDir.cpp" />
     <ClCompile Include="..\Models\LinkFileReader.cpp" />
+    <ClCompile Include="..\Models\TextFileReader.cpp" />
     <ClCompile Include="..\Models\WindowsSpecific\ConfigFactory.cpp" />
     <ClCompile Include="..\Models\WindowsSpecific\RegConfig.cpp" />
     <ClCompile Include="..\Utils\entities.cpp" />
@@ -33,9 +34,9 @@
     <ClInclude Include="..\Models\Config.h" />
     <ClInclude Include="..\Models\Data.h" />
     <ClInclude Include="..\Models\FileList.h" />
-    <ClInclude Include="..\Models\FileListReader.h" />
     <ClInclude Include="..\Models\FileListReaderDir.h" />
     <ClInclude Include="..\Models\LinkFileReader.h" />
+    <ClInclude Include="..\Models\TextFileReader.h" />
     <ClInclude Include="..\Models\WindowsSpecific\ConfigFactory.h" />
     <ClInclude Include="..\Models\WindowsSpecific\RegConfig.h" />
     <ClInclude Include="..\Utils\entities.h" />

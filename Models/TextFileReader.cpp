@@ -1,6 +1,8 @@
 
 #include "TextFileReader.h"
 
+#include "../main.h"
+
 namespace Bookmarks
 {
     void TextFileReader::SetFileName(std::wstring fileName)

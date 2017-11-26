@@ -38,5 +38,6 @@ namespace Bookmarks
 #endif
     public:
         virtual std::vector<std::wstring> ReadFileLines();
+        FileListReaderDir() {}
     };
 }

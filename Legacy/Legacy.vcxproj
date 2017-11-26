@@ -138,6 +138,7 @@
     <ClCompile Include="..\Models\FileList.cpp" />
     <ClCompile Include="..\Models\FileListReaderDir.cpp" />
     <ClCompile Include="..\Models\LinkFileReader.cpp" />
+    <ClCompile Include="..\Models\TextFileReader.cpp" />
     <ClCompile Include="..\Models\WindowsSpecific\ConfigFactory.cpp" />
     <ClCompile Include="..\Models\WindowsSpecific\RegConfig.cpp" />
     <ClCompile Include="..\Utils\entities.cpp" />

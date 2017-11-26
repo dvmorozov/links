@@ -8,10 +8,13 @@ namespace Bookmarks
     class TextFileReader
     {
     protected:
-        std::vector<std::wstring> ReadFile(std::wstring fileName);
+        std::wstring _fileName;
+        std::vector<std::wstring> ReadFile();
 
     public:
         virtual std::vector<std::wstring> ReadFileLines() = 0;
+        void SetFileName(std::wstring fileName);
+
         virtual ~TextFileReader() {}
     };
 

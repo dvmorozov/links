@@ -99,7 +99,7 @@ namespace Bookmarks
         FileVector files = _data.GetDirList();
         std::vector<std::wstring> result;
         for (auto f = files.begin(); f != files.end(); ++f)
-            result.push_back(f->FileName);
+            result.push_back(f->_fileName);
         return result;
     }
 
@@ -108,7 +108,7 @@ namespace Bookmarks
         FileVector files = _data.GetFileList();
         std::vector<std::wstring> result;
         for (auto f = files.begin(); f != files.end(); ++f)
-            result.push_back(f->FileName);
+            result.push_back(f->_fileName);
         return result;
     }
 

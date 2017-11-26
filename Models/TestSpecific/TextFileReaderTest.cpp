@@ -13,7 +13,7 @@ namespace Bookmarks
 {
     std::vector<std::wstring> TextFileReaderTest::ReadFileLines()
     {
-        return ReadFile(FileName);
+        return ReadFile();
     }
 
     //  Factory method returning FileListReader.
@@ -41,6 +41,8 @@ namespace Bookmarks
             (config->GetValue(_T("TestFolder")) + _T("\\Тест\\57584dec.url")).c_str(),
             FALSE
         );
-        return new TextFileReaderTest(config->GetValue(_T("TestFolder")) + _T("\\Тест\\dir_windows.txt"));
+        auto reader = new TextFileReaderTest();
+        reader->SetFileName(config->GetValue(_T("TestFolder")) + _T("\\Тест\\dir_windows.txt"));
+        return reader;
     }
 }

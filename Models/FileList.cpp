@@ -126,12 +126,12 @@ namespace Bookmarks
         //  Sorts the list (folders at the beginning).
         //  https://action.mindjet.com/task/14640967
         std::sort(result.begin(), result.end(), [](File a, File b) {
-            std::transform(a.FileName.begin(), a.FileName.end(), a.FileName.begin(), (int(*)(int))std::tolower);
-            std::transform(b.FileName.begin(), b.FileName.end(), b.FileName.begin(), (int(*)(int))std::tolower);
+            std::transform(a._fileName.begin(), a._fileName.end(), a._fileName.begin(), (int(*)(int))std::tolower);
+            std::transform(b._fileName.begin(), b._fileName.end(), b._fileName.begin(), (int(*)(int))std::tolower);
             if (a.IsFolder != b.IsFolder)
                 return a.IsFolder && !b.IsFolder;
             else
-                return a.FileName < b.FileName;
+                return a._fileName < b._fileName;
         });
         return result;
     }
@@ -151,7 +151,7 @@ namespace Bookmarks
         //  Copies only files with given extensions.
         auto it = std::copy_if(_fileList.begin(), _fileList.end(), result.begin(), [this](File &f)
         {
-            auto nameLCase = f.FileName;
+            auto nameLCase = f._fileName;
             //  https://action.mindjet.com/task/14817423
             const std::wstring supportedExts[] = { _T(".url"), ExtUtf8 };
             std::transform(nameLCase.begin(), nameLCase.end(), nameLCase.begin(), ::tolower);
@@ -213,7 +213,7 @@ namespace Bookmarks
         {
             if (it->GetDeleteMark())
             {
-                _wremove(it->FileName.c_str());
+                _wremove(it->_fileName.c_str());
                 auto seqNum = it->GetSeqNum();
                 //  Removes data from main file list.
                 auto erased = std::find_if(_fileList.begin(), _fileList.end(), [seqNum](const File &f) {

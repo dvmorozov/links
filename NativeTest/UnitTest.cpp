@@ -71,7 +71,7 @@ namespace NativeTest
 
             for (auto f = _data.begin(); f != _data.end(); ++f)
             {
-                if (f->FileName == _T("Эхо Москвы")) 
+                if (f->_fileName == _T("Эхо Москвы")) 
                     matches.push_back(*f);
             }
 
@@ -223,13 +223,17 @@ namespace NativeTest
             //  Copies files to the test directory.
             std::unique_ptr<Bookmarks::Config> config(Bookmarks::ConfigFactory::GetConfig());
             TextFileReader *flrt = GetFileReader();
+            auto testFolder = config->GetValue(_T("TestFolder"));
+            auto outFileName = testFolder + _T("\\Тест\\test.txt");
+
             //  Overwriting test file.
             CopyFile(
                 (config->GetValue(_T("TestFolder")) + _T("\\14732139\\test.txt")).c_str(),
-                (config->GetValue(_T("TestFolder")) + _T("\\Тест\\test.txt")).c_str(),
+                outFileName.c_str(),
                 FALSE
             );
             _wchdir((config->GetValue(_T("TestFolder")) + _T("\\Тест")).c_str());
+            flrt->SetFileName(outFileName);
 
             FileList fl(flrt);
             auto fileListBefore = fl.GetFileList();

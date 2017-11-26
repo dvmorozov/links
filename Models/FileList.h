@@ -22,7 +22,7 @@ namespace Bookmarks
         //  https://action.mindjet.com/task/14665015
         time_t DateTime;
         //  File name without dir name.
-        std::wstring FileName;
+        std::wstring _fileName;
         bool IsFolder;
         size_t Size;
         //  https://action.mindjet.com/task/14732139
@@ -30,7 +30,7 @@ namespace Bookmarks
         std::wstring Name;
 
         File(std::wstring fileName, bool isFolder, time_t dateTime, size_t size, std::wstring url, std::wstring name) :
-            DateTime(dateTime), FileName(fileName), IsFolder(isFolder), Size(size), Url(url), Name(name)
+            DateTime(dateTime), _fileName(fileName), IsFolder(isFolder), Size(size), Url(url), Name(name)
         {
             _seqNum = _seqNumCounter++;
         }
