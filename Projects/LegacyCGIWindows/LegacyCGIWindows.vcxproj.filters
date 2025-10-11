@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6071c7a3-153a-4f32-8c68-70a88a2efc06}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Views">
+      <UniqueIdentifier>{eee46b74-4389-43f8-afbc-cdee7cbfae7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{7663be95-fa84-4bce-bd15-3748a0dcbf83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{2a827692-5b3f-4272-8c68-2c339904795d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{7390d63b-8b97-4f92-99bb-aa8ed69d916b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\App">
+      <UniqueIdentifier>{fed1f492-2398-4ee0-880c-32f435f4a756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Content">
+      <UniqueIdentifier>{41ca29c9-f345-49d2-bdd0-732784469b70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scripts">
+      <UniqueIdentifier>{4ee698d2-26ad-488e-9dc6-ca00b97eb411}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Sources\Controllers\Commands.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\Data.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileListReaderDir.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileList.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\Config.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\FileListLegacy.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\FileListBootstrap.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\Page.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\AddLink.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Utils\Miscellaneous.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\ErrorBox.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\LinkFileReader.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\TextFileReader.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileConfig.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\App\main.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\ConfigFactory.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\App\stdafx.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Utils\Errors.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\App\Globals.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\AddDirectory.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\EditLink.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\LogIn.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\EditDirectory.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\DeleteLink.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\DeleteDirectory.cpp">
+      <Filter>Source Files\Views</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Sources\Controllers\Commands.h">
+      <Filter>Source Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\View.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\FileListLegacy.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\FileListBootstrap.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\Page.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\AddLink.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Utils\Miscellaneous.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\ErrorBox.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\Config.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\Data.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileList.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileListReaderDir.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\LinkFileReader.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileConfig.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\TextFileReader.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\ConfigFactory.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\stdafx.h">
+      <Filter>Source Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Utils\Errors.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\Globals.h">
+      <Filter>Source Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\AddDirectory.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\EditLink.h">
+      <Filter>Source Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\LogIn.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\EditDirectory.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\DeleteLink.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\DeleteDirectory.h">
+      <Filter>Source Files\Views</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Sources\Content\Styles.css">
+      <Filter>Source Files\Content</Filter>
+    </None>
+    <None Include="..\..\Sources\Scripts\deploy_release.bat">
+      <Filter>Source Files\Scripts</Filter>
+    </None>
+    <None Include="..\..\Sources\Scripts\deploy_debug.bat">
+      <Filter>Source Files\Scripts</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Sources\Content\legacy-images\add_folder.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\add_link.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\delete_folder.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\delete_link.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\edit_folder.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\edit_link.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\error.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\folder.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\link.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\to_start_page.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+    <Image Include="..\..\Sources\Content\legacy-images\to_upper_folder.bmp">
+      <Filter>Source Files\Content</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

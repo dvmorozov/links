@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Sources\Utils\Miscellaneous.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\App\stdafx.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\App\Globals.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\Config.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\ConfigFactory.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileConfig.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Utils\Errors.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\ErrorBox.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\Page.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\Data.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileList.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Controllers\Commands.cpp">
+      <Filter>Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\TextFileReader.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileListReaderDir.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\LinkFileReader.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\AddDirectory.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\AddLink.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\DeleteDirectory.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\DeleteLink.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\EditDirectory.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\EditLink.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\FileListBootstrap.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\FileListLegacy.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\Login.cpp">
+      <Filter>Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\main.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{dbd934d3-8478-4926-82ae-938fc3cf65f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documents">
+      <UniqueIdentifier>{12868388-65c9-4957-b9d5-b22876d9e62c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{0a1cbe8d-43e7-4a4c-a38f-5b459a6f7b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{f0ce7cd1-39a9-41d7-862f-64dcfbddf9ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{5589c0a6-f1cc-40c3-bbb4-5ce865c4bb41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Views">
+      <UniqueIdentifier>{83dd29f9-a470-454d-8ffb-18c4adf78fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controllers">
+      <UniqueIdentifier>{92f91519-6dbc-486b-86d4-3b71bfb5fc0f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sources\Scripts\deploy_release.sh">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="..\..\Documents\bookmarks.html">
+      <Filter>Documents</Filter>
+    </None>
+    <None Include="Sources\Scripts\deploy_debug.sh">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="Sources\Scripts\pre_build.sh">
+      <Filter>Scripts</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Sources\Utils\Miscellaneous.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\stdafx.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\Globals.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\Config.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\ConfigFactory.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileConfig.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Utils\Errors.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\ErrorBox.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\Page.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\View.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\Data.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileList.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Controllers\Commands.h">
+      <Filter>Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\TextFileReader.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileListReaderDir.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\LinkFileReader.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\AddDirectory.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\AddLink.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\DeleteDirectory.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\DeleteLink.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\EditDirectory.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\EditLink.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\FileListBootstrap.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\FileListLegacy.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\Login.h">
+      <Filter>Views</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

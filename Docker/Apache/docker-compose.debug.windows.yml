@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  links-legacy-apache-debug:
+    image: links-legacy-apache:debug
+    container_name: links-legacy-apache-debug
+    ports:
+      - "4433:443"  # Debug uses port 4433
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Enable access to host services on Windows
+    volumes:
+      # Project HTML content
+      - "${HOST_PROJECT_PATH}:/var/www/html"
+      # DEBUG Library data directory (mapped to test user's directory)
+      - "${HOST_LIBRARY_PATH_DEBUG}:/var/www/html/users/links/test"
+      # CGI binary
+      - "${HOST_CGI_PATH}/links-legacy-debug.exe:/usr/lib/cgi-bin/links-legacy.exe:ro"
+      # Static CSS file
+      - "${HOST_SOURCES_PATH}/Content/Styles.css:/var/www/html/links/Styles.css:ro"
+      # Static JS file  
+      - "${HOST_SOURCES_PATH}/Content/Common.js:/var/www/html/links/Common.js:ro"
+      # Static images directory
+      - "${HOST_SOURCES_PATH}/Content/legacy-images:/var/www/html/links/legacy-images:ro"
+      # Debug log directory (mapped to host for Windows access)
+      - "${HOST_LOG_PATH}:/var/log/links"
+      # Initialization script
+      - "./init.sh:/init.sh:ro"
+    environment:
+      - BUILD_TYPE=Debug
+    command: ["/init.sh", "apachectl", "-D", "FOREGROUND"]
