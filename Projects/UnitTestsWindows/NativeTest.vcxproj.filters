@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Models">
+      <UniqueIdentifier>{8d0f861b-f70d-4e0e-ba39-64928117bb79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Utils">
+      <UniqueIdentifier>{54687a61-4407-493d-98fc-9777ed6c6864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Controllers">
+      <UniqueIdentifier>{21889e0c-0336-4908-b168-78a2ef8e79b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Views">
+      <UniqueIdentifier>{937d50df-61ec-4180-9862-4f6d09be2cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\App">
+      <UniqueIdentifier>{6f710eae-d6f3-4292-8457-c6920fe58022}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Sources\Controllers\Commands.h">
+      <Filter>Файлы исходного кода\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\Config.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\Data.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileList.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\FileListBootstrap.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\FileListLegacy.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\TextFileReader.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\Page.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Файлы исходного кода\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileListReaderDir.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\LinkFileReader.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\main.h">
+      <Filter>Файлы исходного кода\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\ConfigFactory.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Models\FileConfig.h">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\stdafx.h">
+      <Filter>Файлы исходного кода\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\App\Globals.h">
+      <Filter>Файлы исходного кода\App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Utils\Errors.h">
+      <Filter>Файлы исходного кода\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\AddDirectory.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\EditLink.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\Login.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\EditDirectory.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\DeleteLink.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Sources\Views\DeleteDirectory.h">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Sources\Models\Config.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\Data.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileList.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\TextFileReader.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Utils\Miscellaneous.cpp">
+      <Filter>Файлы исходного кода\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Controllers\Commands.cpp">
+      <Filter>Файлы исходного кода\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\AddLink.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\ErrorBox.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\FileListBootstrap.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\FileListLegacy.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\Page.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\LinkFileReader.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\ConfigFactory.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileConfig.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Models\FileListReaderDir.cpp">
+      <Filter>Файлы исходного кода\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\App\stdafx.cpp">
+      <Filter>Файлы исходного кода\App</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTest.cpp" />
+    <ClCompile Include="..\..\Sources\App\Globals.cpp">
+      <Filter>Файлы исходного кода\App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Utils\Errors.cpp">
+      <Filter>Файлы исходного кода\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\AddDirectory.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\EditLink.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\Login.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\EditDirectory.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\DeleteLink.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Sources\Views\DeleteDirectory.cpp">
+      <Filter>Файлы исходного кода\Views</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

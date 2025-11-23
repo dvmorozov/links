@@ -1,0 +1,15 @@
+services:
+  apache:
+    image: links-legacy-apache:debug
+    container_name: links-legacy-apache-debug
+    ports:
+      - "4433:443"
+    command: ["/init.sh", "apachectl", "-D", "FOREGROUND"]
+    volumes:
+      - ${HOST_PROJECT_PATH}:/var/www/html
+      - ${HOST_LIBRARY_PATH}:/var/www/html/users/links
+      - ${HOST_CGI_PATH}/links-legacy.exe:/usr/lib/cgi-bin/links-legacy.exe:ro
+      - ${HOST_SOURCES_PATH}/Content/Styles.css:/var/www/html/links/Styles.css:ro
+      - ${HOST_SOURCES_PATH}/Content/Common.js:/var/www/html/links/Common.js:ro
+      - ${HOST_SOURCES_PATH}/Content/legacy-images:/var/www/html/links/legacy-images:ro
+      - ./init.sh:/init.sh:ro

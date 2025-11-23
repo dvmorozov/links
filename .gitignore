@@ -1,0 +1,125 @@
+﻿# Links Project - GitIgnore File
+# Excludes build artifacts, logs, IDE files, and generated content
+
+####################
+# Build Artifacts #
+####################
+
+# Output directories
+Output/
+build/
+obj/
+bin/
+Debug/
+Release/
+x64/
+Win32/
+
+# CMake generated files
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+compile_commands.json
+Makefile
+
+# Build logs and artifacts
+*.obj
+*.exe
+*.out
+*.lib
+*.dll
+*.so
+*.dylib
+*.pdb
+*.idb
+*.ilk
+*.log
+*.tlog
+*.lastbuildstate
+*.ipch
+*.pch
+*.recipe
+*.utf8
+*.tmp
+
+# Specific executables
+links-legacy
+links-legacy.exe
+bootstrap
+bootstrap.exe
+
+###################
+# Visual Studio  #
+###################
+
+# Visual Studio directories and files
+.vs/
+*.user
+*.suo
+*.vcxproj.user
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+
+# MSBuild artifacts
+*.tlog
+
+################
+# VS Code      #
+################
+
+# VS Code settings (keep project-specific ones)
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/.ropeproject
+.vscode/*.*
+Sources/.vscode/
+
+# DevContainer
+.devcontainer/
+
+##################
+# Platform Files #
+##################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+##############
+# Docker     #
+##############
+
+# Generated environment files (keep templates)
+Docker/Apache/.env
+Docker/LegacyBuilder/.env
+
+# Deployment artifacts
+Projects/LegacyCGICMake/deploy/
+Docker/Apache/build-and-deploy.sh.log
+
+# Docker volumes
+.docker-volumes/
+
+###################
+# Project Specific #
+###################
+
+# Documentation exports
+Documents/Links*.xmind
+*.html
+
+# URL files (bookmark data should be in separate data directory)
+*.url
+
+# Repository management scripts (local-only) 
+Sources/Scripts/
+scripts/
+scripts/push-latest.sh

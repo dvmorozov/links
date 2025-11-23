@@ -1,0 +1,151 @@
+body.dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    background-color: white;
+    flex-direction: column;
+    font-family: "Arial", sans-serif !important;
+}
+
+body.dialog div.label {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+body.window {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    background-color: white;
+    flex-direction: column;
+    font-family: "Arial", sans-serif !important;
+}
+
+/* For all elements inside body.window. */
+body.window > * {
+    flex: 1;
+}
+
+table.outer {
+    width: 100vw;
+    border: 1px solid #ccc;
+    /* Makes the table rounded. */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+td.name {
+    /* Must be both for fixed width.*/
+    min-width: 350px;
+    max-width: 350px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 5px;
+    text-overflow: ellipsis;
+}
+
+td div.image_button {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    min-width: 18px;
+    min-height: 18px;
+    max-width: 18px;
+    max-height: 18px;
+    overflow: hidden;
+}
+
+div.input_box input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+div.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+div.buttons input,
+div.buttons button {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    min-width: 60px;
+    min-height: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+div.buttons a {
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    min-width: 18px;
+    min-height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+td.inner.left,
+td.inner.right {
+    width: 50%;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+td.inner.left {
+    border-top: 1px solid #ccc;
+}
+
+td.inner.right {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+td.inner.left table,
+td.inner.right table {
+    width: 100%;
+}
+
+.error-details {
+    text-align: left;
+}
+
+.hint {
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}

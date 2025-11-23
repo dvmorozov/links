@@ -1,0 +1,26 @@
+services:
+  links-legacy-builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: links-legacy-builder:latest
+    ports:
+      - "2500:22"
+    container_name: links-legacy-builder
+    volumes:
+      - ./../../:/mnt/links
+
+  apache:
+    image: links-legacy-apache:debug
+    container_name: links-legacy-apache-debug
+    ports:
+      # Map port 4433 on the host to port 443 in the container
+      - "4433:443"
+      # Map debug port 2501 on the host to port 2500 in the container
+      - "2501:2500"
+    user: "${UID}:ubuntu"
+    volumes:
+      # Map the local /var/www/html directory to the container's /var/www/html directory
+      - ./../../Projects/LegacyCGICMake/deploy/var/www/html:/var/www/html
+      # Example of mapping another directory (commented out)
+      - ./../../Projects/LegacyCGICMake/deploy/usr/lib/cgi-bin/:/usr/lib/cgi-bin/
